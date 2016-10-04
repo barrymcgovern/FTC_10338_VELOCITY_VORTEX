@@ -8,6 +8,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
+
+import java.security.PublicKey;
 
 /**
  * This is NOT an opmode.
@@ -29,7 +32,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class DemoHardware {
     /* basic hardware for deom */
     public DcMotor motor1   = null;
-    public DcMotor  motor2  = null;
+    public DcMotor motor2  = null;
+    public DcMotor motor3 = null;
+    public DcMotor motor4 = null;
+
 
     public Servo servo1    = null;
     public Servo servo2   = null;
@@ -51,16 +57,30 @@ public class DemoHardware {
         // Define and Initialize Motors
         motor1   = hwMap.dcMotor.get("motor1");
         motor2  = hwMap.dcMotor.get("motor2");
+        motor3   = hwMap.dcMotor.get("motor3");
+        motor4  = hwMap.dcMotor.get("motor4");
+
         motor1.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        motor2.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        motor2.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+        motor3.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        motor4.setDirection(DcMotor.Direction.FORWARD);
         // Set all motors to zero power
         motor1.setPower(0);
         motor2.setPower(0);
+        motor3.setPower(0);
+        motor4.setPower(0);
+
+
+     // Set to FORWARD if using AndyMark motors
+        // Set all motors to zero power
+
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
 
@@ -94,4 +114,5 @@ public class DemoHardware {
         // Reset the cycle clock for the next pass.
         period.reset();
     }
+
 }
