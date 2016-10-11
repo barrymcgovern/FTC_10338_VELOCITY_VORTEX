@@ -45,12 +45,14 @@ import org.firstinspires.ftc.teamcode.DemoHardware;
  * This will run the pictching machine
  */
 
-@TeleOp(name="DemoOpp", group="Demos")
-@Disabled
+@TeleOp(name="Pushbot: DemoOpp", group="Pushbot")
+
+//@Disabled
 public class DemoOpp extends LinearOpMode {
 
     /* Declare OpMode members. */
     DemoHardware   robot           = new DemoHardware();              // Use a K9'shardware
+    String robotDirection;
 
 
     @Override
@@ -76,9 +78,36 @@ public class DemoOpp extends LinearOpMode {
             // sets power to motoros to x stick
             // motor2 is reverse of motor1
 
-            motorPower = gamepad1.left_stick_x;
-            robot.motor1.setPower(motorPower);
-            robot.motor2.setPower(-motorPower);
+            if (gamepad1.dpad_up){
+                robot.motor1.setPower(1);
+                robot.motor2.setPower(-1);
+                robot.motor3.setPower(1);
+                robot.motor4.setPower(-1);
+
+            }else if (gamepad1.dpad_down){
+                robot.motor1.setPower(-1);
+                robot.motor2.setPower(1);
+                robot.motor3.setPower(-1);
+                robot.motor4.setPower(1);
+
+            }else if(gamepad1.dpad_left){
+                robot.motor1.setPower(-1);
+                robot.motor2.setPower(1);
+                robot.motor3.setPower(-1);
+                robot.motor4.setPower(1);
+            }else if (gamepad1.dpad_right){
+                robot.motor1.setPower(-1);
+                robot.motor2.setPower(1);
+                robot.motor3.setPower(-1);
+                robot.motor4.setPower(1);
+            }else{
+                robot.motor1.setPower(0);
+                robot.motor2.setPower(0);
+                robot.motor3.setPower(0);
+                robot.motor4.setPower(0);
+            }
+
+
 
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
 

@@ -31,7 +31,7 @@ import java.security.PublicKey;
 
 public class DemoHardware {
     /* basic hardware for deom */
-    public DcMotor motor1   = null;
+    public DcMotor motor1  = null;
     public DcMotor motor2  = null;
     public DcMotor motor3 = null;
     public DcMotor motor4 = null;
