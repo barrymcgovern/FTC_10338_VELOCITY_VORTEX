@@ -60,9 +60,11 @@ public class DemoHardware {
         motor3   = hwMap.dcMotor.get("motor3");
         motor4  = hwMap.dcMotor.get("motor4");
 
-        motor1.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        motor2.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
-        motor3.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+
+        // Set to FORWARD
+        motor1.setDirection(DcMotor.Direction.FORWARD);
+        motor2.setDirection(DcMotor.Direction.FORWARD);
+        motor3.setDirection(DcMotor.Direction.FORWARD);
         motor4.setDirection(DcMotor.Direction.FORWARD);
         // Set all motors to zero power
         motor1.setPower(0);
@@ -71,19 +73,12 @@ public class DemoHardware {
         motor4.setPower(0);
 
 
-     // Set to FORWARD if using AndyMark motors
-        // Set all motors to zero power
-
-
         // Set all motors to run without encoders.
-        // May want to use RUN_USING_ENCODERS if encoders are installed.
+        // only use RUN_USING_ENCODERS in autonomous
         motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-
-
 
     /*
         // Define and initialize ALL installed servos.
@@ -120,49 +115,49 @@ public class DemoHardware {
 
 
         if (robotDirection == "up") {
-            motor1.setPower(1);
-            motor2.setPower(-1);
+            motor1.setPower(-1);
+            motor2.setPower(1);
             motor3.setPower(1);
             motor4.setPower(-1);
 
         }else if (robotDirection == "up left"){
-            motor1.setPower(1);
-            motor2.setPower(-1);
-            motor3.setPower(1);
+            motor1.setPower(0);
+            motor2.setPower(1);
+            motor3.setPower(0);
             motor4.setPower(-1);
 
         }else if (robotDirection == "up right"){
-            motor1.setPower(1);
+            motor1.setPower(0);
             motor2.setPower(-1);
-            motor3.setPower(1);
-            motor4.setPower(-1);
+            motor3.setPower(0);
+            motor4.setPower(1);
 
         }else if (robotDirection == "down"){
-            motor1.setPower(-1);
-            motor2.setPower(1);
+            motor1.setPower(1);
+            motor2.setPower(-1);
             motor3.setPower(-1);
             motor4.setPower(1);
 
         }else if (robotDirection == "down left"){
             motor1.setPower(1);
             motor2.setPower(0);
-            motor3.setPower(1);
+            motor3.setPower(-1);
             motor4.setPower(0);
         }else if (robotDirection == "down right"){
-            motor1.setPower(0);
-            motor2.setPower(1);
-            motor3.setPower(0);
-            motor4.setPower(1);
+            motor1.setPower(-1);
+            motor2.setPower(0);
+            motor3.setPower(1);
+            motor4.setPower(0);
 
         }else if (robotDirection == "left"){
-            motor1.setPower(-1);
+            motor1.setPower(1);
             motor2.setPower(1);
             motor3.setPower(-1);
-            motor4.setPower(1);
+            motor4.setPower(-1);
         }else  if (robotDirection == "right"){
             motor1.setPower(-1);
-            motor2.setPower(1);
-            motor3.setPower(-1);
+            motor2.setPower(-1);
+            motor3.setPower(1);
             motor4.setPower(1);
 
         }else  if (robotDirection == "circle left"){

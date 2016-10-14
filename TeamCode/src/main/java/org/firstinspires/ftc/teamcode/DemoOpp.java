@@ -57,8 +57,6 @@ public class DemoOpp extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        double motorPower;
-
 
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
@@ -66,7 +64,7 @@ public class DemoOpp extends LinearOpMode {
         robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Hello Driver");    //
+        telemetry.addData("Status", "Starting");    //
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
@@ -79,13 +77,27 @@ public class DemoOpp extends LinearOpMode {
             // motor2 is reverse of motor1
 
             if (gamepad1.dpad_up){
-                robot.drive("up");
-                telemetry.addData("gamepad1","dpad up");
-
+                if (gamepad1.dpad_left){
+                    robot.drive("up left");
+                    telemetry.addData("gamepad1","dpad up left");
+                }else if (gamepad1.dpad_right){
+                    robot.drive("up right");
+                    telemetry.addData("gamepad1","dpad up right");
+                }else{
+                    robot.drive("up");
+                    telemetry.addData("gamepad1","dpad up");
+                }
             }else if (gamepad1.dpad_down){
-                robot.drive("down");
-                telemetry.addData("gamepad1","dpad down");
-
+                if (gamepad1.dpad_left){
+                    robot.drive("down left");
+                    telemetry.addData("gamepad1","dpad down left");
+                }else if (gamepad1.dpad_right){
+                    robot.drive("down right");
+                    telemetry.addData("gamepad1","dpad down right");
+                }else{
+                    robot.drive("down");
+                    telemetry.addData("gamepad1","dpad down");
+                }
             }else if(gamepad1.dpad_left){
                 robot.drive("left");
                 telemetry.addData("gamepad1","dpad left");
@@ -96,7 +108,7 @@ public class DemoOpp extends LinearOpMode {
                 if (gamepad1.left_trigger > 0){
                     telemetry.addData("gamepad1","left trigger");
                     robot.drive("circle left");
-                }else if (gamepad2.right_trigger > 0){
+                }else if (gamepad1.right_trigger > 0){
                     telemetry.addData("gamepad2","right trigger");
                     robot.drive("circle right");
                 }else{
@@ -143,8 +155,9 @@ public class DemoOpp extends LinearOpMode {
             telemetry.addData("motor2",   "%.2f", robot.motor2.getPower());
             telemetry.addData("motor3",   "%.2f", robot.motor3.getPower());
             telemetry.addData("motor4",   "%.2f", robot.motor4.getPower());
+            telemetry.addData("Status", "Driving");    //
 
-
+            updateTelemetry(telemetry);
 
 
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
