@@ -115,4 +115,78 @@ public class DemoHardware {
         period.reset();
     }
 
+    void drive(String robotDirection){
+        try{
+
+
+        if (robotDirection == "up") {
+            motor1.setPower(1);
+            motor2.setPower(-1);
+            motor3.setPower(1);
+            motor4.setPower(-1);
+
+        }else if (robotDirection == "up left"){
+            motor1.setPower(1);
+            motor2.setPower(-1);
+            motor3.setPower(1);
+            motor4.setPower(-1);
+
+        }else if (robotDirection == "up right"){
+            motor1.setPower(1);
+            motor2.setPower(-1);
+            motor3.setPower(1);
+            motor4.setPower(-1);
+
+        }else if (robotDirection == "down"){
+            motor1.setPower(-1);
+            motor2.setPower(1);
+            motor3.setPower(-1);
+            motor4.setPower(1);
+
+        }else if (robotDirection == "down left"){
+            motor1.setPower(1);
+            motor2.setPower(0);
+            motor3.setPower(1);
+            motor4.setPower(0);
+        }else if (robotDirection == "down right"){
+            motor1.setPower(0);
+            motor2.setPower(1);
+            motor3.setPower(0);
+            motor4.setPower(1);
+
+        }else if (robotDirection == "left"){
+            motor1.setPower(-1);
+            motor2.setPower(1);
+            motor3.setPower(-1);
+            motor4.setPower(1);
+        }else  if (robotDirection == "right"){
+            motor1.setPower(-1);
+            motor2.setPower(1);
+            motor3.setPower(-1);
+            motor4.setPower(1);
+
+        }else  if (robotDirection == "circle left"){
+            motor1.setPower(1);
+            motor2.setPower(1);
+            motor3.setPower(1);
+            motor4.setPower(1);
+
+        }else  if (robotDirection == "circle right"){
+            motor1.setPower(-1);
+            motor2.setPower(-1);
+            motor3.setPower(-1);
+            motor4.setPower(-1);
+
+        }else{
+            motor1.setPower(0);
+            motor2.setPower(0);
+            motor3.setPower(0);
+            motor4.setPower(0);
+        }
+        }  catch (Exception p_exception) {
+         //   telemetry.addData("98", "drive error" + p_exception.toString());
+        }
+
+    }
+
 }

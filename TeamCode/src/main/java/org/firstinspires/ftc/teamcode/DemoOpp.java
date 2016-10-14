@@ -52,7 +52,7 @@ public class DemoOpp extends LinearOpMode {
 
     /* Declare OpMode members. */
     DemoHardware   robot           = new DemoHardware();              // Use a K9'shardware
-    String robotDirection;
+
 
 
     @Override
@@ -79,33 +79,71 @@ public class DemoOpp extends LinearOpMode {
             // motor2 is reverse of motor1
 
             if (gamepad1.dpad_up){
-                robot.motor1.setPower(1);
-                robot.motor2.setPower(-1);
-                robot.motor3.setPower(1);
-                robot.motor4.setPower(-1);
+                robot.drive("up");
+                telemetry.addData("gamepad1","dpad up");
 
             }else if (gamepad1.dpad_down){
-                robot.motor1.setPower(-1);
-                robot.motor2.setPower(1);
-                robot.motor3.setPower(-1);
-                robot.motor4.setPower(1);
+                robot.drive("down");
+                telemetry.addData("gamepad1","dpad down");
 
             }else if(gamepad1.dpad_left){
-                robot.motor1.setPower(-1);
-                robot.motor2.setPower(1);
-                robot.motor3.setPower(-1);
-                robot.motor4.setPower(1);
+                robot.drive("left");
+                telemetry.addData("gamepad1","dpad left");
             }else if (gamepad1.dpad_right){
-                robot.motor1.setPower(-1);
-                robot.motor2.setPower(1);
-                robot.motor3.setPower(-1);
-                robot.motor4.setPower(1);
+                robot.drive("right");
+                telemetry.addData("gamepad1","dpad right");
             }else{
-                robot.motor1.setPower(0);
-                robot.motor2.setPower(0);
-                robot.motor3.setPower(0);
-                robot.motor4.setPower(0);
+                if (gamepad1.left_trigger > 0){
+                    telemetry.addData("gamepad1","left trigger");
+                    robot.drive("circle left");
+                }else if (gamepad2.right_trigger > 0){
+                    telemetry.addData("gamepad2","right trigger");
+                    robot.drive("circle right");
+                }else{
+                    if (gamepad1.y){
+                        telemetry.addData("gamepad1","y = 1");
+                        robot.motor1.setPower(1);
+                        robot.motor2.setPower(0);
+                        robot.motor3.setPower(0);
+                        robot.motor4.setPower(0);
+
+
+                    }else if (gamepad1.b){
+                        telemetry.addData("gamepad1","b = 2");
+                        robot.motor1.setPower(0);
+                        robot.motor2.setPower(1);
+                        robot.motor3.setPower(0);
+                        robot.motor4.setPower(0);
+
+                    }else if(gamepad1.a){
+                        telemetry.addData("gamepad1","a =3");
+                        robot.motor1.setPower(0);
+                        robot.motor2.setPower(0);
+                        robot.motor3.setPower(1);
+                        robot.motor4.setPower(0);
+                    }else if (gamepad1.x){
+                        telemetry.addData("gamepad1","x = 4");
+                        robot.motor1.setPower(0);
+                        robot.motor2.setPower(0);
+                        robot.motor3.setPower(0);
+                        robot.motor4.setPower(1);
+                    }else{
+                        telemetry.addData("gamepad1","none");
+                        robot.motor1.setPower(0);
+                        robot.motor2.setPower(0);
+                        robot.motor3.setPower(0);
+                        robot.motor4.setPower(0);
+                    }
+                }
+
             }
+
+
+            telemetry.addData("motor1",   "%.2f", robot.motor1.getPower());
+            telemetry.addData("motor2",   "%.2f", robot.motor2.getPower());
+            telemetry.addData("motor3",   "%.2f", robot.motor3.getPower());
+            telemetry.addData("motor4",   "%.2f", robot.motor4.getPower());
+
 
 
 
