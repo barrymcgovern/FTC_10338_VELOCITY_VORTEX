@@ -70,7 +70,7 @@ public class DemoOppKendall extends LinearOpMode {
 // motor2 is reverse of motor1
         while (opModeIsActive()) {
             if (gamepad1.y) {
-                robot.servo1.setPosition(180);
+                robot.servo1.setPosition(150);
             }
             else
             {
