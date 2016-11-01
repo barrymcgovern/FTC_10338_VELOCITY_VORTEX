@@ -51,7 +51,7 @@ import org.firstinspires.ftc.teamcode.DemoHardware;
 public class DemoOpp extends LinearOpMode {
 
     /* Declare OpMode members. */
-    DemoHardware   robot           = new DemoHardware();              // Use a K9'shardware
+    DemoHardware   robot           = new DemoHardware();
 
 
 
