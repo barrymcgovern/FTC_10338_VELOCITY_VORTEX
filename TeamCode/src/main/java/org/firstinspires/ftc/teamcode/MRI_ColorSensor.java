@@ -37,6 +37,8 @@ public class MRI_ColorSensor extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         //the below three lines set up the configuration file
         colorSensor = hardwareMap.colorSensor.get("color");
+
+
         touch = hardwareMap.touchSensor.get("t");
         //We named the CDI using the default name given by the FTC configuration file
         CDI = hardwareMap.deviceInterfaceModule.get("Device Interface Module 1");
