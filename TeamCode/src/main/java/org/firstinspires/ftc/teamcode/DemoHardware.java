@@ -4,13 +4,13 @@ package org.firstinspires.ftc.teamcode;
  * Created by Barry on 9/29/2016.
  */
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
+        import com.qualcomm.robotcore.hardware.DcMotor;
+        import com.qualcomm.robotcore.hardware.HardwareMap;
+        import com.qualcomm.robotcore.hardware.Servo;
+        import com.qualcomm.robotcore.util.ElapsedTime;
+        import com.qualcomm.robotcore.util.Range;
 
-import java.security.PublicKey;
+        import java.security.PublicKey;
 
 /**
  * This is NOT an opmode.
@@ -47,7 +47,6 @@ public class DemoHardware {
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
-
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
@@ -114,72 +113,72 @@ public class DemoHardware {
         try{
 
 
-        if (robotDirection == "up") {
-            motor1.setPower(-1);
-            motor2.setPower(1);
-            motor3.setPower(1);
-            motor4.setPower(-1);
+            if (robotDirection == "up") {
+                motor1.setPower(-1);
+                motor2.setPower(1);
+                motor3.setPower(1);
+                motor4.setPower(-1);
 
-        }else if (robotDirection == "up left"){
-            motor1.setPower(0);
-            motor2.setPower(1);
-            motor3.setPower(0);
-            motor4.setPower(-1);
+            }else if (robotDirection == "up left"){
+                motor1.setPower(0);
+                motor2.setPower(1);
+                motor3.setPower(0);
+                motor4.setPower(-1);
 
-        }else if (robotDirection == "up right"){
-            motor1.setPower(0);
-            motor2.setPower(-1);
-            motor3.setPower(0);
-            motor4.setPower(1);
+            }else if (robotDirection == "up right"){
+                motor1.setPower(0);
+                motor2.setPower(-1);
+                motor3.setPower(0);
+                motor4.setPower(1);
 
-        }else if (robotDirection == "down"){
-            motor1.setPower(1);
-            motor2.setPower(-1);
-            motor3.setPower(-1);
-            motor4.setPower(1);
+            }else if (robotDirection == "down"){
+                motor1.setPower(1);
+                motor2.setPower(-1);
+                motor3.setPower(-1);
+                motor4.setPower(1);
 
-        }else if (robotDirection == "down left"){
-            motor1.setPower(1);
-            motor2.setPower(0);
-            motor3.setPower(-1);
-            motor4.setPower(0);
-        }else if (robotDirection == "down right"){
-            motor1.setPower(-1);
-            motor2.setPower(0);
-            motor3.setPower(1);
-            motor4.setPower(0);
+            }else if (robotDirection == "down left"){
+                motor1.setPower(1);
+                motor2.setPower(0);
+                motor3.setPower(-1);
+                motor4.setPower(0);
+            }else if (robotDirection == "down right"){
+                motor1.setPower(-1);
+                motor2.setPower(0);
+                motor3.setPower(1);
+                motor4.setPower(0);
 
-        }else if (robotDirection == "left"){
-            motor1.setPower(1);
-            motor2.setPower(1);
-            motor3.setPower(-1);
-            motor4.setPower(-1);
-        }else  if (robotDirection == "right"){
-            motor1.setPower(-1);
-            motor2.setPower(-1);
-            motor3.setPower(1);
-            motor4.setPower(1);
+            }else if (robotDirection == "left"){
+                motor1.setPower(1);
+                motor2.setPower(1);
+                motor3.setPower(-1);
+                motor4.setPower(-1);
+            }else  if (robotDirection == "right"){
+                motor1.setPower(-1);
+                motor2.setPower(-1);
+                motor3.setPower(1);
+                motor4.setPower(1);
 
-        }else  if (robotDirection == "circle left"){
-            motor1.setPower(1);
-            motor2.setPower(1);
-            motor3.setPower(1);
-            motor4.setPower(1);
+            }else  if (robotDirection == "circle left"){
+                motor1.setPower(1);
+                motor2.setPower(1);
+                motor3.setPower(1);
+                motor4.setPower(1);
 
-        }else  if (robotDirection == "circle right"){
-            motor1.setPower(-1);
-            motor2.setPower(-1);
-            motor3.setPower(-1);
-            motor4.setPower(-1);
+            }else  if (robotDirection == "circle right"){
+                motor1.setPower(-1);
+                motor2.setPower(-1);
+                motor3.setPower(-1);
+                motor4.setPower(-1);
 
-        }else{
-            motor1.setPower(0);
-            motor2.setPower(0);
-            motor3.setPower(0);
-            motor4.setPower(0);
-        }
+            }else{
+                motor1.setPower(0);
+                motor2.setPower(0);
+                motor3.setPower(0);
+                motor4.setPower(0);
+            }
         }  catch (Exception p_exception) {
-         //   telemetry.addData("98", "drive error" + p_exception.toString());
+            //   telemetry.addData("98", "drive error" + p_exception.toString());
         }
 
     }
