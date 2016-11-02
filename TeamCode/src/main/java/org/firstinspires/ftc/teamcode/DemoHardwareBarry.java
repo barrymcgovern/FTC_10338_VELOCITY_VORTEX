@@ -8,9 +8,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
-
-import java.security.PublicKey;
 
 /**
  * This is NOT an opmode.
@@ -29,7 +26,7 @@ import java.security.PublicKey;
  * Servo channel:  Servo to open right claw: "right_hand"
  */
 
-public class DemoHardware {
+public class DemoHardwareBarry {
     /* basic hardware for deom */
     public DcMotor motor1  = null;
     public DcMotor motor2  = null;
