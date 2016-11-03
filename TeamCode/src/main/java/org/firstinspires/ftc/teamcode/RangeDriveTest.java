@@ -20,6 +20,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
@@ -38,6 +39,7 @@ public class RangeDriveTest extends LinearOpMode {
 
     public I2cDevice RANGE1;
     public I2cDeviceSynch RANGE1Reader;
+    private ElapsedTime runtime = new ElapsedTime();
 
     ModernRoboticsI2cRangeSensor rangeSensor;
 
@@ -60,16 +62,19 @@ public class RangeDriveTest extends LinearOpMode {
 
             if (gamepad1.y){
                 if ( rangeSensor.rawUltrasonic() > 10){
-                    robot.motor1.setPower(.25);
+                    robot.motor1.setPower(-.25);
                     robot.motor2.setPower(-.25);
-                    robot.motor3.setPower(-.25);
-                    robot.motor4.setPower(.25);
-                }else{
-                    robot.motor1.setPower(.25);
-                    robot.motor2.setPower(.25);
                     robot.motor3.setPower(.25);
                     robot.motor4.setPower(.25);
 
+                }else{
+                    runtime.reset();
+                    while (opModeIsActive() && runtime.seconds() < 1) {
+                        robot.motor1.setPower(.25);
+                        robot.motor2.setPower(.25);
+                        robot.motor3.setPower(.25);
+                        robot.motor4.setPower(.25);
+                    }
                 }
             }else{
                 robot.motor1.setPower(0);
