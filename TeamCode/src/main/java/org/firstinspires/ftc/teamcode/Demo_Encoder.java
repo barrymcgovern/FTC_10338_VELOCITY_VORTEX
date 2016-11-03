@@ -36,6 +36,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
@@ -86,7 +87,7 @@ public class Demo_Encoder extends LinearOpMode {
     static final double     TURN_SPEED              = 0.5;
 
     @Override
-    public void runOpMode() throws InterruptedException {
+       public void runOpMode() throws InterruptedException {
 
         /*
          * Initialize the drive system variables.
@@ -111,20 +112,49 @@ public class Demo_Encoder extends LinearOpMode {
 
 
         // Send telemetry message to indicate successful Encoder reset
-        telemetry.addData("Path0",  "Starting at %7d :%7d",
-                          robot.motor1.getCurrentPosition(),
-                          robot.motor2.getCurrentPosition());
-        telemetry.update();
+        telemetry.addData("motor1",    robot.motor1.getCurrentPosition());
+        telemetry.addData("motor2",    robot.motor2.getCurrentPosition());
+        telemetry.addData("motor3",    robot.motor3.getCurrentPosition());
+        telemetry.addData("motor4",    robot.motor4.getCurrentPosition());
+
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(DRIVE_SPEED,  48,  48, 5.0);  // S1: Forward 47 Inches with 5 Sec timeout
-        encoderDrive(TURN_SPEED,   12, -12, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
-        encoderDrive(DRIVE_SPEED, -24, -24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
+        telemetry.addData("Direction",    "up");
+        telemetry.addData("motor1",    robot.motor1.getCurrentPosition());
+        telemetry.addData("motor2",    robot.motor2.getCurrentPosition());
+        telemetry.addData("motor3",    robot.motor3.getCurrentPosition());
+        telemetry.addData("motor4",    robot.motor4.getCurrentPosition());
+        telemetry.update();
+        encoderDrive(DRIVE_SPEED,  "up",10,1);
 
+        telemetry.addData("Direction",    "down");
+        telemetry.addData("motor1",    robot.motor1.getCurrentPosition());
+        telemetry.addData("motor2",    robot.motor2.getCurrentPosition());
+        telemetry.addData("motor3",    robot.motor3.getCurrentPosition());
+        telemetry.addData("motor4",    robot.motor4.getCurrentPosition());
+        telemetry.update();
+        encoderDrive(DRIVE_SPEED,  "left",10,1);
+
+        telemetry.addData("Direction",    "down");
+        telemetry.addData("motor1",    robot.motor1.getCurrentPosition());
+        telemetry.addData("motor2",    robot.motor2.getCurrentPosition());
+        telemetry.addData("motor3",    robot.motor3.getCurrentPosition());
+        telemetry.addData("motor4",    robot.motor4.getCurrentPosition());
+        telemetry.update();
+        encoderDrive(DRIVE_SPEED,  "down",10,1);
+
+        telemetry.addData("Direction",    "right");
+        telemetry.addData("motor1",    robot.motor1.getCurrentPosition());
+        telemetry.addData("motor2",    robot.motor2.getCurrentPosition());
+        telemetry.addData("motor3",    robot.motor3.getCurrentPosition());
+        telemetry.addData("motor4",    robot.motor4.getCurrentPosition());
+        telemetry.update();
+
+        encoderDrive(DRIVE_SPEED,  "right",10,1);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -139,53 +169,20 @@ public class Demo_Encoder extends LinearOpMode {
      *  3) Driver stops the opmode running.
      */
 
-    public void encoderDrive2(double speed, String direction, double inches, double timeoutS) throws InterruptedException{
+    public void encoderDrive(double speed, String robotDirection, double inches, double timeoutS) throws InterruptedException{
+        try{
         if (opModeIsActive()) {
 
-        }
-    }
 
+            int currentPosMotor1 = 0;
+            int currentPosMotor2 = 0;
+            int currentPosMotor3 = 0;
+            int currentPosMotor4 = 0;
 
-    public void encoderDrive(double speed,
-                             double leftInches, double rightInches,
-                             double timeoutS) throws InterruptedException {
-        int newLeftTarget;
-        int newRightTarget;
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-
-            // Determine new target position, and pass to motor controller
-            newLeftTarget = robot.motor1.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightTarget = robot.motor2.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-
-            robot.motor1.setTargetPosition(newLeftTarget);
-            robot.motor2.setTargetPosition(newRightTarget);
-
-            // Turn On RUN_TO_POSITION
-            robot.motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            // reset the timeout time and start motion.
-            runtime.reset();
-            robot.motor1.setPower(Math.abs(speed));
-            robot.motor2.setPower(Math.abs(speed));
-
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            while (opModeIsActive() &&
-                   (runtime.seconds() < timeoutS) &&
-                   (robot.motor1.isBusy() && robot.motor2.isBusy())) {
-
-                // Display it for the driver.
-                telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
-                telemetry.addData("Path2",  "Running at %7d :%7d",
-                                            robot.motor1.getCurrentPosition(),
-                                            robot.motor2.getCurrentPosition());
-                telemetry.update();
-
-                // Allow time for other processes to run.
-                idle();
-            }
+            int targetPosMotor1 = 0;
+            int targetPosMotor2 = 0;
+            int targetPosMotor3 = 0;
+            int targetPosMotor4 = 0;
 
             // Stop all motion;
             robot.motor1.setPower(0);
@@ -193,13 +190,111 @@ public class Demo_Encoder extends LinearOpMode {
             robot.motor3.setPower(0);
             robot.motor4.setPower(0);
 
+
+            if (robotDirection == "up") {
+                robot.motor1.setDirection(DcMotorSimple.Direction.REVERSE);
+                robot.motor2.setDirection(DcMotorSimple.Direction.FORWARD );
+                robot.motor3.setDirection(DcMotorSimple.Direction.FORWARD );
+                robot.motor4.setDirection(DcMotorSimple.Direction.REVERSE );
+            }else  if (robotDirection == "down") {
+                robot.motor1.setDirection(DcMotorSimple.Direction.FORWARD);
+                robot.motor2.setDirection(DcMotorSimple.Direction.REVERSE );
+                robot.motor3.setDirection(DcMotorSimple.Direction.REVERSE );
+                robot.motor4.setDirection(DcMotorSimple.Direction.FORWARD );
+            }else  if (robotDirection == "left") {
+                robot.motor1.setDirection(DcMotorSimple.Direction.FORWARD);
+                robot.motor2.setDirection(DcMotorSimple.Direction.FORWARD );
+                robot.motor3.setDirection(DcMotorSimple.Direction.REVERSE );
+                robot.motor4.setDirection(DcMotorSimple.Direction.REVERSE );
+            }else   if (robotDirection == "right") {
+                robot.motor1.setDirection(DcMotorSimple.Direction.REVERSE);
+                robot.motor2.setDirection(DcMotorSimple.Direction.REVERSE );
+                robot.motor3.setDirection(DcMotorSimple.Direction.FORWARD );
+                robot.motor4.setDirection(DcMotorSimple.Direction.FORWARD );
+            }
+
+            robot.motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.motor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            currentPosMotor1 = robot.motor1.getCurrentPosition();
+            currentPosMotor2 = robot.motor2.getCurrentPosition();
+            currentPosMotor3 = robot.motor3.getCurrentPosition();
+            currentPosMotor4 = robot.motor4.getCurrentPosition();
+
+            targetPosMotor1 = currentPosMotor1 + (int) (inches * COUNTS_PER_INCH);
+            targetPosMotor2 = currentPosMotor2 + (int) (inches * COUNTS_PER_INCH);
+            targetPosMotor3 = currentPosMotor3 + (int) (inches * COUNTS_PER_INCH);
+            targetPosMotor4 = currentPosMotor4 + (int) (inches * COUNTS_PER_INCH);
+
+            robot.motor1.setTargetPosition(targetPosMotor1);
+            robot.motor2.setTargetPosition(targetPosMotor2);
+            robot.motor3.setTargetPosition(targetPosMotor3);
+            robot.motor4.setTargetPosition(targetPosMotor4);
+
+            robot.motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.motor3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.motor4.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            if (robotDirection == "circle left"){
+                robot.motor1.setPower(0);
+                robot.motor2.setPower(speed);
+                robot.motor3.setPower(0);
+                robot.motor4.setPower(speed);
+
+            }else  if (robotDirection == "circle right") {
+
+                robot.motor1.setPower(speed);
+                robot.motor2.setPower(0);
+                robot.motor3.setPower(speed);
+                robot.motor4.setPower(0);
+            }else{
+                robot.motor1.setPower(speed);
+                robot.motor2.setPower(speed);
+                robot.motor3.setPower(speed);
+                robot.motor4.setPower(speed);
+            }
+            // keep looping while we are still active, and there is time left, and both motors are running.
+
+            runtime.reset();
+
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (robot.motor1.isBusy() && robot.motor2.isBusy())) {
+
+                // Display it for the driver.
+                telemetry.addData("Direction",   robotDirection);
+                telemetry.addData("motor1",    robot.motor1.getCurrentPosition());
+                telemetry.addData("motor2",    robot.motor2.getCurrentPosition());
+                telemetry.addData("motor3",    robot.motor3.getCurrentPosition());
+                telemetry.addData("motor4",    robot.motor4.getCurrentPosition());
+
+                telemetry.update();
+
+                // Allow time for other processes to run.
+                idle();
+            }
+            // Stop all motion;
+            robot.motor1.setPower(0);
+            robot.motor2.setPower(0);
+            robot.motor3.setPower(0);
+            robot.motor4.setPower(0);
+
+
             // Turn off RUN_TO_POSITION
             robot.motor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.motor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            //  sleep(250);   // optional pause after each move
+        }
+        }catch(Exception e){
+            telemetry.addData("ERROR",    e.toString());
         }
     }
+
+
+
 }

@@ -45,9 +45,10 @@ import org.firstinspires.ftc.teamcode.DemoHardware;
  * This will run the pictching machine
  */
 
-@TeleOp(name="Pushbot: DemoOpp", group="Pushbot")
+@TeleOp(name="Pushbot: DemoOpp Drive", group="Pushbot")
 
 //@Disabled
+
 public class DemoOpp extends LinearOpMode {
 
     /* Declare OpMode members. */

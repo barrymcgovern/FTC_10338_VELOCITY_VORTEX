@@ -15,6 +15,7 @@ Support is available by emailing support@modernroboticsinc.com.
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.I2cAddr;
@@ -24,7 +25,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@TeleOp(name="Sensors: RangeDriveTest", group="Pushbot")
+
+@Autonomous(name="Demo: Range Drive", group="Pushbot")
 
 public class RangeDriveTest extends LinearOpMode {
 
@@ -62,10 +64,10 @@ public class RangeDriveTest extends LinearOpMode {
 
             if (gamepad1.y){
                 if ( rangeSensor.rawUltrasonic() > 10){
-                    robot.motor1.setPower(-.25);
-                    robot.motor2.setPower(-.25);
-                    robot.motor3.setPower(.25);
-                    robot.motor4.setPower(.25);
+                    robot.motor1.setPower(.25);
+                    robot.motor2.setPower(.25);
+                    robot.motor3.setPower(-.25);
+                    robot.motor4.setPower(-.25);
 
                 }else{
                     runtime.reset();
