@@ -16,7 +16,7 @@ public class Autonomous_Master extends Competition_Hardware {
         // Wait for the game to start (driver presses PLAY)
         idle();
         waitForStart();
-
+        encoderDrive(DRIVE_SPEED, "up", 10, 5);
 
 
 
