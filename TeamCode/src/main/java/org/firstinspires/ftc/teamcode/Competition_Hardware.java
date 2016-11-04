@@ -30,7 +30,7 @@ import java.security.PublicKey;
  * Servo channel:  Servo to open right claw: "right_hand"
  */
 
-public class Competition_Hardware extends Demo_Encoder_Barry {
+public abstract class Competition_Hardware extends LinearOpMode {
     /* basic hardware for deom */
     public DcMotor motor1  = null;
     public DcMotor motor2  = null;

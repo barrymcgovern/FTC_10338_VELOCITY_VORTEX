@@ -123,36 +123,15 @@ public class Demo_Encoder extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        telemetry.addData("Direction",    "up");
-        telemetry.addData("motor1",    robot.motor1.getCurrentPosition());
-        telemetry.addData("motor2",    robot.motor2.getCurrentPosition());
-        telemetry.addData("motor3",    robot.motor3.getCurrentPosition());
-        telemetry.addData("motor4",    robot.motor4.getCurrentPosition());
+
         telemetry.update();
         encoderDrive(DRIVE_SPEED,  "up",10,1);
 
-        telemetry.addData("Direction",    "down");
-        telemetry.addData("motor1",    robot.motor1.getCurrentPosition());
-        telemetry.addData("motor2",    robot.motor2.getCurrentPosition());
-        telemetry.addData("motor3",    robot.motor3.getCurrentPosition());
-        telemetry.addData("motor4",    robot.motor4.getCurrentPosition());
-        telemetry.update();
         encoderDrive(DRIVE_SPEED,  "left",10,1);
 
-        telemetry.addData("Direction",    "down");
-        telemetry.addData("motor1",    robot.motor1.getCurrentPosition());
-        telemetry.addData("motor2",    robot.motor2.getCurrentPosition());
-        telemetry.addData("motor3",    robot.motor3.getCurrentPosition());
-        telemetry.addData("motor4",    robot.motor4.getCurrentPosition());
-        telemetry.update();
+
         encoderDrive(DRIVE_SPEED,  "down",10,1);
 
-        telemetry.addData("Direction",    "right");
-        telemetry.addData("motor1",    robot.motor1.getCurrentPosition());
-        telemetry.addData("motor2",    robot.motor2.getCurrentPosition());
-        telemetry.addData("motor3",    robot.motor3.getCurrentPosition());
-        telemetry.addData("motor4",    robot.motor4.getCurrentPosition());
-        telemetry.update();
 
         encoderDrive(DRIVE_SPEED,  "right",10,1);
 
