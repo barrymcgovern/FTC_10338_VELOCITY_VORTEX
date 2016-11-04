@@ -6,6 +6,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -36,7 +37,15 @@ public abstract class Competition_Hardware extends LinearOpMode {
     public DcMotor motor2  = null;
     public DcMotor motor3 = null;
     public DcMotor motor4 = null;
+    public ElapsedTime     runtime = new ElapsedTime();
 
+    static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
+    static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
+    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * 3.1415);
+    static final double     DRIVE_SPEED             = 0.6;
+    static final double     TURN_SPEED              = 0.5;
 
     public Servo servo1    = null;
     public Servo servo2   = null;
@@ -110,7 +119,131 @@ public abstract class Competition_Hardware extends LinearOpMode {
         // Reset the cycle clock for the next pass.
         period.reset();
     }
+    public void encoderDrive(double speed, String robotDirection, double inches, double timeoutS) throws InterruptedException{
+        try{
+            if (opModeIsActive()) {
 
+
+                int currentPosMotor1 = 0;
+                int currentPosMotor2 = 0;
+                int currentPosMotor3 = 0;
+                int currentPosMotor4 = 0;
+
+                int targetPosMotor1 = 0;
+                int targetPosMotor2 = 0;
+                int targetPosMotor3 = 0;
+                int targetPosMotor4 = 0;
+
+                // Stop all motion;
+                motor1.setPower(0);
+                motor2.setPower(0);
+                motor3.setPower(0);
+                motor4.setPower(0);
+
+
+                if (robotDirection == "up") {
+                    motor1.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor2.setDirection(DcMotorSimple.Direction.FORWARD );
+                    motor3.setDirection(DcMotorSimple.Direction.FORWARD );
+                    motor4.setDirection(DcMotorSimple.Direction.REVERSE );
+                }else  if (robotDirection == "down") {
+                    motor1.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor2.setDirection(DcMotorSimple.Direction.REVERSE );
+                    motor3.setDirection(DcMotorSimple.Direction.REVERSE );
+                    motor4.setDirection(DcMotorSimple.Direction.FORWARD );
+                }else  if (robotDirection == "left") {
+                    motor1.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor2.setDirection(DcMotorSimple.Direction.FORWARD );
+                    motor3.setDirection(DcMotorSimple.Direction.REVERSE );
+                    motor4.setDirection(DcMotorSimple.Direction.REVERSE );
+                }else   if (robotDirection == "right") {
+                    motor1.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor2.setDirection(DcMotorSimple.Direction.REVERSE );
+                    motor3.setDirection(DcMotorSimple.Direction.FORWARD );
+                    motor4.setDirection(DcMotorSimple.Direction.FORWARD );
+                }
+
+                motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                motor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                currentPosMotor1 = motor1.getCurrentPosition();
+                currentPosMotor2 = motor2.getCurrentPosition();
+                currentPosMotor3 = motor3.getCurrentPosition();
+                currentPosMotor4 = motor4.getCurrentPosition();
+
+                targetPosMotor1 = currentPosMotor1 + (int) (inches * COUNTS_PER_INCH);
+                targetPosMotor2 = currentPosMotor2 + (int) (inches * COUNTS_PER_INCH);
+                targetPosMotor3 = currentPosMotor3 + (int) (inches * COUNTS_PER_INCH);
+                targetPosMotor4 = currentPosMotor4 + (int) (inches * COUNTS_PER_INCH);
+
+                motor1.setTargetPosition(targetPosMotor1);
+                motor2.setTargetPosition(targetPosMotor2);
+                motor3.setTargetPosition(targetPosMotor3);
+                motor4.setTargetPosition(targetPosMotor4);
+
+                motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                motor3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                motor4.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                if (robotDirection == "circle left"){
+                    motor1.setPower(0);
+                    motor2.setPower(speed);
+                    motor3.setPower(0);
+                    motor4.setPower(speed);
+
+                }else  if (robotDirection == "circle right") {
+
+                    motor1.setPower(speed);
+                    motor2.setPower(0);
+                    motor3.setPower(speed);
+                    motor4.setPower(0);
+                }else{
+                    motor1.setPower(speed);
+                    motor2.setPower(speed);
+                    motor3.setPower(speed);
+                    motor4.setPower(speed);
+                }
+                // keep looping while we are still active, and there is time left, and both motors are running.
+
+                runtime.reset();
+
+                while (opModeIsActive() &&
+                        (runtime.seconds() < timeoutS) &&
+                        (motor1.isBusy() && motor2.isBusy())) {
+
+                    // Display it for the driver.
+                    telemetry.addData("Direction",   robotDirection);
+                    telemetry.addData("motor1",    motor1.getCurrentPosition());
+                    telemetry.addData("motor2",    motor2.getCurrentPosition());
+                    telemetry.addData("motor3",    motor3.getCurrentPosition());
+                    telemetry.addData("motor4",    motor4.getCurrentPosition());
+
+                    telemetry.update();
+
+                    // Allow time for other processes to run.
+                    idle();
+                }
+                // Stop all motion;
+                motor1.setPower(0);
+                motor2.setPower(0);
+                motor3.setPower(0);
+                motor4.setPower(0);
+
+
+                // Turn off RUN_TO_POSITION
+                motor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            }
+        }catch(Exception e){
+            telemetry.addData("ERROR",    e.toString());
+        }
+    }
     void drive(String robotDirection){
         try{
 
