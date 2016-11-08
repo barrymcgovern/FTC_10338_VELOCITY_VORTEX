@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
  * Created by kids on 11/3/2016.
  */
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -44,7 +45,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     DRIVE_SPEED             = 0.6;
+    static final double     DRIVE_SPEED             = 0.4;
     static final double     TURN_SPEED              = 0.5;
 
     public Servo servo1    = null;
@@ -57,6 +58,8 @@ public abstract class Competition_Hardware extends LinearOpMode {
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
+    ModernRoboticsI2cRangeSensor rangeSensor;
+
 
 
     /* Initialize standard Hardware interfaces */
@@ -249,63 +252,63 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
 
             if (robotDirection == "up") {
-                motor1.setPower(-1);
-                motor2.setPower(1);
-                motor3.setPower(1);
-                motor4.setPower(-1);
+                motor1.setPower(-DRIVE_SPEED);
+                motor2.setPower(DRIVE_SPEED);
+                motor3.setPower(DRIVE_SPEED);
+                motor4.setPower(-DRIVE_SPEED);
 
 
             }else if (robotDirection == "up left"){
                 motor1.setPower(0);
-                motor2.setPower(1);
+                motor2.setPower(DRIVE_SPEED);
                 motor3.setPower(0);
-                motor4.setPower(-1);
+                motor4.setPower(-DRIVE_SPEED);
 
             }else if (robotDirection == "up right"){
                 motor1.setPower(0);
-                motor2.setPower(-1);
+                motor2.setPower(-DRIVE_SPEED);
                 motor3.setPower(0);
-                motor4.setPower(1);
+                motor4.setPower(DRIVE_SPEED);
 
             }else if (robotDirection == "down"){
-                motor1.setPower(1);
-                motor2.setPower(-1);
-                motor3.setPower(-1);
-                motor4.setPower(1);
+                motor1.setPower(DRIVE_SPEED);
+                motor2.setPower(-DRIVE_SPEED);
+                motor3.setPower(-DRIVE_SPEED);
+                motor4.setPower(DRIVE_SPEED);
 
             }else if (robotDirection == "down left"){
-                motor1.setPower(1);
+                motor1.setPower(DRIVE_SPEED);
                 motor2.setPower(0);
-                motor3.setPower(-1);
+                motor3.setPower(-DRIVE_SPEED);
                 motor4.setPower(0);
             }else if (robotDirection == "down right"){
-                motor1.setPower(-1);
+                motor1.setPower(-DRIVE_SPEED);
                 motor2.setPower(0);
-                motor3.setPower(1);
+                motor3.setPower(DRIVE_SPEED);
                 motor4.setPower(0);
 
             }else if (robotDirection == "left"){
-                motor1.setPower(1);
-                motor2.setPower(1);
-                motor3.setPower(-1);
-                motor4.setPower(-1);
+                motor1.setPower(DRIVE_SPEED);
+                motor2.setPower(DRIVE_SPEED);
+                motor3.setPower(-DRIVE_SPEED);
+                motor4.setPower(-DRIVE_SPEED);
             }else  if (robotDirection == "right"){
-                motor1.setPower(-1);
-                motor2.setPower(-1);
-                motor3.setPower(1);
-                motor4.setPower(1);
+                motor1.setPower(-DRIVE_SPEED);
+                motor2.setPower(-DRIVE_SPEED);
+                motor3.setPower(DRIVE_SPEED);
+                motor4.setPower(DRIVE_SPEED);
 
             }else  if (robotDirection == "circle left"){
-                motor1.setPower(1);
-                motor2.setPower(1);
-                motor3.setPower(1);
-                motor4.setPower(1);
+                motor1.setPower(DRIVE_SPEED);
+                motor2.setPower(DRIVE_SPEED);
+                motor3.setPower(DRIVE_SPEED);
+                motor4.setPower(DRIVE_SPEED);
 
             }else  if (robotDirection == "circle right"){
-                motor1.setPower(-1);
-                motor2.setPower(-1);
-                motor3.setPower(-1);
-                motor4.setPower(-1);
+                motor1.setPower(-DRIVE_SPEED);
+                motor2.setPower(-DRIVE_SPEED);
+                motor3.setPower(-DRIVE_SPEED);
+                motor4.setPower(-DRIVE_SPEED);
 
             }else{
                 motor1.setPower(0);
