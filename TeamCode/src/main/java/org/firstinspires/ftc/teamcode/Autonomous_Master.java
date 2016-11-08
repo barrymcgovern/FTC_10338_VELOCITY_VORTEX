@@ -16,10 +16,14 @@ public class Autonomous_Master extends Competition_Hardware {
         // Wait for the game to start (driver presses PLAY)
         idle();
         waitForStart();
-        encoderDrive(DRIVE_SPEED, "up", 10, 5); //Has the robot go forward at a set speed, in a set direction, for 10 inches with a 5 second timeout\\
-         while (rangeSensor.rawUltrasonic() > 10){
-             drive("left");
+        encoderDrive(DRIVE_SPEED, "up", 10, 5); //Has the robot go forward at a set speed, in a set direction, for 10 inches with a 5 second timeout
+        runtime.reset();
+         while (rangeSensor.rawUltrasonic() > 10 && (runtime.seconds() < 6)){
+             telemetry.addData("Range_Sensor", rangeSensor.rawUltrasonic());
+             drive("left"); //goes forward then after a certain distance it goes left until certain distance then stops
+
          }
+
     }
 
 public void initSystem(){
