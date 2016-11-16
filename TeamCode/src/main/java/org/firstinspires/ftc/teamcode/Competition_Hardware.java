@@ -6,6 +6,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -55,10 +56,14 @@ public abstract class Competition_Hardware extends LinearOpMode {
     public static final double ARM_UP_POWER    =  0.45 ;
     public static final double ARM_DOWN_POWER  = -0.45 ;
 
+    ColorSensor colorSensor;
+
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
     ModernRoboticsI2cRangeSensor rangeSensor;
+
+
 
 
 
@@ -247,6 +252,9 @@ public abstract class Competition_Hardware extends LinearOpMode {
             telemetry.addData("ERROR",    e.toString());
         }
     }
+    void driveStick(float x, float y){
+        motor1.setPower(x);
+    }
     void drive(String robotDirection){
         try{
 
@@ -321,5 +329,6 @@ public abstract class Competition_Hardware extends LinearOpMode {
         }
 
     }
+
 
 }
