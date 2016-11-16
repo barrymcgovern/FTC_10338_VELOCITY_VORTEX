@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * Created by kids on 11/3/2016.
  */
+@Autonomous(name="Demo: Autonomous", group="Pushbot")
 
 public class Autonomous_Master extends Competition_Hardware {
 
@@ -26,6 +28,7 @@ public class Autonomous_Master extends Competition_Hardware {
              telemetry.addData("Range_Sensor", rangeSensor.rawUltrasonic());
              drive("left"); //goes forward then after a certain distance it goes left until certain distance then stops
          }
+
        drive("stop");
     }
 
