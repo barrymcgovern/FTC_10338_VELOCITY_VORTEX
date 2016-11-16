@@ -70,7 +70,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 @Autonomous(name="Demo: Auto Drive By Encoder", group="Pushbot")
 
-// @Disabled
+ @Disabled
 
 public class Demo_Encoder extends LinearOpMode {
 

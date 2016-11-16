@@ -216,23 +216,25 @@ public abstract class Competition_Hardware extends LinearOpMode {
                         (motor1.isBusy() && motor2.isBusy())) {
 
                     // Display it for the driver.
+                    telemetry.addData("Status", "Running Encoder Drive");
                     telemetry.addData("Direction",   robotDirection);
                     telemetry.addData("motor1",    motor1.getCurrentPosition());
                     telemetry.addData("motor2",    motor2.getCurrentPosition());
                     telemetry.addData("motor3",    motor3.getCurrentPosition());
                     telemetry.addData("motor4",    motor4.getCurrentPosition());
-
                     telemetry.update();
 
                     // Allow time for other processes to run.
                     idle();
                 }
+                telemetry.addData("Status", "Done with Encoder Drive");
+                telemetry.update();
+
                 // Stop all motion;
                 motor1.setPower(0);
                 motor2.setPower(0);
                 motor3.setPower(0);
                 motor4.setPower(0);
-
 
                 // Turn off RUN_TO_POSITION
                 motor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -245,6 +247,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
             telemetry.addData("ERROR",    e.toString());
         }
     }
+
     void driveStick(float x, float y){
         motor1.setPower(x);
     }
