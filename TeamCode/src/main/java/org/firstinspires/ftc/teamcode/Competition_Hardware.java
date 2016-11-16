@@ -16,22 +16,6 @@ import com.qualcomm.robotcore.util.Range;
 
 import java.security.PublicKey;
 
-/**
- * This is NOT an opmode.
- *
- * This class can be used to define all the specific hardware for a single robot.
- * In this case that robot is a Pushbot.
- * See PushbotTeleopTank_Iterative and others classes starting with "Pushbot" for usage examples.
- *
- * This hardware class assumes the following device names have been configured on the robot:
- * Note:  All names are lower case and some have single spaces between words.
- *
- * Motor channel:  Left  drive motor:        "left_drive"
- * Motor channel:  Right drive motor:        "right_drive"
- * Motor channel:  Manipulator drive motor:  "left_arm"
- * Servo channel:  Servo to open left claw:  "left_hand"
- * Servo channel:  Servo to open right claw: "right_hand"
- */
 
 public abstract class Competition_Hardware extends LinearOpMode {
     /* basic hardware for deom */
@@ -39,6 +23,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
     public DcMotor motor2  = null;
     public DcMotor motor3 = null;
     public DcMotor motor4 = null;
+
     public ElapsedTime     runtime = new ElapsedTime();
 
     static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
@@ -97,6 +82,9 @@ public abstract class Competition_Hardware extends LinearOpMode {
         motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        colorSensor = hardwareMap.colorSensor.get("color");
+        rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
 
     /*
         // Define and initialize ALL installed servos.
@@ -175,6 +163,11 @@ public abstract class Competition_Hardware extends LinearOpMode {
                 motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 motor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                motor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
                 currentPosMotor1 = motor1.getCurrentPosition();
                 currentPosMotor2 = motor2.getCurrentPosition();

@@ -10,42 +10,62 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class Autonomous_Master extends Competition_Hardware {
 
-
+    @Override
     public void runOpMode() throws InterruptedException {
+        try {
+            init(hardwareMap);
 
-        initSystem(); // See initSystem below
+            telemetry.addData("Status", "Starting");    //
+            telemetry.update();
 
-        // Wait for the game to start (driver presses PLAY)
-        idle();
-        waitForStart();
-        encoderDrive(DRIVE_SPEED, "up", 10, 5); // Has the robot go forward at a set speed, in a set direction, for 10 inches with a 5 second timeout
-        runtime.reset();
-        motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Motors run without encoders to regulate distance
-        while (rangeSensor.rawUltrasonic() > 10 && (runtime.seconds() < 6)){
-            telemetry.addData("Range_Sensor", rangeSensor.rawUltrasonic());
-            drive("left"); // Goes forward then after a certain distance it goes left until certain distance then stops
-        }
-        if (rangeSensor.rawOptical() > 1){
-            drive("left");
-        } else {
-            drive("stop");
-        } // Uses the more specific range sensor to make sure that robot is close enough for color sensor before stopping
+            initSystem(); // See initSystem below
 
-        drive("stop");
+            // Wait for the game to start (driver presses PLAY)
+            waitForStart();
 
-        if (colorSensor.red() > colorSensor.blue()){
-            telemetry.addData("1", "Red", colorSensor.red());
-            servo1.setPosition(90);
-        }
-        else{
-            servo1.setPosition(0);
+            while (opModeIsActive()) {
+
+                telemetry.addData("motor1", motor1.getCurrentPosition());
+                telemetry.addData("motor2", motor2.getCurrentPosition());
+                telemetry.addData("motor3", motor3.getCurrentPosition());
+                telemetry.addData("motor4", motor4.getCurrentPosition()); // Send telemetry message to indicate successful Encoder reset
+                telemetry.update();
+                encoderDrive(DRIVE_SPEED, "up", 10, 5); // Has the robot go forward at a set speed, in a set direction, for 10 inches with a 5 second timeout
+                runtime.reset();
+                motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Motors run without encoders to regulate distance
+                while (rangeSensor.rawUltrasonic() > 10 && (runtime.seconds() < 6)) {
+                    telemetry.addData("Range_Sensor", rangeSensor.rawUltrasonic());
+                    drive("left"); // Goes forward then after a certain distance it goes left until certain distance then stops
+                }
+                if (rangeSensor.rawOptical() > 1) {
+                    drive("left");
+                } else {
+                    drive("stop");
+                } // Uses the more specific range sensor to make sure that robot is close enough for color sensor before stopping
+
+                drive("stop");
+
+                if (colorSensor.red() > colorSensor.blue()) {
+                    telemetry.addData("1", "Red", colorSensor.red());
+                    servo1.setPosition(90);
+                } else {
+                    servo1.setPosition(0);
+                }
+            }
+
+
+        } catch (Exception e) {
+            telemetry.addData("ERROR", e.toString());
+            telemetry.update();
         }
     }
 
-public void initSystem(){
+    public void initSystem() {
+try {
+
 
     motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -57,14 +77,12 @@ public void initSystem(){
     motor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // At the beginning of the program, the motors are set to run using encoders until programmed otherwise
-
-
-
-    telemetry.addData("motor1", motor1.getCurrentPosition());
-    telemetry.addData("motor2", motor2.getCurrentPosition());
-    telemetry.addData("motor3", motor3.getCurrentPosition());
-    telemetry.addData("motor4", motor4.getCurrentPosition()); // Send telemetry message to indicate successful Encoder reset
+}catch(Exception e){
+    telemetry.addData("ERROR", e.toString());
+    telemetry.update();
 }
+
+    }
 
 
 
