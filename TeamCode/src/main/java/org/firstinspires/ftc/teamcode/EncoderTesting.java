@@ -38,6 +38,7 @@ public class EncoderTesting extends Competition_Hardware {
                 telemetry.addData("motor3", motor3.getCurrentPosition());
                 telemetry.addData("motor4", motor4.getCurrentPosition()); // Send telemetry message to indicate successful Encoder reset
                 telemetry.update();
+                break;
 
             }
 
