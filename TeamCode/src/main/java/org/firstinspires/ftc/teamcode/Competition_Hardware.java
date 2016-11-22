@@ -41,6 +41,8 @@ public abstract class Competition_Hardware extends LinearOpMode {
     public static final double ARM_UP_POWER    =  0.45 ;
     public static final double ARM_DOWN_POWER  = -0.45 ;
 
+    public String teamColor;
+
     ColorSensor colorSensor;
 
     /* local OpMode members. */

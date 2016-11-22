@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * Created by kids on 11/3/2016.
+ *
  */
 @Autonomous(name="Comp: Autonomous", group="Pushbot")
 
@@ -54,24 +55,37 @@ public class Autonomous_Master extends Competition_Hardware {
 
                 // needs to be inside loop
                 // Uses the more specific range sensor to make sure that robot is close enough for color sensor before stopping
-                if (rangeSensor.rawOptical() > 1) {
-                    drive("left");
-                } else {
-                    drive("stop");
-                }
+                while (rangeSensor.rawOptical() > 1 && (runtime.seconds() < 10)) {
+                    telemetry.addData("Range_Sensor_Raw", rangeSensor.rawOptical());
+                    if (teamColor == "blue") {
+                        drive("left");
+                    } else
+                        drive("right");
 
+                }
                 drive("stop");
 
                 // will move button pusher
-                // will need timeout and then move back to nuetral afterwards
+                // will need timeout and then move back to neutral afterwards
                 if (colorSensor.red() > colorSensor.blue()) {
                     telemetry.addData("1", "Red", colorSensor.red());
-                    servo1.setPosition(90);
-                } else {
-                    servo1.setPosition(0);
-                }
-            }
+                    if (teamColor == "blue") {
+                        servo1.setPosition(180);
+                    } else {
+                        servo1.setPosition(0);
 
+                        }
+                }
+                if (colorSensor.blue() > colorSensor.red()){
+                    telemetry.addData("1", "Blue", colorSensor.blue());
+                    if (teamColor == "blue"){
+                        servo1.setPosition(0);
+                    } else {
+                        servo1.setPosition(180);
+                    }
+                }
+
+            }
 
         } catch (Exception e) {
             telemetry.addData("runOpMode ERROR", e.toString());
@@ -91,6 +105,11 @@ public class Autonomous_Master extends Competition_Hardware {
             motor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            servo1.setPosition(90);
+
+
+
 
         } catch (Exception e) {
 
