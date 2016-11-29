@@ -67,6 +67,10 @@ public abstract class Competition_Hardware extends LinearOpMode {
         motor2  = hwMap.dcMotor.get("motor2");
         motor3   = hwMap.dcMotor.get("motor3");
         motor4  = hwMap.dcMotor.get("motor4");
+        pMotor1 = hwMap.dcMotor.get("pMotor1");
+        pMotor2 = hwMap.dcMotor.get("pMotor2");
+        beMotor = hwMap.dcMotor.get("beMotor");
+
 
 
         // Set to FORWARD

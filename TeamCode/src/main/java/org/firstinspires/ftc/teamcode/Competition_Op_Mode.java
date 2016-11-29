@@ -16,6 +16,8 @@ public class Competition_Op_Mode extends Competition_Hardware {
     public void runOpMode() throws InterruptedException{
         init(hardwareMap);
 
+
+
         telemetry.update();
         telemetry.addData("Motor 1", motor1.getCurrentPosition());
         telemetry.addData("Motor 2", motor2.getCurrentPosition());
