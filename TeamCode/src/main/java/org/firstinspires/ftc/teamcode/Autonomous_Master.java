@@ -50,7 +50,13 @@ public class Autonomous_Master extends Competition_Hardware {
                     telemetry.addData("Range_Sensor", rangeSensor.rawUltrasonic());
                     telemetry.update();
                     // will go left or right, depending on red or blue side
-                    drive("left");
+                    if (teamColor == "blue"){
+                        drive("left");
+                    }
+                    else {
+                        drive("right");
+                    }
+
                 }
 
                 // needs to be inside loop
