@@ -23,6 +23,8 @@ public abstract class Competition_Hardware extends LinearOpMode {
     public DcMotor motor2  = null;
     public DcMotor motor3 = null;
     public DcMotor motor4 = null;
+    public DcMotor Pmotor1 = null;
+    public DcMotor Pmotor2 = null;
 
     public ElapsedTime     runtime = new ElapsedTime();
 
