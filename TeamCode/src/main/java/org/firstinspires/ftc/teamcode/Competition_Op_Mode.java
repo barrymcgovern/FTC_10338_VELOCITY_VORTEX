@@ -26,7 +26,7 @@ public class Competition_Op_Mode extends Competition_Hardware {
 
 
         while (opModeIsActive()){
-            if (gamepad1.b){
+            if (gamepad2.b){
                 pMotor1.setPower(100);
                 pMotor2.setPower(-100);
             } else{
