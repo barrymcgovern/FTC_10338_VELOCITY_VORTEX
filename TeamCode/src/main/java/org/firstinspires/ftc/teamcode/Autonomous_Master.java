@@ -18,6 +18,7 @@ public class Autonomous_Master extends Competition_Hardware {
 
             telemetry.addData("Status", "Starting");    //
             telemetry.update();
+            speed = DRIVE_SPEED;
 
             initSystem(); // See initSystem below
 
