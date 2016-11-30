@@ -95,13 +95,13 @@ public abstract class Competition_Hardware extends LinearOpMode {
         colorSensor = hardwareMap.colorSensor.get("color");
         rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
 
-    /*
+
         // Define and initialize ALL installed servos.
         servo1 = hwMap.servo.get("servo1");
         servo2 = hwMap.servo.get("servo2");
         servo1.setPosition(MID_SERVO);
         servo2.setPosition(MID_SERVO);
-        */
+
     }
 
     /***

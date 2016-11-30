@@ -28,6 +28,23 @@ public class Competition_Op_Mode extends Competition_Hardware {
 
 
         while (opModeIsActive()){
+
+            driveStick(gamepad1.left_stick_x, gamepad1.left_stick_y);
+
+            if (gamepad2.left_bumper){
+                servo1.setPosition(0);
+            }else if (gamepad2.right_bumper){
+                servo1.setPosition(180);
+            }
+
+            if (gamepad2.dpad_up){
+                beMotor.setPower(100);
+            } else if (gamepad2.dpad_down){
+                beMotor.setPower(-100);
+            } else {
+                beMotor.setPower(0);
+            }
+
             if (gamepad2.b){
                 pMotor1.setPower(100);
                 pMotor2.setPower(-100);
