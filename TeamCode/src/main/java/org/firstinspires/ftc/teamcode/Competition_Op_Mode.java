@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 /**
  * Created by megan_000 on 11/28/2016.
  */
-@TeleOp(name="Comp: TeleOp", group= "Pushbot")
+@TeleOp(name="Comp: Main", group= "Pushbot")
 
 public class Competition_Op_Mode extends Competition_Hardware {
 
