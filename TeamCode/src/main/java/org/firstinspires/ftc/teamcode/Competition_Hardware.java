@@ -38,6 +38,8 @@ public abstract class Competition_Hardware extends LinearOpMode {
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.4;
     static final double     TURN_SPEED              = 0.5;
+    static final double     SPIN_SPEED              = 90;
+
 
     public Servo servo1    = null;
     public Servo servo2   = null;
@@ -45,6 +47,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
     public static final double MID_SERVO       =  0.5 ;
     public static final double ARM_UP_POWER    =  0.45 ;
     public static final double ARM_DOWN_POWER  = -0.45 ;
+
 
     public String teamColor;
 
@@ -270,7 +273,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
                 
             }else {
                 drive ("up");
-                
+
             }
         }
         if (y < -10){
@@ -282,7 +285,9 @@ public abstract class Competition_Hardware extends LinearOpMode {
                 drive ("down");
             }
         }
+
     }
+
     void drive(String robotDirection){
         try{
 
