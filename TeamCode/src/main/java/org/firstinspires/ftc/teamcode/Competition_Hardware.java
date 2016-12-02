@@ -19,34 +19,34 @@ import java.security.PublicKey;
 
 public abstract class Competition_Hardware extends LinearOpMode {
     /* basic hardware for deom */
-    public DcMotor motor1  = null;
-    public DcMotor motor2  = null;
+    public DcMotor motor1 = null;
+    public DcMotor motor2 = null;
     public DcMotor motor3 = null;
     public DcMotor motor4 = null;
     public DcMotor pMotor1 = null;
     public DcMotor pMotor2 = null;
     public DcMotor beMotor = null;
 
-    double speed; 
+    double speed;
 
-    public ElapsedTime     runtime = new ElapsedTime();
+    public ElapsedTime runtime = new ElapsedTime();
 
-    static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
-    static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
-    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+    static final double COUNTS_PER_MOTOR_REV = 1440;    // eg: TETRIX Motor Encoder
+    static final double DRIVE_GEAR_REDUCTION = 2.0;     // This is < 1.0 if geared UP
+    static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
+    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     DRIVE_SPEED             = 0.4;
-    static final double     TURN_SPEED              = 0.5;
-    static final double     SPIN_SPEED              = 90;
+    static final double DRIVE_SPEED = 0.4;
+    static final double TURN_SPEED = 0.5;
+    static final double SPIN_SPEED = 90;
 
 
-    public Servo servo1    = null;
-    public Servo servo2   = null;
+    public Servo servo1 = null;
+    public Servo servo2 = null;
 
-    public static final double MID_SERVO       =  0.5 ;
-    public static final double ARM_UP_POWER    =  0.45 ;
-    public static final double ARM_DOWN_POWER  = -0.45 ;
+    public static final double MID_SERVO = 0.5;
+    public static final double ARM_UP_POWER = 0.45;
+    public static final double ARM_DOWN_POWER = -0.45;
 
 
     public String teamColor;
@@ -54,12 +54,9 @@ public abstract class Competition_Hardware extends LinearOpMode {
     ColorSensor colorSensor;
 
     /* local OpMode members. */
-    HardwareMap hwMap           =  null;
-    private ElapsedTime period  = new ElapsedTime();
+    HardwareMap hwMap = null;
+    private ElapsedTime period = new ElapsedTime();
     ModernRoboticsI2cRangeSensor rangeSensor;
-
-
-
 
 
     /* Initialize standard Hardware interfaces */
@@ -68,14 +65,13 @@ public abstract class Competition_Hardware extends LinearOpMode {
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        motor1   = hwMap.dcMotor.get("motor1");
-        motor2  = hwMap.dcMotor.get("motor2");
-        motor3   = hwMap.dcMotor.get("motor3");
-        motor4  = hwMap.dcMotor.get("motor4");
+        motor1 = hwMap.dcMotor.get("motor1");
+        motor2 = hwMap.dcMotor.get("motor2");
+        motor3 = hwMap.dcMotor.get("motor3");
+        motor4 = hwMap.dcMotor.get("motor4");
         pMotor1 = hwMap.dcMotor.get("pMotor1");
         pMotor2 = hwMap.dcMotor.get("pMotor2");
         beMotor = hwMap.dcMotor.get("beMotor");
-
 
 
         // Set to FORWARD
@@ -110,17 +106,16 @@ public abstract class Competition_Hardware extends LinearOpMode {
     }
 
     /***
-     *
      * waitForTick implements a periodic delay. However, this acts like a metronome with a regular
      * periodic tick.  This is used to compensate for varying processing times for each cycle.
      * The function looks at the elapsed cycle time, and sleeps for the remaining time interval.
      *
-     * @param periodMs  Length of wait cycle in mSec.
+     * @param periodMs Length of wait cycle in mSec.
      * @throws InterruptedException
      */
     public void waitForTick(long periodMs) throws InterruptedException {
 
-        long  remaining = periodMs - (long)period.milliseconds();
+        long remaining = periodMs - (long) period.milliseconds();
 
         // sleep for the remaining portion of the regular cycle period.
         if (remaining > 0)
@@ -129,8 +124,9 @@ public abstract class Competition_Hardware extends LinearOpMode {
         // Reset the cycle clock for the next pass.
         period.reset();
     }
-    public void encoderDrive(double speed, String robotDirection, double inches, double timeoutS) throws InterruptedException{
-        try{
+
+    public void encoderDrive(double speed, String robotDirection, double inches, double timeoutS) throws InterruptedException {
+        try {
             if (opModeIsActive()) {
 
 
@@ -153,24 +149,24 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
                 if (robotDirection == "up") {
                     motor1.setDirection(DcMotorSimple.Direction.REVERSE);
-                    motor2.setDirection(DcMotorSimple.Direction.FORWARD );
-                    motor3.setDirection(DcMotorSimple.Direction.FORWARD );
-                    motor4.setDirection(DcMotorSimple.Direction.REVERSE );
-                }else  if (robotDirection == "down") {
+                    motor2.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor3.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor4.setDirection(DcMotorSimple.Direction.REVERSE);
+                } else if (robotDirection == "down") {
                     motor1.setDirection(DcMotorSimple.Direction.FORWARD);
-                    motor2.setDirection(DcMotorSimple.Direction.REVERSE );
-                    motor3.setDirection(DcMotorSimple.Direction.REVERSE );
-                    motor4.setDirection(DcMotorSimple.Direction.FORWARD );
-                }else  if (robotDirection == "left") {
+                    motor2.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor3.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor4.setDirection(DcMotorSimple.Direction.FORWARD);
+                } else if (robotDirection == "left") {
                     motor1.setDirection(DcMotorSimple.Direction.FORWARD);
-                    motor2.setDirection(DcMotorSimple.Direction.FORWARD );
-                    motor3.setDirection(DcMotorSimple.Direction.REVERSE );
-                    motor4.setDirection(DcMotorSimple.Direction.REVERSE );
-                }else   if (robotDirection == "right") {
+                    motor2.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor3.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor4.setDirection(DcMotorSimple.Direction.REVERSE);
+                } else if (robotDirection == "right") {
                     motor1.setDirection(DcMotorSimple.Direction.REVERSE);
-                    motor2.setDirection(DcMotorSimple.Direction.REVERSE );
-                    motor3.setDirection(DcMotorSimple.Direction.FORWARD );
-                    motor4.setDirection(DcMotorSimple.Direction.FORWARD );
+                    motor2.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor3.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor4.setDirection(DcMotorSimple.Direction.FORWARD);
                 }
 
                 motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -203,19 +199,19 @@ public abstract class Competition_Hardware extends LinearOpMode {
                 motor3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motor4.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                if (robotDirection == "circle left"){
+                if (robotDirection == "circle left") {
                     motor1.setPower(0);
                     motor2.setPower(speed);
                     motor3.setPower(0);
                     motor4.setPower(speed);
 
-                }else  if (robotDirection == "circle right") {
+                } else if (robotDirection == "circle right") {
 
                     motor1.setPower(speed);
                     motor2.setPower(0);
                     motor3.setPower(speed);
                     motor4.setPower(0);
-                }else{
+                } else {
                     motor1.setPower(speed);
                     motor2.setPower(speed);
                     motor3.setPower(speed);
@@ -231,11 +227,11 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
                     // Display it for the driver.
                     telemetry.addData("Status", "Running Encoder Drive");
-                    telemetry.addData("Direction",   robotDirection);
-                    telemetry.addData("motor1",    motor1.getCurrentPosition());
-                    telemetry.addData("motor2",    motor2.getCurrentPosition());
-                    telemetry.addData("motor3",    motor3.getCurrentPosition());
-                    telemetry.addData("motor4",    motor4.getCurrentPosition());
+                    telemetry.addData("Direction", robotDirection);
+                    telemetry.addData("motor1", motor1.getCurrentPosition());
+                    telemetry.addData("motor2", motor2.getCurrentPosition());
+                    telemetry.addData("motor3", motor3.getCurrentPosition());
+                    telemetry.addData("motor4", motor4.getCurrentPosition());
                     telemetry.update();
 
                     // Allow time for other processes to run.
@@ -257,36 +253,51 @@ public abstract class Competition_Hardware extends LinearOpMode {
                 motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             }
-        }catch(Exception e){
-            telemetry.addData("ERROR",    e.toString());
+        } catch (Exception e) {
+            telemetry.addData("ERROR", e.toString());
         }
     }
 
     void driveStick(float x, float y) {
-         
-        speed = Math.abs (x) > Math.abs(y) ? Math.abs(x) : Math.abs(y);
+
+        speed = Math.abs(x) > Math.abs(y) ? Math.abs(x) : Math.abs(y);
         if (y > 10) {
-            if (x > 10){
-                drive ("up right");
-            } else if (x < 10){
-                drive ("up left");
-                
-            }else {
-                drive ("up");
+            if (x > 10) {
+                drive("up right");
+            } else if (x < 10) {
+                drive("up left");
+
+            } else {
+                drive("up");
 
             }
         }
-        if (y < -10){
-            if (x > 10){
-                drive ("down left");
-            } else if (x < 10){
-                drive ("down right");
+        if (y < -10) {
+            if (x > 10) {
+                drive("down left");
+            } else if (x < 10) {
+                drive("down right");
             } else {
-                drive ("down");
+                drive("down");
             }
         }
+        if (x > 10) {
+            if (-10 < y && y < 10) {
+
+                    drive("right");
+            }
+            }
+
+        if (x < -10 ){
+            if (-10 < y && y < 10){
+                drive ("left");
+            }
+        }
+
 
     }
+
+
 
     void drive(String robotDirection){
         try{
