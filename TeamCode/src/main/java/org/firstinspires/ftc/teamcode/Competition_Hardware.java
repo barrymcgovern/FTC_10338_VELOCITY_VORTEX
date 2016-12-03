@@ -99,9 +99,9 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
         // Define and initialize ALL installed servos.
         servo1 = hwMap.servo.get("servo1");
-        servo2 = hwMap.servo.get("servo2");
-        servo1.setPosition(MID_SERVO);
-        servo2.setPosition(MID_SERVO);
+
+
+
 
     }
 
@@ -271,8 +271,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
                 drive("up");
 
             }
-        }
-        if (y < -10) {
+        }else if (y < -10) {
             if (x > 10) {
                 drive("down left");
             } else if (x < 10) {
@@ -280,18 +279,14 @@ public abstract class Competition_Hardware extends LinearOpMode {
             } else {
                 drive("down");
             }
-        }
-        if (x > 10) {
-            if (-10 < y && y < 10) {
+        } else if (x > 10) {
+            drive("right");
 
-                    drive("right");
-            }
-            }
 
-        if (x < -10 ){
-            if (-10 < y && y < 10){
+        }else if (x < -10 ){
+
                 drive ("left");
-            }
+
         }
 
 

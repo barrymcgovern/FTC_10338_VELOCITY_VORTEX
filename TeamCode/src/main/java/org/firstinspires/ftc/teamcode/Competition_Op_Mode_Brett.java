@@ -1,16 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpModeRegistrar;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 /**
- * Created by megan_000 on 11/28/2016.
+ * Created by Brett Meadows on 11/28/2016. :D
  */
-@TeleOp(name="Comp: Main", group= "Pushbot")
+@TeleOp(name="Comp: Main brett", group= "Pushbot")
 
-public class Competition_Op_Mode extends Competition_Hardware {
+public class Competition_Op_Mode_Brett extends Competition_Hardware {
 
     @Override
     public void runOpMode() throws InterruptedException{
@@ -26,29 +24,28 @@ public class Competition_Op_Mode extends Competition_Hardware {
 
         waitForStart();
 
-
         while (opModeIsActive()){
 
             driveStick(gamepad1.left_stick_x, gamepad1.left_stick_y);
 
-            if (gamepad2.left_bumper){
+            if (gamepad2.b){
+                pMotor1.setPower(100);
+                pMotor2.setPower(-100);
+            } else{
+                pMotor1.setPower(0);
+                pMotor2.setPower(0);
+
+            }
+            if (gamepad2.left_bumper) {
                 servo1.setPosition(0);
-            }else if (gamepad2.right_bumper){
+            } else if (gamepad2.right_bumper){
                 servo1.setPosition(180);
-            }
-
-            if (gamepad2.dpad_up){
-                beMotor.setPower(100);
-                pMotor1.setPower(SPIN_SPEED);
-                pMotor2.setPower(-SPIN_SPEED);
-            } else if (gamepad2.dpad_down){
-                beMotor.setPower(-100);
-            } else {
-                beMotor.setPower(0);
-            }
 
             }
+
+
         }
     }
 
+}
 

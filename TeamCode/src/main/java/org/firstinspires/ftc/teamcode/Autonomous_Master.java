@@ -47,9 +47,10 @@ public class Autonomous_Master extends Competition_Hardware {
 
                 //run until sensor is less than 10 cm,  or 6 seconds
 
-                while (rangeSensor.rawUltrasonic() > 10 && (runtime.seconds() < 6)) {
+                while (rangeSensor.rawUltrasonic() > 5 && (runtime.seconds() < 6)) {
                     telemetry.addData("Range_Sensor", rangeSensor.rawUltrasonic());
                     telemetry.update();
+                    speed = 50;
                     // will go left or right, depending on red or blue side
                     if (teamColor == "blue"){
                         drive("left");
@@ -62,15 +63,7 @@ public class Autonomous_Master extends Competition_Hardware {
 
                 // needs to be inside loop
                 // Uses the more specific range sensor to make sure that robot is close enough for color sensor before stopping
-                while (rangeSensor.rawOptical() > 1 && (runtime.seconds() < 10)) {
-                    telemetry.addData("Range_Sensor_Raw", rangeSensor.rawOptical());
-                    if (teamColor == "blue") {
-                        drive("left");
-                    } else
-                        drive("right");
 
-                }
-                drive("stop");
 
                 // will move button pusher
                 // will need timeout and then move back to neutral afterwards
@@ -91,6 +84,7 @@ public class Autonomous_Master extends Competition_Hardware {
                         servo1.setPosition(180);
                     }
                 }
+               break;
 
             }
 
@@ -113,7 +107,9 @@ public class Autonomous_Master extends Competition_Hardware {
             motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            servo1.setPosition(90);
+            telemetry.addData("1", "Servo1_Position", servo1.getPosition());
+            telemetry.addData("2", "MotorTest", motor1.getCurrentPosition());
+
 
 
 

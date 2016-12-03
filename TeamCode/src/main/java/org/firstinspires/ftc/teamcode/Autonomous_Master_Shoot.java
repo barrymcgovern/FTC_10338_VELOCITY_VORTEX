@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Created by kids on 11/3/2016.
  *
  */
-@Autonomous(name="Comp: Autonomous", group="Pushbot")
+@Autonomous(name="Comp: Autonomous_Master", group="Pushbot")
 
 public class Autonomous_Master_Shoot extends Competition_Hardware {
 
@@ -26,6 +26,7 @@ public class Autonomous_Master_Shoot extends Competition_Hardware {
             waitForStart();
 
             while (opModeIsActive()) {
+
                     pMotor1.setPower(SPIN_SPEED);
                     pMotor2.setPower(-SPIN_SPEED);
 
