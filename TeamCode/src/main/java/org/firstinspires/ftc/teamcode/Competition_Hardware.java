@@ -38,7 +38,8 @@ public abstract class Competition_Hardware extends LinearOpMode {
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double DRIVE_SPEED = 0.4;
     static final double TURN_SPEED = 0.5;
-    static final double SPIN_SPEED = 90;
+    final double SPIN_SPEED = .9;
+    final double ELEVATOR_SPEED = .9;
 
 
     public Servo servo1 = null;
@@ -99,6 +100,8 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
         // Define and initialize ALL installed servos.
         servo1 = hwMap.servo.get("servo1");
+
+        runtime.reset();
 
 
 
