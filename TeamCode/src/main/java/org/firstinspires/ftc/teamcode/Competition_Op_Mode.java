@@ -29,14 +29,17 @@ public class Competition_Op_Mode extends Competition_Hardware {
 
         while (opModeIsActive()){
 
+            //A program that will control driving direction and speed using left joystick
             driveStick(gamepad1.left_stick_x, gamepad1.left_stick_y);
 
+            //Uses servo for claiming beacons
             if (gamepad2.left_bumper){
                 servo1.setPosition(0);
             }else if (gamepad2.right_bumper){
                 servo1.setPosition(180);
             }
 
+            //Dpad controls pitching machine and ball elevator
             if (gamepad2.dpad_up){
                 beMotor.setPower(100);
                 pMotor1.setPower(SPIN_SPEED);

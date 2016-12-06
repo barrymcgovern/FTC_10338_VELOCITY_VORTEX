@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * Created by kids on 11/3/2016.
- *
+ * The main autonomous program that will claim the beacon for either red or blue
  */
 @Autonomous(name="Comp: Autonomous", group="Pushbot")
 
@@ -65,7 +65,7 @@ public class Autonomous_Master extends Competition_Hardware {
                 // Uses the more specific range sensor to make sure that robot is close enough for color sensor before stopping
 
 
-                // will move button pusher
+                // will move button pusher if beacon is red
                 // will need timeout and then move back to neutral afterwards
                 if (colorSensor.red() > colorSensor.blue()) {
                     telemetry.addData("1", "Red", colorSensor.red());
@@ -76,6 +76,7 @@ public class Autonomous_Master extends Competition_Hardware {
 
                         }
                 }
+                //will move button pusher if beacon is blue
                 if (colorSensor.blue() > colorSensor.red()){
                     telemetry.addData("1", "Blue", colorSensor.blue());
                     if (teamColor == "blue"){
@@ -106,6 +107,8 @@ public class Autonomous_Master extends Competition_Hardware {
             motor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            servo1.setPosition(90);
 
             telemetry.addData("1", "Servo1_Position", servo1.getPosition());
             telemetry.addData("2", "MotorTest", motor1.getCurrentPosition());

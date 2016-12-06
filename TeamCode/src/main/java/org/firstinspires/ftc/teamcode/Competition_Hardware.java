@@ -264,32 +264,35 @@ public abstract class Competition_Hardware extends LinearOpMode {
     void driveStick(float x, float y) {
 
         speed = Math.abs(x) > Math.abs(y) ? Math.abs(x) : Math.abs(y);
-        if (y > 10) {
-            if (x > 10) {
+
+        if (y > .10) {
+            if (x > .10) {
                 drive("up right");
-            } else if (x < 10) {
+            } else if (x < -.10) {
                 drive("up left");
 
             } else {
                 drive("up");
 
             }
-        }else if (y < -10) {
-            if (x > 10) {
+        }else if (y < -.10) {
+            if (x > .10) {
                 drive("down left");
-            } else if (x < 10) {
+            } else if (x < -.10) {
                 drive("down right");
             } else {
                 drive("down");
             }
-        } else if (x > 10) {
+        } else if (x > .10) {
             drive("right");
 
 
-        }else if (x < -10 ){
+        }else if (x < -.10 ){
 
                 drive ("left");
 
+        }else{
+            drive("stop");
         }
 
 
