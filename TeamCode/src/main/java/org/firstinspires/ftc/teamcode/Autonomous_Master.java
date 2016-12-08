@@ -34,8 +34,8 @@ public class Autonomous_Master extends Competition_Hardware {
                 telemetry.addData("motor4", motor4.getCurrentPosition());
                 telemetry.update();
 
-                // Has the robot go forward at a set speed, in a set direction, for 10 inches with a 5 second timeout
-                encoderDrive(DRIVE_SPEED, "up", 10, 5);
+                // Has the robot go forward at a set speed, in a set direction, for 14 inches with a 5 second timeout
+                encoderDrive(DRIVE_SPEED, "left", 14.5, 5);
 
                 runtime.reset();
 
@@ -44,22 +44,23 @@ public class Autonomous_Master extends Competition_Hardware {
                 motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                speed = .2;
 
-                //run until sensor is less than 10 cm,  or 6 seconds
+                //run until sensor is less than 5 cm,  or 6 seconds
 
-                while (rangeSensor.rawUltrasonic() > 5 && (runtime.seconds() < 6)) {
+                while (rangeSensor.rawUltrasonic() > 11 && (runtime.seconds() < 6)) {
                     telemetry.addData("Range_Sensor", rangeSensor.rawUltrasonic());
                     telemetry.update();
-                    speed = 50;
                     // will go left or right, depending on red or blue side
                     if (teamColor == "blue"){
-                        drive("left");
+                        drive("down");
                     }
                     else {
-                        drive("right");
+                        drive("up");
                     }
 
                 }
+                drive("stop");
 
                 // needs to be inside loop
                 // Uses the more specific range sensor to make sure that robot is close enough for color sensor before stopping

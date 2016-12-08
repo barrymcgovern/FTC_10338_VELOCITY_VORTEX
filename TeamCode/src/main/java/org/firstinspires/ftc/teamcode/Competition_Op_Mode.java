@@ -23,7 +23,7 @@ public class Competition_Op_Mode extends Competition_Hardware {
         telemetry.addData("Motor 2", motor2.getCurrentPosition());
         telemetry.addData("Motor 3", motor3.getCurrentPosition());
         telemetry.addData("Motor 4", motor4.getCurrentPosition());
-
+        telemetry.update();
         waitForStart();
 
 
@@ -49,7 +49,7 @@ public class Competition_Op_Mode extends Competition_Hardware {
             } else {
                 beMotor.setPower(0);
             }
-
+            telemetry.update();
             }
         }
     }

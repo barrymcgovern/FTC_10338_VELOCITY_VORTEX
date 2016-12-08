@@ -26,9 +26,8 @@ package org.firstinspires.ftc.teamcode;
             waitForStart();
             while (opModeIsActive()){
                 //Uses the encoders to move robot _____ inches
-                encoderDrive(DRIVE_SPEED, "up", 10, 5);
-
-                break;
+                encoderDrive(DRIVE_SPEED, "up", 20, 10);
+               break;
             }
         } catch (Exception e) {
             telemetry.addData("runOpMode ERROR", e.toString());

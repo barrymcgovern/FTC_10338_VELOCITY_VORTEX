@@ -36,7 +36,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double DRIVE_SPEED = 0.4;
+    static final double DRIVE_SPEED = 0.2;
     static final double TURN_SPEED = 0.5;
     final double SPIN_SPEED = .9;
     final double ELEVATOR_SPEED = .9;
@@ -128,7 +128,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
         period.reset();
     }
 
-    public void encoderDrive(double speed, String robotDirection, double inches, double timeoutS) throws InterruptedException {
+    public void encoderDrive(double eSpeed, String robotDirection, double inches, double timeoutS) throws InterruptedException {
         try {
             if (opModeIsActive()) {
 
@@ -204,21 +204,21 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
                 if (robotDirection == "circle left") {
                     motor1.setPower(0);
-                    motor2.setPower(speed);
+                    motor2.setPower(eSpeed);
                     motor3.setPower(0);
-                    motor4.setPower(speed);
+                    motor4.setPower(eSpeed);
 
                 } else if (robotDirection == "circle right") {
 
-                    motor1.setPower(speed);
+                    motor1.setPower(eSpeed);
                     motor2.setPower(0);
-                    motor3.setPower(speed);
+                    motor3.setPower(eSpeed);
                     motor4.setPower(0);
                 } else {
-                    motor1.setPower(speed);
-                    motor2.setPower(speed);
-                    motor3.setPower(speed);
-                    motor4.setPower(speed);
+                    motor1.setPower(eSpeed);
+                    motor2.setPower(eSpeed);
+                    motor3.setPower(eSpeed);
+                   motor4.setPower(eSpeed);
                 }
                 // keep looping while we are still active, and there is time left, and both motors are running.
 
@@ -231,10 +231,10 @@ public abstract class Competition_Hardware extends LinearOpMode {
                     // Display it for the driver.
                     telemetry.addData("Status", "Running Encoder Drive");
                     telemetry.addData("Direction", robotDirection);
-                    telemetry.addData("motor1", motor1.getCurrentPosition());
-                    telemetry.addData("motor2", motor2.getCurrentPosition());
-                    telemetry.addData("motor3", motor3.getCurrentPosition());
-                    telemetry.addData("motor4", motor4.getCurrentPosition());
+                    telemetry.addData("motor1", motor1.getPower());
+                    telemetry.addData("motor2", motor2.getPower());
+                    telemetry.addData("motor3", motor3.getPower());
+                    telemetry.addData("motor4", motor4.getPower());
                     telemetry.update();
 
                     // Allow time for other processes to run.
@@ -248,6 +248,11 @@ public abstract class Competition_Hardware extends LinearOpMode {
                 motor2.setPower(0);
                 motor3.setPower(0);
                 motor4.setPower(0);
+
+                motor1.setDirection(DcMotorSimple.Direction.FORWARD);
+                motor2.setDirection(DcMotorSimple.Direction.FORWARD);
+                motor3.setDirection(DcMotorSimple.Direction.FORWARD);
+                motor4.setDirection(DcMotorSimple.Direction.FORWARD);
 
                 // Turn off RUN_TO_POSITION
                 motor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -303,6 +308,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
     void drive(String robotDirection){
         try{
 
+            telemetry.addData("direction",robotDirection);
 
             if (robotDirection == "up") {
                 motor1.setPower(-speed);
@@ -369,6 +375,12 @@ public abstract class Competition_Hardware extends LinearOpMode {
                 motor3.setPower(0);
                 motor4.setPower(0);
             }
+
+            telemetry.addData("motor1", motor1.getPower());
+            telemetry.addData("motor2", motor2.getPower());
+            telemetry.addData("motor3", motor3.getPower());
+            telemetry.addData("motor4", motor4.getPower());
+
         }  catch (Exception p_exception) {
             //   telemetry.addData("98", "drive error" + p_exception.toString());
         }
