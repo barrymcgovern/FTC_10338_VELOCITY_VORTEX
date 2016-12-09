@@ -7,12 +7,15 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Created by kids on 11/3/2016.
  * The main autonomous program that will claim the beacon for either red or blue
  */
-@Autonomous(name="Comp: Autonomous", group="Pushbot")
+
 
 public class Autonomous_Master extends Competition_Hardware {
 
     @Override
     public void runOpMode() throws InterruptedException {
+
+    }
+    public void runMaster(){
         try {
             init(hardwareMap);
 
@@ -35,7 +38,7 @@ public class Autonomous_Master extends Competition_Hardware {
                 telemetry.update();
 
                 // Has the robot go forward at a set speed, in a set direction, for 14 inches with a 5 second timeout
-                encoderDrive(DRIVE_SPEED, "left", 14.5, 5);
+                encoderDrive(DRIVE_SPEED, "left", 15.5, 5);
 
                 runtime.reset();
 
@@ -48,7 +51,7 @@ public class Autonomous_Master extends Competition_Hardware {
 
                 //run until sensor is less than 5 cm,  or 6 seconds
 
-                while (rangeSensor.rawUltrasonic() > 11 && (runtime.seconds() < 6)) {
+                while (rangeSensor.rawUltrasonic() > 15 && (runtime.seconds() < 6)) {
                     telemetry.addData("Range_Sensor", rangeSensor.rawUltrasonic());
                     telemetry.update();
                     // will go left or right, depending on red or blue side
@@ -75,7 +78,7 @@ public class Autonomous_Master extends Competition_Hardware {
                     } else {
                         servo1.setPosition(0);
 
-                        }
+                    }
                 }
                 //will move button pusher if beacon is blue
                 if (colorSensor.blue() > colorSensor.red()){
@@ -86,7 +89,7 @@ public class Autonomous_Master extends Competition_Hardware {
                         servo1.setPosition(180);
                     }
                 }
-               break;
+                break;
 
             }
 
