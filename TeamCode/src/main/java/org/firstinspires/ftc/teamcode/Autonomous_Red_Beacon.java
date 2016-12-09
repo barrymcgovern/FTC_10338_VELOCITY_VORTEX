@@ -10,9 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 public class Autonomous_Red_Beacon extends Autonomous_Master{
     @Override
     public void runOpMode() throws InterruptedException {
-       while (opModeIsActive()){
-           teamColor = "red";
+        teamColor = "red";
            runMaster();
-       }
     }
 }

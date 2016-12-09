@@ -32,6 +32,16 @@ public class Competition_Op_Mode extends Competition_Hardware {
             //A program that will control driving direction and speed using left joystick
             driveStick(gamepad1.left_stick_x, gamepad1.left_stick_y);
 
+            if (gamepad1.right_stick_x > 0){
+                speed = (gamepad1.right_stick_x);
+                drive("circle_right");
+            } else if (gamepad1.right_stick_x < 0){
+                speed = (gamepad1.right_stick_x);
+                drive("circle_left");
+            } else{
+                driveStick(gamepad1.left_stick_x, gamepad1.left_stick_y);
+            }
+
             //Uses servo for claiming beacons
             if (gamepad2.left_bumper){
                 servo1.setPosition(0);
