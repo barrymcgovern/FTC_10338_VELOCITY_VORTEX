@@ -38,7 +38,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double DRIVE_SPEED = 0.2;
     static final double TURN_SPEED = 0.5;
-    final double SPIN_SPEED = .9;
+    final double SPIN_SPEED = .7;
     final double ELEVATOR_SPEED = .9;
 
 

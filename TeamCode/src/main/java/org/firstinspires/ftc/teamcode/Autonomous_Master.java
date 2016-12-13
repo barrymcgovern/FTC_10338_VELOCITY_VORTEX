@@ -51,7 +51,7 @@ public class Autonomous_Master extends Competition_Hardware {
 
                 //run until sensor is less than 5 cm,  or 6 seconds
 
-                while (rangeSensor.rawUltrasonic() > 15 && (runtime.seconds() < 6)) {
+                while (rangeSensor.rawUltrasonic() > 17 && (runtime.seconds() < 6)) {
                     telemetry.addData("Range_Sensor", rangeSensor.rawUltrasonic());
                     telemetry.update();
                     // will go left or right, depending on red or blue side
