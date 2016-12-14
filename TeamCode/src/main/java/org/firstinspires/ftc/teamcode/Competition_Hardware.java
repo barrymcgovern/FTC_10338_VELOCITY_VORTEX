@@ -38,7 +38,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double DRIVE_SPEED = 0.2;
     static final double TURN_SPEED = 0.5;
-    final double SPIN_SPEED = .7;
+    final double SPIN_SPEED = .4;
     final double ELEVATOR_SPEED = .9;
 
 
@@ -268,7 +268,9 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
     void driveStick(float x, float y) {
 
-        speed = Math.abs(x) > Math.abs(y) ? Math.abs(x) : Math.abs(y);
+        speed = (Math.abs(x) > Math.abs(y) ? Math.abs(x) : Math.abs(y))/2;
+        telemetry.addData("y", y);
+        telemetry.addData("x", x);
 
         if (y > .10) {
             if (x > .10) {

@@ -26,7 +26,8 @@ package org.firstinspires.ftc.teamcode;
             waitForStart();
             while (opModeIsActive()){
                 //Uses the encoders to move robot _____ inches
-                encoderDrive(DRIVE_SPEED, "up", 20, 10);
+                encoderDrive(DRIVE_SPEED, "left", 5, 10);
+                encoderDrive(DRIVE_SPEED, "up", 5, 10);
                break;
             }
         } catch (Exception e) {

@@ -38,7 +38,11 @@ public class Autonomous_Master extends Competition_Hardware {
                 telemetry.update();
 
                 // Has the robot go forward at a set speed, in a set direction, for 14 inches with a 5 second timeout
-                encoderDrive(DRIVE_SPEED, "left", 15.5, 5);
+                if (teamColor == "blue"){
+                    encoderDrive(DRIVE_SPEED, "left", 15.5, 5);
+                } else {
+                    encoderDrive(DRIVE_SPEED, "right", 15.5, 5);
+                }
 
                 runtime.reset();
 
@@ -56,10 +60,10 @@ public class Autonomous_Master extends Competition_Hardware {
                     telemetry.update();
                     // will go left or right, depending on red or blue side
                     if (teamColor == "blue"){
-                        drive("down");
+                        drive("up");
                     }
                     else {
-                        drive("up");
+                        drive("down");
                     }
 
                 }
@@ -74,24 +78,28 @@ public class Autonomous_Master extends Competition_Hardware {
                 if (colorSensor.red() > colorSensor.blue()) {
                     telemetry.addData("1", "Red", colorSensor.red());
                     if (teamColor == "blue") {
-                        servo1.setPosition(180);
+                       encoderDrive(DRIVE_SPEED, "left", 1, 10);
+                        encoderDrive(DRIVE_SPEED, "up", 1, 12);
                     } else {
-                        servo1.setPosition(0);
+                        encoderDrive(DRIVE_SPEED, "right", 1, 10);
+                        encoderDrive(DRIVE_SPEED, "up", 1, 12);
 
                     }
-                }
-                //will move button pusher if beacon is blue
-                if (colorSensor.blue() > colorSensor.red()){
+                }else if (colorSensor.blue() > colorSensor.red()){
                     telemetry.addData("1", "Blue", colorSensor.blue());
                     if (teamColor == "blue"){
-                        servo1.setPosition(0);
+                        encoderDrive(DRIVE_SPEED, "right", 1, 10);
+                        encoderDrive(DRIVE_SPEED, "up", 1, 12);
                     } else {
-                        servo1.setPosition(180);
+                        encoderDrive(DRIVE_SPEED, "left", 1, 10);
+                        encoderDrive(DRIVE_SPEED, "up", 1, 12);
                     }
                 }
+                encoderDrive(DRIVE_SPEED, "down", 16 ,14 );
                 break;
 
             }
+
 
         } catch (Exception e) {
             telemetry.addData("runOpMode ERROR", e.toString());
@@ -112,7 +120,6 @@ public class Autonomous_Master extends Competition_Hardware {
             motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            servo1.setPosition(90);
 
             telemetry.addData("1", "Servo1_Position", servo1.getPosition());
             telemetry.addData("2", "MotorTest", motor1.getCurrentPosition());
