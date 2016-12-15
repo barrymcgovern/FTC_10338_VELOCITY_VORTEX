@@ -26,6 +26,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
     public DcMotor pMotor1 = null;
     public DcMotor pMotor2 = null;
     public DcMotor beMotor = null;
+    public DcMotor beMotr2 = null;
 
     double speed;
 
@@ -73,6 +74,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
         pMotor1 = hwMap.dcMotor.get("pMotor1");
         pMotor2 = hwMap.dcMotor.get("pMotor2");
         beMotor = hwMap.dcMotor.get("beMotor");
+        beMotr2 = hwMap.dcMotor.get("beMotor2");
 
 
         // Set to FORWARD
