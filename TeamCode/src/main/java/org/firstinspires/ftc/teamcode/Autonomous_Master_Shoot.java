@@ -33,7 +33,6 @@ public class Autonomous_Master_Shoot extends Competition_Hardware {
                 //Ball elevator is powered feeding Pitching Machine with particles
                 //Will stop motors after 5 seconds of running
                     beMotor.setPower(100);
-                    beMotr2.setPower(100);
                     pMotor1.setPower(SPIN_SPEED);
                     pMotor2.setPower(-SPIN_SPEED);
 
