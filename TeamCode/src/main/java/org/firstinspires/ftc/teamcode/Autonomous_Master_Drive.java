@@ -4,7 +4,8 @@ package org.firstinspires.ftc.teamcode;
         import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
- * Created by kids on 12/5/2016.
+ * Team: Dark Matters #10338
+ * Velocity Vortex
  * Autonomous program for knocking the Cap Ball and parking the robot on the Center Vortex base in the event that the other
  * autonomous programs cannot be used.
  */

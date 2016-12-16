@@ -4,7 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
- * Created by kids on 11/3/2016.
+ * Team: Dark Matters #10338
+ * Velocity Vortex
  * This autonomous will use the Pitching machine and human aim to propel particles into the Center Vortex in the event
  * that the other autonomous programs cannot be used.
  */

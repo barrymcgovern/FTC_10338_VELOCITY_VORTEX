@@ -62,6 +62,7 @@ public class Competition_Op_Mode extends Competition_Hardware {
                 beMotor.setPower(0);
 
             }
+            //
 
             if (gamepad2.right_stick_y < 0){
                 servo1.setPosition(1);

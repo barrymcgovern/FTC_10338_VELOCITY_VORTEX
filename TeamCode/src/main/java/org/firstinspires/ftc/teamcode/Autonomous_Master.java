@@ -4,7 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
- * Created by kids on 11/3/2016.
+ * Team: Dark Matters #10338
+ * Velocity Vortex
  * The main autonomous program that will claim the beacon for either red or blue
  */
 
