@@ -61,11 +61,12 @@ public class Competition_Op_Mode extends Competition_Hardware {
             }
 
             if (gamepad2.right_stick_y < 0){
-
+                servo1.setPosition(1);
                 pMotor1.setPower(SPIN_SPEED);
                 pMotor2.setPower(-SPIN_SPEED);
 
             } else {
+                servo1.setPosition(.5);
                 pMotor1.setPower(0);
                 pMotor2.setPower(0);
             }
