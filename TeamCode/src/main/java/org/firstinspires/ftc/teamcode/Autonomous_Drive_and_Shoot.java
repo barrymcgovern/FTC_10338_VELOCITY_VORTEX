@@ -16,13 +16,14 @@ public class Autonomous_Drive_and_Shoot extends Competition_Hardware {
             telemetry.addData("Status", "Starting");    //
             telemetry.update();
             initSystem();
-            while (opModeIsActive() && runtime.seconds() > 5){
-                beMotor.setPower(100);
+            while (opModeIsActive() && runtime.seconds() > 10){
+                beMotor.setPower(-100);
                 pMotor1.setPower(SPIN_SPEED);
                 pMotor2.setPower(-SPIN_SPEED);
 
                 encoderDrive(DRIVE_SPEED, "left", 5, 10);
                 encoderDrive(DRIVE_SPEED, "up", 5, 10);
+
                 break;
             }
         } catch (Exception e) {

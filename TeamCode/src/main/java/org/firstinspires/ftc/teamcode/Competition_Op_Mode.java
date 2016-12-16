@@ -50,14 +50,14 @@ public class Competition_Op_Mode extends Competition_Hardware {
 
             //Dpad controls pitching machine and ball elevator
             if (gamepad2.left_stick_y < 0){
-                beMotor.setPower(100);
+                beMotor.setPower(-100);
 
             } else if (gamepad2.left_stick_y > 0){
-                beMotor.setPower(-100);
+                beMotor.setPower(100);
 
             } else {
                 beMotor.setPower(0);
-                beMotr2.setPower(0);
+
             }
 
             if (gamepad2.right_stick_y < 0){
