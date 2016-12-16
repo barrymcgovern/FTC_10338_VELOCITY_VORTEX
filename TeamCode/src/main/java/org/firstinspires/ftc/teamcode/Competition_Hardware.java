@@ -149,7 +149,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
                 motor3.setPower(0);
                 motor4.setPower(0);
 
-
+                // change directions so encoders are all positive
                 if (robotDirection == "up") {
                     motor1.setDirection(DcMotorSimple.Direction.REVERSE);
                     motor2.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -249,6 +249,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
                 motor3.setPower(0);
                 motor4.setPower(0);
 
+                // reset directions
                 motor1.setDirection(DcMotorSimple.Direction.FORWARD);
                 motor2.setDirection(DcMotorSimple.Direction.FORWARD);
                 motor3.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -268,6 +269,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
     void driveStick(float x, float y) {
 
+        // speed is greater value of x or y
         speed = (Math.abs(x) > Math.abs(y) ? Math.abs(x) : Math.abs(y))/2;
         telemetry.addData("y", y);
         telemetry.addData("x", x);

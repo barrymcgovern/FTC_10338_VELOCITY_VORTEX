@@ -6,7 +6,18 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 /**
- * Created by megan_000 on 11/28/2016.
+ * Team: Dark Matters #10338
+ * Velocity Vortex Competition
+ *
+ * Competition Op Mode
+ * Our primary program for running tele op mode
+ * GamePad 1 usse stick to drive.
+ *  left stick drives up down right left
+ *  right stick will spin the robot
+ * Gamepad 2 operates the elevator and pitching machine
+ *
+ *
+ *
  */
 @TeleOp(name="Comp: Main", group= "Pushbot")
 
@@ -41,12 +52,6 @@ public class Competition_Op_Mode extends Competition_Hardware {
                 driveStick(gamepad1.left_stick_x, gamepad1.left_stick_y);
             }
 
-            //Uses servo for claiming beacons
-            if (gamepad2.left_bumper){
-                servo1.setPosition(0);
-            }else if (gamepad2.right_bumper){
-                servo1.setPosition(180);
-            }
 
             //Dpad controls pitching machine and ball elevator
             if (gamepad2.left_stick_y < 0){
