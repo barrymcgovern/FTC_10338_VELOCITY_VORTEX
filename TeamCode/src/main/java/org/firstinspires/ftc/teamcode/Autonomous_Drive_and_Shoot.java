@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Velocity Vortex
  * A lower scoring autonomous created in case another team has a similar main autonomous.
  * Scores 15 points.
+ * 5 points for each particle scored-up to 2 that can be stored
+ * 5 points for parking partially on the base.
  */
 
 
@@ -15,22 +17,28 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class Autonomous_Drive_and_Shoot extends Competition_Hardware {
     @Override
     public void runOpMode() throws InterruptedException {
+    }
+    public void runDriveShoot(){
         try {
             init(hardwareMap);
             //Pulls ball up with ball elevator and then pitches with a 10 second timeout.
             telemetry.addData("Status", "Starting");
             telemetry.update();
             initSystem();
-            while (opModeIsActive() && runtime.seconds() > 10){
-                if(runtime.seconds() >5) {
+            while (opModeIsActive()){
+                while (runtime.seconds() < 5) {
                     beMotor.setPower(-100);
                     pMotor1.setPower(SPIN_SPEED);
                     pMotor2.setPower(-SPIN_SPEED);
                     servo1.setPosition(1);
 
                 }
-                encoderDrive(DRIVE_SPEED, "left", 5, 10);
-                encoderDrive(DRIVE_SPEED, "up", 5, 10);
+                if (teamColor == "blue") {
+                    encoderDrive(DRIVE_SPEED, "left", 17, 10);
+
+                } else {
+                    encoderDrive(DRIVE_SPEED, "right", 17, 10);
+                }
 
                 break;
             }

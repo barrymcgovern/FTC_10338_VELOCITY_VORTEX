@@ -7,6 +7,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Team: Dark Matters #10338
  * Velocity Vortex
  * The main autonomous program that will claim the beacon for either red or blue
+ * Claims a beacon for 30 points
+ * Knocks off cap ball for 5 points
+ * Partially parks on base for 5 points
  */
 
 

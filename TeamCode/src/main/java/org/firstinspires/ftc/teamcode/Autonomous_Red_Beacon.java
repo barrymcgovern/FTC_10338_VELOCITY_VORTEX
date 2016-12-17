@@ -10,6 +10,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * Competition Op Mode
  * Our highest scoring program specific to gaining red points.
  * Scores 40 points at most
+ * 30 points for claiming a beacon
+ * 5 points for knocking cap ball off base
+ * 5 points for parking partially on base
  *
  */
 @Autonomous(name="Comp: Red Beacon", group="Pushbot")

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+        import com.qualcomm.hardware.adafruit.BNO055IMU;
         import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
         import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -8,11 +9,18 @@ package org.firstinspires.ftc.teamcode;
  * Velocity Vortex
  * Autonomous program for knocking the Cap Ball and parking the robot on the Center Vortex base in the event that the other
  * autonomous programs cannot be used.
+ * 10 points total
+ * Knocks off cap ball for 5 points
+ * Partially parks on base
  */
 @Autonomous(name="Comp: Autonomous_Master_Drive", group="Pushbot")
         public class Autonomous_Master_Drive extends Competition_Hardware {
     @Override
     public void runOpMode() throws InterruptedException {
+    }
+
+    public void runDrive(){
+
         try {
             init(hardwareMap);
 
@@ -20,22 +28,27 @@ package org.firstinspires.ftc.teamcode;
             telemetry.update();
 
 
-
             initSystem(); // See initSystem below
 
             // Wait for the game to start (driver presses PLAY)
             waitForStart();
-            while (opModeIsActive()){
+            while (opModeIsActive()) {
                 //Uses the encoders to move robot _____ inches
-                encoderDrive(DRIVE_SPEED, "left", 5, 10);
-                encoderDrive(DRIVE_SPEED, "up", 5, 10);
-               break;
+                if (teamColor == "blue") {
+                    encoderDrive(DRIVE_SPEED, "left", 16, 10);
+                } else {
+                    encoderDrive(DRIVE_SPEED, "right", 16, 10);
+                }
+
+
+                break;
             }
         } catch (Exception e) {
             telemetry.addData("runOpMode ERROR", e.toString());
             telemetry.update();
         }
     }
+
     public void initSystem() {
         try {
             // At the beginning of autonomous program, the encoders on the motors are reset

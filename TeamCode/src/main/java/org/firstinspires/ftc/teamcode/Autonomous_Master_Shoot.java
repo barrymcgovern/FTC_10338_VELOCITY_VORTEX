@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Velocity Vortex
  * This autonomous will use the Pitching machine and human aim to propel particles into the Center Vortex in the event
  * that the other autonomous programs cannot be used.
+ * 5 points for each particle shot-we can store and shoot two at a time
  */
 @Autonomous(name="Comp: Autonomous_Master_Shoot", group="Pushbot")
 
