@@ -1,8 +1,19 @@
 package org.firstinspires.ftc.teamcode;
 
 /**
- * Created by kids on 11/3/2016.
+ * Team: Dark Matters #10338
+ * Velocity Vortex
+ * Hardware definitions
+ * 7 dc motors - 4 drive, 2 picthing machine, 1 elevator
+ * 1 servo
+ * color sensor
+ * range finder
+ * drive functions
+ *  encoderDrive
+ *  driveStick
+ *  drive
  */
+
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
