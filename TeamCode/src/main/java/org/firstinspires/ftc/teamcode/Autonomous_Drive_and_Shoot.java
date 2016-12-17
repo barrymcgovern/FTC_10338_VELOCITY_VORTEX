@@ -17,20 +17,24 @@ public class Autonomous_Drive_and_Shoot extends Competition_Hardware {
     public void runOpMode() throws InterruptedException {
         try {
             init(hardwareMap);
-            //Pulls ball up with ball elevator and then pitches with 5 second intervals
+            //Pulls ball up with ball elevator and then pitches with a 10 second timeout.
             telemetry.addData("Status", "Starting");
             telemetry.update();
             initSystem();
             while (opModeIsActive() && runtime.seconds() > 10){
-                beMotor.setPower(-100);
-                pMotor1.setPower(SPIN_SPEED);
-                pMotor2.setPower(-SPIN_SPEED);
+                if(runtime.seconds() >5) {
+                    beMotor.setPower(-100);
+                    pMotor1.setPower(SPIN_SPEED);
+                    pMotor2.setPower(-SPIN_SPEED);
+                    servo1.setPosition(1);
 
+                }
                 encoderDrive(DRIVE_SPEED, "left", 5, 10);
                 encoderDrive(DRIVE_SPEED, "up", 5, 10);
 
                 break;
             }
+
         } catch (Exception e) {
             telemetry.addData("runOpMode ERROR", e.toString());
             telemetry.update();

@@ -11,16 +11,16 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  *
  * Competition Op Mode
  * Our primary program for running tele op mode
- * GamePad 1 usse stick to drive.
+ * GamePad 1 uses stick to drive.
  *  left stick drives up down right left
  *  right stick will spin the robot
- * Gamepad 2 operates the elevator and pitching machine
+ * GamePad 2 operates the elevator and pitching machine
  *
  *
  *
  */
 @TeleOp(name="Comp: Main", group= "Pushbot")
-
+//Hardware with circling and manipulator controls.
 public class Competition_Op_Mode extends Competition_Hardware {
 
     @Override

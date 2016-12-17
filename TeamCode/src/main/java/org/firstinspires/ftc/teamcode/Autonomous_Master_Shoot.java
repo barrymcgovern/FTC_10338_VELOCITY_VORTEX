@@ -40,6 +40,8 @@ public class Autonomous_Master_Shoot extends Competition_Hardware {
 
 
             }
+
+            //Pushes ball into pitching machine
             servo1.setPosition(.5);
 
 

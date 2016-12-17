@@ -18,7 +18,7 @@ import java.security.PublicKey;
 
 
 public abstract class Competition_Hardware extends LinearOpMode {
-    /* basic hardware for deom */
+    /* basic hardware for demo */
     public DcMotor motor1 = null;
     public DcMotor motor2 = null;
     public DcMotor motor3 = null;
@@ -150,6 +150,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
                 motor4.setPower(0);
 
                 // change directions so encoders are all positive
+                //Shows all possible directions and controls.
                 if (robotDirection == "up") {
                     motor1.setDirection(DcMotorSimple.Direction.REVERSE);
                     motor2.setDirection(DcMotorSimple.Direction.FORWARD);
