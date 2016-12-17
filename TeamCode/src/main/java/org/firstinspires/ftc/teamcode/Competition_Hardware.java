@@ -38,7 +38,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double DRIVE_SPEED = 0.2;
     static final double TURN_SPEED = 0.5;
-    final double SPIN_SPEED = .4;
+    final double SPIN_SPEED = .85;
     final double ELEVATOR_SPEED = .9;
 
 
@@ -172,6 +172,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
                     motor3.setDirection(DcMotorSimple.Direction.FORWARD);
                     motor4.setDirection(DcMotorSimple.Direction.FORWARD);
                 }
+                //Resets encoders
 
                 motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -182,6 +183,8 @@ public abstract class Competition_Hardware extends LinearOpMode {
                 motor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                //Getting position of each driving motor
 
                 currentPosMotor1 = motor1.getCurrentPosition();
                 currentPosMotor2 = motor2.getCurrentPosition();
@@ -202,7 +205,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
                 motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motor3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motor4.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
+                //sets motors needed to make robot go different directions
                 if (robotDirection == "circle left") {
                     motor1.setPower(0);
                     motor2.setPower(eSpeed);
@@ -271,10 +274,11 @@ public abstract class Competition_Hardware extends LinearOpMode {
     void driveStick(float x, float y) {
 
         // speed is greater value of x or y
+        //Uses the value of the joystick like the direction of motion does, only to set speed and divides it in half
         speed = (Math.abs(x) > Math.abs(y) ? Math.abs(x) : Math.abs(y))/2;
         telemetry.addData("y", y);
         telemetry.addData("x", x);
-
+        //One program to combine 8 directions of motion on one joystick using ranges of x and y values
         if (y > .10) {
             if (x > .10) {
                 drive("up right");
@@ -314,6 +318,9 @@ public abstract class Competition_Hardware extends LinearOpMode {
         try{
 
             telemetry.addData("direction",robotDirection);
+            //sets speed needed for motors to run different directions
+            //Uses four motor to move robot ten different directions
+            //Negative speed moves motor backwards and positive speed moves motor forward
 
             if (robotDirection == "up") {
                 motor1.setPower(-speed);

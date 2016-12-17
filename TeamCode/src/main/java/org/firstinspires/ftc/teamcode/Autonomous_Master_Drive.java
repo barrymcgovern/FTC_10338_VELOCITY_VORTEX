@@ -13,7 +13,7 @@ package org.firstinspires.ftc.teamcode;
  * Knocks off cap ball for 5 points
  * Partially parks on base
  */
-@Autonomous(name="Comp: Autonomous_Master_Drive", group="Pushbot")
+//@Autonomous(name="Comp: Autonomous_Master_Drive", group="Pushbot")
         public class Autonomous_Master_Drive extends Competition_Hardware {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -33,7 +33,7 @@ package org.firstinspires.ftc.teamcode;
             // Wait for the game to start (driver presses PLAY)
             waitForStart();
             while (opModeIsActive()) {
-                //Uses the encoders to move robot _____ inches
+                //Uses the encoders to move robot 16 centimeters depending on alliance color
                 if (teamColor == "blue") {
                     encoderDrive(DRIVE_SPEED, "left", 16, 10);
                 } else {

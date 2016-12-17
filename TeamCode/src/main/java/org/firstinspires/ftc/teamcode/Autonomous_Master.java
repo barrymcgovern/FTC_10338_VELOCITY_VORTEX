@@ -57,7 +57,7 @@ public class Autonomous_Master extends Competition_Hardware {
                 motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 speed = .2;
 
-                //run until sensor is less than 5 cm,  or 6 seconds
+                //run until sensor is less than 17 cm,  or 6 seconds
 
                 while (rangeSensor.rawUltrasonic() > 17 && (runtime.seconds() < 6)) {
                     telemetry.addData("Range_Sensor", rangeSensor.rawUltrasonic());
@@ -77,8 +77,9 @@ public class Autonomous_Master extends Competition_Hardware {
                 // Uses the more specific range sensor to make sure that robot is close enough for color sensor before stopping
 
 
-                // will move button pusher if beacon is red
+                // will move the robot a certain way and then move into the button
                 // will need timeout and then move back to neutral afterwards
+                //determines what the color is and what the alliance color is set to determine which way to move
                 if (colorSensor.red() > colorSensor.blue()) {
                     telemetry.addData("1", "Red", colorSensor.red());
                     if (teamColor == "blue") {
@@ -89,6 +90,7 @@ public class Autonomous_Master extends Competition_Hardware {
                         encoderDrive(DRIVE_SPEED, "up", 1, 12);
 
                     }
+                    //if the color detected is blue...
                 }else if (colorSensor.blue() > colorSensor.red()){
                     telemetry.addData("1", "Blue", colorSensor.blue());
                     if (teamColor == "blue"){
@@ -99,6 +101,7 @@ public class Autonomous_Master extends Competition_Hardware {
                         encoderDrive(DRIVE_SPEED, "up", 1, 12);
                     }
                 }
+                //moves backwards
                 encoderDrive(DRIVE_SPEED, "down", 16 ,14 );
                 break;
 

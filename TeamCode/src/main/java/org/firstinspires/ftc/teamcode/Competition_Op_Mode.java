@@ -43,6 +43,7 @@ public class Competition_Op_Mode extends Competition_Hardware {
             if (gamepad1.right_stick_x > 0){
                 speed = (gamepad1.right_stick_x);
                 drive("circle right");
+                //uses left and right direction of right joystick to circle left or right
             } else if (gamepad1.right_stick_x < 0){
                 speed = -(gamepad1.right_stick_x);
                 drive("circle left");
@@ -51,7 +52,7 @@ public class Competition_Op_Mode extends Competition_Hardware {
             }
 
 
-            //Dpad controls pitching machine and ball elevator
+            //Left joystick on gamepad 2 controls pitching machine and ball elevator
             if (gamepad2.left_stick_y < 0){
                 beMotor.setPower(-100);
 
@@ -62,7 +63,7 @@ public class Competition_Op_Mode extends Competition_Hardware {
                 beMotor.setPower(0);
 
             }
-            //
+            //Right joystick on gamepad 2 operates pitching machine
 
             if (gamepad2.right_stick_y < 0){
                 servo1.setPosition(1);

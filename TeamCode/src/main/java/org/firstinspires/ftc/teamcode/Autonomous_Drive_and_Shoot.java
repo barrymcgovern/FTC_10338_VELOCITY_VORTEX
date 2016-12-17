@@ -13,7 +13,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  */
 
 
-@Autonomous(name="Comp: Autonomous_Drive_Shoot", group="Pushbot")
+//@Autonomous(name="Comp: Autonomous_Drive_Shoot", group="Pushbot")
+
 public class Autonomous_Drive_and_Shoot extends Competition_Hardware {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -21,22 +22,29 @@ public class Autonomous_Drive_and_Shoot extends Competition_Hardware {
     public void runDriveShoot(){
         try {
             init(hardwareMap);
-            //Pulls ball up with ball elevator and then pitches with a 10 second timeout.
+            //Pulls ball up with ball elevator and then pitches with a 7 second timeout.
             telemetry.addData("Status", "Starting");
             telemetry.update();
             initSystem();
+            runtime.reset();
+            // Wait for the game to start (driver presses PLAY)
+            waitForStart();
+            //Within 7 seconds, the 'ball elevator' will feed the balls into the pitching machine to launch them into the Center Vortex
             while (opModeIsActive()){
-                while (runtime.seconds() < 5) {
+                while (runtime.seconds() < 7) {
                     beMotor.setPower(-100);
                     pMotor1.setPower(SPIN_SPEED);
                     pMotor2.setPower(-SPIN_SPEED);
                     servo1.setPosition(1);
 
                 }
+                //if alliance color is blue, the robot will move over and then move to the Center Vortex
                 if (teamColor == "blue") {
+                    encoderDrive(DRIVE_SPEED, "down", 3, 10);
                     encoderDrive(DRIVE_SPEED, "left", 17, 10);
-
+                //the alternative directions if alliance color is red
                 } else {
+                    encoderDrive(DRIVE_SPEED, "up", 3, 10);
                     encoderDrive(DRIVE_SPEED, "right", 17, 10);
                 }
 
@@ -51,7 +59,7 @@ public class Autonomous_Drive_and_Shoot extends Competition_Hardware {
         }
 
 
-    //Drives onto ramp and knocks ball off in the process.
+
 
     public void initSystem() {
         try {

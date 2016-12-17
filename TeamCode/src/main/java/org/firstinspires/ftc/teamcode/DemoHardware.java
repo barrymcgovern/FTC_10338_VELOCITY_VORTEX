@@ -112,8 +112,8 @@ public class DemoHardware {
 
     void drive(String robotDirection){
         try{
-
-
+//Uses all four motors to drive ten different directions
+//Negative speed moves motor backwards and positive speed moves motor forward
         if (robotDirection == "up") {
             motor1.setPower(-1);
             motor2.setPower(1);
