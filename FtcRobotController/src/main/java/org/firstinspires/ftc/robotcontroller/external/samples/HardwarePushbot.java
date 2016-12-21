@@ -52,11 +52,8 @@ public class HardwarePushbot
         leftMotor   = hwMap.dcMotor.get("left_drive");
         rightMotor  = hwMap.dcMotor.get("right_drive");
         armMotor    = hwMap.dcMotor.get("left_arm");
-
         leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
-
-
 
         // Set all motors to zero power
         leftMotor.setPower(0);
@@ -83,15 +80,19 @@ public class HardwarePushbot
      * The function looks at the elapsed cycle time, and sleeps for the remaining time interval.
      *
      * @param periodMs  Length of wait cycle in mSec.
-     * @throws InterruptedException
      */
-    public void waitForTick(long periodMs) throws InterruptedException {
+    public void waitForTick(long periodMs) {
 
         long  remaining = periodMs - (long)period.milliseconds();
 
         // sleep for the remaining portion of the regular cycle period.
-        if (remaining > 0)
-            Thread.sleep(remaining);
+        if (remaining > 0) {
+            try {
+                Thread.sleep(remaining);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
 
         // Reset the cycle clock for the next pass.
         period.reset();

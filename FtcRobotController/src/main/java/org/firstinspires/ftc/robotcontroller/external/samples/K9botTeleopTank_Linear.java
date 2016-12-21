@@ -55,8 +55,7 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @TeleOp(name="K9bot: Telop Tank", group="K9bot")
- @Disabled
-
+@Disabled
 public class K9botTeleopTank_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -67,7 +66,7 @@ public class K9botTeleopTank_Linear extends LinearOpMode {
     final double    ARM_SPEED       = 0.01 ;                            // sets rate to move servo
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         double left;
         double right;
 
@@ -89,7 +88,6 @@ public class K9botTeleopTank_Linear extends LinearOpMode {
             // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
             left = -gamepad1.left_stick_y;
             right = -gamepad1.right_stick_y;
-
             robot.leftMotor.setPower(left);
             robot.rightMotor.setPower(right);
 
@@ -116,12 +114,10 @@ public class K9botTeleopTank_Linear extends LinearOpMode {
             telemetry.addData("claw",  "%.2f", clawPosition);
             telemetry.addData("left",  "%.2f", left);
             telemetry.addData("right", "%.2f", right);
-
             telemetry.update();
 
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
             robot.waitForTick(40);
-            idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
         }
     }
 }

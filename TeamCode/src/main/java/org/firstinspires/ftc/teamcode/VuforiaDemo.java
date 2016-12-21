@@ -20,7 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * This OpMode was written for the VuforiaDemo Basics video. This demonstrates basic principles of
  * using VuforiaDemo in FTC.
  */
-@Autonomous(name = "Vuforia")
+@Autonomous(name = "Vuforia Demo")
 public class VuforiaDemo extends LinearOpMode
 {
     // Variables to be used for later
@@ -33,7 +33,7 @@ public class VuforiaDemo extends LinearOpMode
     private OpenGLMatrix lastKnownLocation;
     private OpenGLMatrix phoneLocation;
 
-    private static final String VUFORIA_KEY = ""; // Insert your own key here
+    private static final String VUFORIA_KEY = "AZNyeJT/////AAAAGcEyNak4ykAkhL+InR+WdKUGDQVzF/FELSuZi1yDVXXgcq8IBY9YUrq/i8CblYxOVZ1f8p3FSqUGHisyj6X2Z/fzTkrhRxyigB1hzK2ua8R5PtjFMrb5bruaTXH0rPs59nmx7OPKDr3rrp74XAKU2Twxt+wRaGCssmWtpwUC2Fk6xz9CRkejMEPhenzNpjd/z4tiQRDAe37LEfpJvos/6QVLZZkamkozBN9gdR8+6JLthq3HL22qwlX21RIbwlJmMoi41qhzcaeyFHk0CamDUHgxVcB1VC5i8Hin3f7Y/EPGGALbPpb4AJUhx2nddSQQVI3nDNoNIhHP5sBJ0OG9WPy5dTvDNGaqK7LQfjbyze2x"; // Insert your own key here
 
     private float robotX = 0;
     private float robotY = 0;
@@ -82,7 +82,7 @@ public class VuforiaDemo extends LinearOpMode
         // Setup parameters to create localizer
         parameters = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId); // To remove the camera view from the screen, remove the R.id.cameraMonitorViewId
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
         parameters.useExtendedTracking = false;
         vuforiaLocalizer = ClassFactory.createVuforiaLocalizer(parameters);
 

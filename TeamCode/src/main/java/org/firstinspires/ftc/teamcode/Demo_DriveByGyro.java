@@ -35,6 +35,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -134,6 +135,16 @@ public class Demo_DriveByGyro extends Demo_Hardware {
         motor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        motor1.setDirection(DcMotorSimple.Direction.FORWARD);
+        motor2.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        motor3.setDirection(DcMotorSimple.Direction.REVERSE);
+        motor4.setDirection(DcMotorSimple.Direction.FORWARD);
+
+
         // Wait for the game to start (Display Gyro value), and reset gyro before we move..
         while (!isStarted()) {
             telemetry.addData(">", "Robot Heading = %d", gyro.getIntegratedZValue());
@@ -145,7 +156,7 @@ public class Demo_DriveByGyro extends Demo_Hardware {
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // Put a hold after each turn
-        gyroDrive(DRIVE_SPEED, 10, 0.0);    // Drive FWD 48 inches
+        gyroDrive(10, 20, 0.0);    // Drive FWD 48 inches
         /*
         gyroTurn( TURN_SPEED, -45.0);         // Turn  CCW to -45 Degrees
         gyroHold( TURN_SPEED, -45.0, 0.5);    // Hold -45 Deg heading for a 1/2 second
@@ -202,10 +213,14 @@ public class Demo_DriveByGyro extends Demo_Hardware {
             motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+
             // start motion.
             speed = Range.clip(Math.abs(speed), 0.0, 1.0);
             motor1.setPower(speed);
             motor2.setPower(speed);
+            motor3.setPower(speed);
+            motor4.setPower(speed);
+
 
             // keep looping while we are still active, and BOTH motors are running.
             while (opModeIsActive() &&
@@ -231,7 +246,10 @@ public class Demo_DriveByGyro extends Demo_Hardware {
                 }
 
                 motor1.setPower(leftSpeed);
+                motor4.setPower(leftSpeed);
+
                 motor2.setPower(rightSpeed);
+                motor3.setPower(leftSpeed);
 
                 // Display drive status for the driver.
                 telemetry.addData("Err/St",  "%5.1f/%5.1f",  error, steer);
@@ -248,6 +266,9 @@ public class Demo_DriveByGyro extends Demo_Hardware {
             // Stop all motion;
             motor1.setPower(0);
             motor2.setPower(0);
+
+            motor3.setPower(0);
+            motor4.setPower(0);
 
             // Turn off RUN_TO_POSITION
             motor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
