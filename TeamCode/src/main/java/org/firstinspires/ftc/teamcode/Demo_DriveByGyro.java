@@ -95,7 +95,7 @@ public class Demo_DriveByGyro extends Demo_Hardware {
 
     static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
     static final double     P_TURN_COEFF            = 0.1;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_COEFF           = 0.15;     // Larger is more responsive, but also less stable
+    static final double     P_DRIVE_COEFF           = 0.05;     // Larger is more responsive, but also less stable
 
 
     @Override
@@ -156,8 +156,8 @@ public class Demo_DriveByGyro extends Demo_Hardware {
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // Put a hold after each turn
-        gyroDrive(DRIVE_SPEED, 10, 0.0);    // Drive FWD 48 inches
-        gyroDrive(DRIVE_SPEED, -10, 0.0);    // Drive FWD 48 inches
+        gyroDrive(DRIVE_SPEED, 20, 0.0);    // Drive FWD 48 inches
+       // gyroDrive(DRIVE_SPEED, -10, 0.0);    // Drive FWD 48 inches
         /*
         gyroTurn( TURN_SPEED, -45.0);         // Turn  CCW to -45 Degrees
         gyroHold( TURN_SPEED, -45.0, 0.5);    // Hold -45 Deg heading for a 1/2 second
@@ -227,7 +227,7 @@ public class Demo_DriveByGyro extends Demo_Hardware {
             while (opModeIsActive() &&
                     motor1.isBusy() && motor2.isBusy()) {
 
-                // adjust relative speed based on heading error.
+                // adjust relative speed based on headine3sg error.
                 error = getError(angle);
                 steer = getSteer(error, P_DRIVE_COEFF);
 
@@ -239,18 +239,19 @@ public class Demo_DriveByGyro extends Demo_Hardware {
                 rightSpeed = speed + steer;
 
                 // Normalize speeds if any one exceeds +/- 1.0;
+
                 max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
-                if (max > 1.0)
+                if (max > 1)
                 {
                     leftSpeed /= max;
                     rightSpeed /= max;
                 }
 
-                motor1.setPower(leftSpeed);
-                motor4.setPower(leftSpeed);
+                motor1.setPower(leftSpeed/4);
+                motor4.setPower(leftSpeed/4);
 
-                motor2.setPower(rightSpeed);
-                motor3.setPower(leftSpeed);
+                motor2.setPower(rightSpeed/4);
+                motor3.setPower(rightSpeed/4);
 
                 // Display drive status for the driver.
                 telemetry.addData("Err/St",  "%5.1f/%5.1f",  error, steer);
