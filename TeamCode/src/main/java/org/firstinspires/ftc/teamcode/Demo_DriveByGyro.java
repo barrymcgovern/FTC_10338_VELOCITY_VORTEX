@@ -156,7 +156,8 @@ public class Demo_DriveByGyro extends Demo_Hardware {
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // Put a hold after each turn
-        gyroDrive(10, 20, 0.0);    // Drive FWD 48 inches
+        gyroDrive(.2, 10, 0.0);    // Drive FWD 48 inches
+        gyroDrive(.2, -10, 0.0);    // Drive FWD 48 inches
         /*
         gyroTurn( TURN_SPEED, -45.0);         // Turn  CCW to -45 Degrees
         gyroHold( TURN_SPEED, -45.0, 0.5);    // Hold -45 Deg heading for a 1/2 second
