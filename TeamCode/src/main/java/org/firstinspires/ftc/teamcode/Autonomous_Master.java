@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -44,6 +45,7 @@ public class Autonomous_Master extends Competition_Hardware {
                 // Has the robot go forward at a set speed, in a set direction, for 14 inches with a 5 second timeout
                 if (teamColor == "blue"){
                     encoderDrive(DRIVE_SPEED, "left", 15.5, 5);
+                    gyroDrive(DRIVE_SPEED, 20, 0.0);
                 } else {
                     encoderDrive(DRIVE_SPEED, "right", 15.5, 5);
                 }
@@ -126,6 +128,17 @@ public class Autonomous_Master extends Competition_Hardware {
             motor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+            gyro.calibrate();
+            while (gyro.isCalibrating())  {
+                Thread.sleep(50);
+                idle();
+            }
+
+            gyro.resetZAxisIntegrator();
+
+
 
 
             telemetry.addData("1", "Servo1_Position", servo1.getPosition());

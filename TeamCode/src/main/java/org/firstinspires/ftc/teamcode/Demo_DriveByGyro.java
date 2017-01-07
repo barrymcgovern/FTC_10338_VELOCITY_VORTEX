@@ -103,9 +103,9 @@ public class Demo_DriveByGyro extends Demo_Hardware {
 
         //Initializes motors
         init(hardwareMap);
-
         telemetry.addData("Status", "Starting");    //
         telemetry.update();
+
 
         gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
 

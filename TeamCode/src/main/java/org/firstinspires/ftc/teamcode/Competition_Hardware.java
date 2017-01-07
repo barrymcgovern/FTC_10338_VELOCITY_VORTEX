@@ -15,6 +15,7 @@ package org.firstinspires.ftc.teamcode;
  */
 
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -49,12 +50,26 @@ public abstract class Competition_Hardware extends LinearOpMode {
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double DRIVE_SPEED = 0.2;
     static final double TURN_SPEED = 0.5;
+    static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
+    static final double     P_TURN_COEFF            = 0.1;     // Larger is more responsive, but also less stable
+    static final double     P_DRIVE_COEFF           = 0.05;     // Larger is more responsive, but also less stable
+
     final double SPIN_SPEED = .85;
     final double ELEVATOR_SPEED = .9;
 
+    int newLeftTarget;
+    int newRightTarget;
+    int moveCounts;
+    double max;
+    double error;
+    double steer;
+    double leftSpeed;
+    double rightSpeed;
 
     public Servo servo1 = null;
     public Servo servo2 = null;
+
+    ModernRoboticsI2cGyro gyro    = null;
 
     public static final double MID_SERVO = 0.5;
     public static final double ARM_UP_POWER = 0.45;
@@ -84,6 +99,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
         pMotor1 = hwMap.dcMotor.get("pMotor1");
         pMotor2 = hwMap.dcMotor.get("pMotor2");
         beMotor = hwMap.dcMotor.get("beMotor");
+        gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
 
 
         // Set to FORWARD
@@ -281,8 +297,97 @@ public abstract class Competition_Hardware extends LinearOpMode {
             telemetry.addData("ERROR", e.toString());
         }
     }
+    public double getSteer(double error, double PCoeff) {
+        return Range.clip(error * PCoeff, -1, 1);
+    }
 
-    void driveStick(float x, float y) {
+    public double getError(double targetAngle) {
+
+        double robotError;
+
+        // calculate error in -179 to +180 range  (
+        robotError = targetAngle - gyro.getIntegratedZValue();
+        while (robotError > 180)  robotError -= 360;
+        while (robotError <= -180) robotError += 360;
+        return robotError;
+    }
+
+    public void gyroDrive ( double speed,
+                            double distance,
+                            double angle) throws InterruptedException {
+
+
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            moveCounts = (int) (distance * COUNTS_PER_INCH);
+            newLeftTarget = motor1.getCurrentPosition() + moveCounts;
+            newRightTarget = motor2.getCurrentPosition() + moveCounts;
+
+            // Set Target and Turn On RUN_TO_POSITION
+            motor1.setTargetPosition(newLeftTarget);
+            motor2.setTargetPosition(newRightTarget);
+
+            motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+            // start motion.
+            speed = Range.clip(Math.abs(speed), 0.0, 1.0);
+            motor1.setPower(speed);
+            motor2.setPower(speed);
+            motor3.setPower(speed);
+            motor4.setPower(speed);
+
+
+            // keep looping while we are still active, and BOTH motors are running.
+            while (opModeIsActive() &&
+                    motor1.isBusy() && motor2.isBusy()) {
+
+                // adjust relative speed based on headine3sg error.
+                error = getError(angle);
+                steer = getSteer(error, P_DRIVE_COEFF);
+
+                // if driving in reverse, the motor correction also needs to be reversed
+                if (distance < 0)
+                    steer *= -1.0;
+
+                leftSpeed = speed - steer;
+                rightSpeed = speed + steer;
+
+                // Normalize speeds if any one exceeds +/- 1.0;
+
+                max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
+                if (max > 1) {
+                    leftSpeed /= max;
+                    rightSpeed /= max;
+                }
+
+                motor1.setPower(leftSpeed / 4);
+                motor4.setPower(leftSpeed / 4);
+
+                motor2.setPower(rightSpeed / 4);
+                motor3.setPower(rightSpeed / 4);
+
+                // Display drive status for the driver.
+                telemetry.addData("Err/St", "%5.1f/%5.1f", error, steer);
+                telemetry.addData("Target", "%7d:%7d", newLeftTarget, newRightTarget);
+                telemetry.addData("Actual", "%7d:%7d", motor1.getCurrentPosition(),
+                        motor2.getCurrentPosition());
+                telemetry.addData("Speed", "%5.2f:%5.2f", leftSpeed, rightSpeed);
+                telemetry.update();
+
+                // Allow time for other processes to run.
+                idle();
+            }
+        }
+    }
+
+
+
+        void driveStick(float x, float y) {
 
         // speed is greater value of x or y
         //Uses the value of the joystick like the direction of motion does, only to set speed and divides it in half
@@ -409,6 +514,52 @@ public abstract class Competition_Hardware extends LinearOpMode {
         }
 
     }
+    void gyro (String gyroDirection){
+        try {
+            telemetry.addData("direction", gyroDirection);
+             DcMotor flMotor = null;
+             DcMotor frMotor = null;
+             DcMotor blMotor = null;
+             DcMotor brMotor = null;
+             if (gyroDirection == "F") {
+                flMotor = motor1;
+                frMotor = motor2;
+                blMotor = motor3;
+                brMotor = motor4;
+
+                flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+                frMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+                brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+                blMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+
+                newLeftTarget = flMotor.getCurrentPosition() + moveCounts;
+                newRightTarget = frMotor.getCurrentPosition() + moveCounts;
+                frMotor.setTargetPosition(newLeftTarget);
+                flMotor.setTargetPosition(newRightTarget);
+
+            } else if (gyroDirection == "R") {
+                newLeftTarget = motor2.getCurrentPosition() + moveCounts;
+                newRightTarget = motor3.getCurrentPosition() + moveCounts;
+                motor1.setTargetPosition(newLeftTarget);
+                motor2.setTargetPosition(newRightTarget);
+
+            } else if (gyroDirection == "B") {
+                motor3.setTargetPosition(newLeftTarget);
+                motor4.setTargetPosition(newRightTarget);
+
+            } else if (gyroDirection == "L") {
+                motor1.setTargetPosition(newLeftTarget);
+                motor2.setTargetPosition(newRightTarget);
+            }
+        }
+            catch (Exception p_exception){
+
+            }
+
+        }
+
+    }
 
 
-}
+
