@@ -38,7 +38,7 @@ public class Autonomous_Master_GryoDriveTest extends Competition_Hardware {
                gyroDrive("up",DRIVE_SPEED,10);
                 gyroDrive("left", DRIVE_SPEED, 10);
                 gyroDrive("right", DRIVE_SPEED, 10);
-                gyroDrive("back",DRIVE_SPEED,10);
+                gyroDrive("down",DRIVE_SPEED,10);
 
                 break;
             }
