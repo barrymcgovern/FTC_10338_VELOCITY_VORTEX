@@ -88,6 +88,9 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
+        try{
+
+
         // Save reference to Hardware map
         hwMap = ahwMap;
 
@@ -99,7 +102,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
         pMotor1 = hwMap.dcMotor.get("pMotor1");
         pMotor2 = hwMap.dcMotor.get("pMotor2");
         beMotor = hwMap.dcMotor.get("beMotor");
-        gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
+
 
 
         // Set to FORWARD
@@ -121,17 +124,17 @@ public abstract class Competition_Hardware extends LinearOpMode {
         motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
         colorSensor = hardwareMap.colorSensor.get("color");
         rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
-
-
         // Define and initialize ALL installed servos.
         //servo1 = hwMap.servo.get("servo1");
-
         runtime.reset();
 
-
-
+        } catch (Exception e) {
+            telemetry.addData("runOpMode ERROR", e.toString());
+            telemetry.update();
+        }
 
     }
 
@@ -498,6 +501,10 @@ public abstract class Competition_Hardware extends LinearOpMode {
                     frMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
+                    blMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    blMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
                     // start motion.
                     speed = Range.clip(Math.abs(speed), 0.0, 1.0);
                     flMotor.setPower(speed);
@@ -529,17 +536,18 @@ public abstract class Competition_Hardware extends LinearOpMode {
                             rightSpeed /= max;
                         }
 
-                        flMotor.setPower(leftSpeed / 4);
-                        blMotor.setPower(leftSpeed / 4);
+                        flMotor.setPower(leftSpeed / 2);
+                        blMotor.setPower(leftSpeed / 2);
 
-                        frMotor.setPower(rightSpeed / 4);
-                        brMotor.setPower(rightSpeed / 4);
+                        frMotor.setPower(rightSpeed / 2);
+                        brMotor.setPower(rightSpeed / 2);
 
                         // Display drive status for the driver.
+                        telemetry.addData("direction", gyroDirection);
                         telemetry.addData("Err/St", "%5.1f/%5.1f", error, steer);
                         telemetry.addData("Target", "%7d:%7d", newLeftTarget, newRightTarget);
                         telemetry.addData("Actual", "%7d:%7d", flMotor.getCurrentPosition(),
-                                frMotor.getCurrentPosition());
+                         frMotor.getCurrentPosition());
                         telemetry.addData("Speed", "%5.2f:%5.2f", leftSpeed, rightSpeed);
                         telemetry.update();
 

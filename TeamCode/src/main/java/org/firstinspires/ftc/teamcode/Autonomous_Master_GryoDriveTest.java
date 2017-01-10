@@ -10,39 +10,42 @@ package org.firstinspires.ftc.teamcode;
  * should drive a square  - up , left, down, right
  */
 
-@Autonomous(name="TEST: Gryo Drive Test", group="Pushbot")
+@Autonomous(name="Comp: GryroDriveTest", group="Pushbot")
+
 
 public class Autonomous_Master_GryoDriveTest extends Competition_Hardware {
     @Override
     public void runOpMode() throws InterruptedException {
-    }
-
-    public void runDrive(){
 
         try {
-            init(hardwareMap);
-
             telemetry.addData("Status", "Starting");    //
             telemetry.update();
+            init(hardwareMap);
 
-
+            telemetry.addData("Status", "InitStarted");    //
+            telemetry.update();
             initSystem(); // See initSystem below
+
+            telemetry.addData("Status", "Init Done");    //
+            telemetry.update();
 
             // Wait for the game to start (driver presses PLAY)
             waitForStart();
-            while (opModeIsActive()) {
-               gyroDrive("up",DRIVE_SPEED,10);
-               gyroDrive("left", DRIVE_SPEED, 10);
-                gyroDrive("down",DRIVE_SPEED,10);
-               gyroDrive("right", DRIVE_SPEED, 10);
 
-               break;
+            while (opModeIsActive()) {
+                gyroDrive("up",DRIVE_SPEED,10);
+                gyroDrive("left", DRIVE_SPEED, 10);
+                gyroDrive("down",DRIVE_SPEED,10);
+                gyroDrive("right", DRIVE_SPEED, 10);
+
+                break;
             }
         } catch (Exception e) {
             telemetry.addData("runOpMode ERROR", e.toString());
             telemetry.update();
         }
     }
+
 
     public void initSystem() {
         try {
@@ -57,8 +60,15 @@ public class Autonomous_Master_GryoDriveTest extends Competition_Hardware {
             motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            //telemetry.addData("1", "Servo1_Position", servo1.getPosition());
-            telemetry.addData("2", "MotorTest", motor1.getCurrentPosition());
+            gyro.calibrate();
+
+            // make sure the gyro is calibrated before continuing
+            while (gyro.isCalibrating())  {
+                Thread.sleep(50);
+                idle();
+            }
+
+
 
 
         } catch (Exception e) {

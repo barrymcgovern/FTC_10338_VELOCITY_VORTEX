@@ -17,6 +17,7 @@ package org.firstinspires.ftc.teamcode;
         public class Autonomous_Master_Drive extends Competition_Hardware {
     @Override
     public void runOpMode() throws InterruptedException {
+
     }
 
     public void runDrive(){
@@ -62,7 +63,6 @@ package org.firstinspires.ftc.teamcode;
             motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            telemetry.addData("1", "Servo1_Position", servo1.getPosition());
             telemetry.addData("2", "MotorTest", motor1.getCurrentPosition());
 
 

@@ -34,7 +34,6 @@ public class Autonomous_Master_Shoot extends Competition_Hardware {
             while (opModeIsActive() && runtime.seconds() < 7) {
                 //Ball elevator is powered feeding Pitching Machine with particles
                 //Will stop motors after 5 seconds of running
-                    servo1.setPosition(1);
                     beMotor.setPower(-100);
                     pMotor1.setPower(SPIN_SPEED);
                     pMotor2.setPower(-SPIN_SPEED);
@@ -42,8 +41,6 @@ public class Autonomous_Master_Shoot extends Competition_Hardware {
 
             }
 
-            //stops the continuous servo
-            servo1.setPosition(.5);
 
 
             } catch (Exception e) {
@@ -65,13 +62,8 @@ public class Autonomous_Master_Shoot extends Competition_Hardware {
                 motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-                telemetry.addData("1", "Servo1_Position", servo1.getPosition());
+
                 telemetry.addData("2", "MotorTest", motor1.getCurrentPosition());
-
-
-
-
-
 
 
             } catch (Exception e) {

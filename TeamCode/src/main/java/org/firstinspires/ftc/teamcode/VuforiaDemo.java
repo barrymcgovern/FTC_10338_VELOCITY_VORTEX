@@ -22,7 +22,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  *  have no idea if that's the right coordinate yet or if left is right direction
  * using VuforiaDemo in FTC.
  */
-@Autonomous(name = "Vuforia Demo Drive")
+@Autonomous(name="Comp: VuforiaDemoDrive", group="Pushbot")
+
 public class VuforiaDemo extends Competition_Hardware
 {
     // Variables to be used for later
@@ -77,7 +78,7 @@ public class VuforiaDemo extends Competition_Hardware
             telemetry.addData("Tracking " + target.getName(), listener.isVisible());
             telemetry.addData("Robot X " ,robotX);
             telemetry.addData("Robot Y " ,robotY);
-
+            telemetry.update();
             idle();
 
         }
@@ -86,7 +87,7 @@ public class VuforiaDemo extends Competition_Hardware
 
         // Start tracking the targets
 
-
+        speed = .2;
         while(opModeIsActive())
         {
             // Ask the listener for the latest information on where the robot is
@@ -106,25 +107,14 @@ public class VuforiaDemo extends Competition_Hardware
             telemetry.addData("Tracking " + target.getName(), listener.isVisible());
             telemetry.addData("Robot X " ,robotX);
             telemetry.addData("Robot Y " ,robotY);
+            telemetry.update();
 
-            while (robotX > 0){
+            if (robotY > 520 ) {
                 drive("left");
-                latestLocation = listener.getUpdatedRobotLocation();
-
-                // The listener will sometimes return null, so we check for that to prevent errors
-                if(latestLocation != null)
-                    lastKnownLocation = latestLocation;
-
-                coordinates = lastKnownLocation.getTranslation().getData();
-
-                robotX = coordinates[0];
-                robotY = coordinates[1];
-                robotAngle = Orientation.getOrientation(lastKnownLocation, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES).thirdAngle;
-
-                // Send information about whether the target is visible, and where the robot is
-                telemetry.addData("Tracking " + target.getName(), listener.isVisible());
-                telemetry.addData("Robot X " ,robotX);
-                telemetry.addData("Robot Y " ,robotY);
+            }else if ( robotY < 480){
+                drive("right");
+            }else if ( robotX > 500){
+                drive("up");
             }
 
             telemetry.addData("Last Known Location", formatMatrix(lastKnownLocation));
@@ -174,7 +164,7 @@ public class VuforiaDemo extends Competition_Hardware
         // Setup parameters to create localizer
         parameters = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId); // To remove the camera view from the screen, remove the R.id.cameraMonitorViewId
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
         parameters.useExtendedTracking = false;
         vuforiaLocalizer = ClassFactory.createVuforiaLocalizer(parameters);
 
