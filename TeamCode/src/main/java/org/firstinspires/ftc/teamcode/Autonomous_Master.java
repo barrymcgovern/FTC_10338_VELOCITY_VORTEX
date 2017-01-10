@@ -45,7 +45,7 @@ public class Autonomous_Master extends Competition_Hardware {
                 // Has the robot go forward at a set speed, in a set direction, for 14 inches with a 5 second timeout
                 if (teamColor == "blue"){
                     encoderDrive(DRIVE_SPEED, "left", 15.5, 5);
-                    gyroDrive(DRIVE_SPEED, 20, 0.0);
+                    gyroDrive("left", DRIVE_SPEED, 15.5);
                 } else {
                     encoderDrive(DRIVE_SPEED, "right", 15.5, 5);
                 }
