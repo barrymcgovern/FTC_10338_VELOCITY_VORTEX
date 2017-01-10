@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.vuforia.HINT;
 import com.vuforia.Vuforia;
 
@@ -20,8 +21,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  * This OpMode was written for the VuforiaDemo Basics video. This demonstrates basic principles of
  * using VuforiaDemo in FTC.
  */
-@Autonomous(name = "Vuforia Demo")
-public class VuforiaDemo extends LinearOpMode
+@Autonomous(name = "Vuforia Demo Drive")
+public class VuforiaDemo extends Competition_Hardware
 {
     // Variables to be used for later
     private VuforiaLocalizer vuforiaLocalizer;
@@ -41,27 +42,31 @@ public class VuforiaDemo extends LinearOpMode
 
     public void runOpMode() throws InterruptedException
     {
+        init(hardwareMap);
         setupVuforia();
 
         // We don't know where the robot is, so set it to the origin
         // If we don't include this, it would be null, which would cause errors later on
         lastKnownLocation = createMatrix(0, 0, 0, 0, 0, 0);
 
-        waitForStart();
+        telemetry.addData("Status", "Starting");    //
+        telemetry.update();
+        speed = DRIVE_SPEED;
+        initSystem(); // See initSystem below
 
-        // Start tracking the targets
         visionTargets.activate();
+        OpenGLMatrix latestLocation;
+        float[] coordinates;
 
-        while(opModeIsActive())
-        {
-            // Ask the listener for the latest information on where the robot is
-            OpenGLMatrix latestLocation = listener.getUpdatedRobotLocation();
+        // Wait for the game to start (Display Gyro value), and reset gyro before we move..
+        while (!isStarted()) {
+            latestLocation = listener.getUpdatedRobotLocation();
 
             // The listener will sometimes return null, so we check for that to prevent errors
             if(latestLocation != null)
                 lastKnownLocation = latestLocation;
 
-            float[] coordinates = lastKnownLocation.getTranslation().getData();
+            coordinates = lastKnownLocation.getTranslation().getData();
 
             robotX = coordinates[0];
             robotY = coordinates[1];
@@ -69,6 +74,58 @@ public class VuforiaDemo extends LinearOpMode
 
             // Send information about whether the target is visible, and where the robot is
             telemetry.addData("Tracking " + target.getName(), listener.isVisible());
+            telemetry.addData("Robot X " ,robotX);
+            telemetry.addData("Robot Y " ,robotY);
+
+            idle();
+
+        }
+
+
+
+        // Start tracking the targets
+
+
+        while(opModeIsActive())
+        {
+            // Ask the listener for the latest information on where the robot is
+            latestLocation = listener.getUpdatedRobotLocation();
+
+            // The listener will sometimes return null, so we check for that to prevent errors
+            if(latestLocation != null)
+                lastKnownLocation = latestLocation;
+
+             coordinates = lastKnownLocation.getTranslation().getData();
+
+            robotX = coordinates[0];
+            robotY = coordinates[1];
+            robotAngle = Orientation.getOrientation(lastKnownLocation, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES).thirdAngle;
+
+            // Send information about whether the target is visible, and where the robot is
+            telemetry.addData("Tracking " + target.getName(), listener.isVisible());
+            telemetry.addData("Robot X " ,robotX);
+            telemetry.addData("Robot Y " ,robotY);
+
+            while (robotX > 0){
+                drive("left");
+                latestLocation = listener.getUpdatedRobotLocation();
+
+                // The listener will sometimes return null, so we check for that to prevent errors
+                if(latestLocation != null)
+                    lastKnownLocation = latestLocation;
+
+                coordinates = lastKnownLocation.getTranslation().getData();
+
+                robotX = coordinates[0];
+                robotY = coordinates[1];
+                robotAngle = Orientation.getOrientation(lastKnownLocation, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES).thirdAngle;
+
+                // Send information about whether the target is visible, and where the robot is
+                telemetry.addData("Tracking " + target.getName(), listener.isVisible());
+                telemetry.addData("Robot X " ,robotX);
+                telemetry.addData("Robot Y " ,robotY);
+            }
+
             telemetry.addData("Last Known Location", formatMatrix(lastKnownLocation));
 
             // Send telemetry and idle to let hardware catch up
@@ -76,6 +133,48 @@ public class VuforiaDemo extends LinearOpMode
             idle();
         }
     }
+
+
+    public void initSystem() {
+        try {
+            // At the beginning of autonomous program, the encoders on the motors are reset
+            motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            motor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+            gyro.calibrate();
+            while (gyro.isCalibrating())  {
+                Thread.sleep(50);
+                idle();
+            }
+
+            gyro.resetZAxisIntegrator();
+
+
+
+
+            telemetry.addData("1", "Servo1_Position", servo1.getPosition());
+            telemetry.addData("2", "MotorTest", motor1.getCurrentPosition());
+
+
+
+
+
+        } catch (Exception e) {
+
+            telemetry.addData("initSystem ERROR", e.toString());
+            telemetry.update();
+        }
+
+    }
+
 
     private void setupVuforia()
     {
