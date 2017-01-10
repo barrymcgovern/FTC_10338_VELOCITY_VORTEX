@@ -110,11 +110,11 @@ public class VuforiaDemo extends Competition_Hardware
             telemetry.update();
 
             if (robotY > 520 ) {
-                drive("left");
-            }else if ( robotY < 480){
                 drive("right");
+            }else if ( robotY < 480){
+                drive("left");
             }else if ( robotX > 500){
-                drive("up");
+                drive("down");
             }
 
             telemetry.addData("Last Known Location", formatMatrix(lastKnownLocation));
