@@ -480,8 +480,6 @@ public abstract class Competition_Hardware extends LinearOpMode {
                 frMotor = motor3;
                 blMotor = motor2;
                 brMotor = motor1;
-
-
             }
 
 
@@ -507,6 +505,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
                     // start motion.
                     speed = Range.clip(Math.abs(speed), 0.0, 1.0);
+
                     flMotor.setPower(speed);
                     frMotor.setPower(speed);
                     brMotor.setPower(speed);
