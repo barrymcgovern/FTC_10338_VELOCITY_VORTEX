@@ -18,7 +18,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 /*
- * This OpMode was written for the VuforiaDemo Basics video. This demonstrates basic principles of
+ * This is going to try and drive left until robotX coordinate is < 0
+ *  have no idea if that's the right coordinate yet or if left is right direction
  * using VuforiaDemo in FTC.
  */
 @Autonomous(name = "Vuforia Demo Drive")

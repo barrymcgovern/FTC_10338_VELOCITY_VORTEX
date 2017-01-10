@@ -57,7 +57,7 @@ public class Autonomous_Master_GryoDriveTest extends Competition_Hardware {
             motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            telemetry.addData("1", "Servo1_Position", servo1.getPosition());
+            //telemetry.addData("1", "Servo1_Position", servo1.getPosition());
             telemetry.addData("2", "MotorTest", motor1.getCurrentPosition());
 
 

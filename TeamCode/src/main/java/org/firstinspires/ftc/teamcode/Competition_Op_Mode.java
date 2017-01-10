@@ -54,10 +54,10 @@ public class Competition_Op_Mode extends Competition_Hardware {
 
             //Left joystick on gamepad 2 controls pitching machine and ball elevator
             if (gamepad2.left_stick_y < 0){
-                beMotor.setPower(-100);
+                beMotor.setPower(-ELEVATOR_SPEED);
 
             } else if (gamepad2.left_stick_y > 0){
-                beMotor.setPower(100);
+                beMotor.setPower(ELEVATOR_SPEED);
 
             } else {
                 beMotor.setPower(0);
@@ -66,12 +66,10 @@ public class Competition_Op_Mode extends Competition_Hardware {
             //Right joystick on gamepad 2 operates pitching machine
 
             if (gamepad2.right_stick_y < 0){
-                servo1.setPosition(1);
                 pMotor1.setPower(SPIN_SPEED);
                 pMotor2.setPower(-SPIN_SPEED);
 
             } else {
-                servo1.setPosition(.5);
                 pMotor1.setPower(0);
                 pMotor2.setPower(0);
             }

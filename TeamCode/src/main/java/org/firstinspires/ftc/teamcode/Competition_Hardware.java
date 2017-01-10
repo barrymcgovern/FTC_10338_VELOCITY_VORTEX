@@ -55,7 +55,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
     static final double     P_DRIVE_COEFF           = 0.05;     // Larger is more responsive, but also less stable
 
     final double SPIN_SPEED = .85;
-    final double ELEVATOR_SPEED = .9;
+    final double ELEVATOR_SPEED = .5;
 
     int newLeftTarget;
     int newRightTarget;
@@ -66,15 +66,15 @@ public abstract class Competition_Hardware extends LinearOpMode {
     double leftSpeed;
     double rightSpeed;
 
-    public Servo servo1 = null;
-    public Servo servo2 = null;
+    //public Servo servo1 = null;
+    //public Servo servo2 = null;
 
     ModernRoboticsI2cGyro gyro    = null;
-
+/*
     public static final double MID_SERVO = 0.5;
     public static final double ARM_UP_POWER = 0.45;
     public static final double ARM_DOWN_POWER = -0.45;
-
+*/
 
     public String teamColor;
 
@@ -126,7 +126,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
 
         // Define and initialize ALL installed servos.
-        servo1 = hwMap.servo.get("servo1");
+        //servo1 = hwMap.servo.get("servo1");
 
         runtime.reset();
 
