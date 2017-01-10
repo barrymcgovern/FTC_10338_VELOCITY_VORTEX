@@ -74,7 +74,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
- @Autonomous(name="Demo: Old Drive By Gyro", group="Demo")
+ // @Autonomous(name="Demo: Old Drive By Gyro", group="Demo")
 
 public class Demo_DriveByGyro extends Demo_Hardware {
 

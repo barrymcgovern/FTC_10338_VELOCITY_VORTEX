@@ -30,7 +30,14 @@ public class Autonomous_Master_GryoDriveTest extends Competition_Hardware {
             telemetry.update();
 
             // Wait for the game to start (driver presses PLAY)
-            waitForStart();
+
+            // Wait for the game to start (Display Gyro value), and reset gyro before we move..
+            while (!isStarted()) {
+                telemetry.addData(">", "Robot Heading = %d", gyro.getIntegratedZValue());
+                telemetry.update();
+                idle();
+            }
+
 
             while (opModeIsActive()) {
                 gyroDrive("up",DRIVE_SPEED,10);
