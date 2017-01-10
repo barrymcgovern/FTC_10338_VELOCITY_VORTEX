@@ -6,11 +6,8 @@ package org.firstinspires.ftc.teamcode;
 /**
  * Team: Dark Matters #10338
  * Velocity Vortex
- * Autonomous program for knocking the Cap Ball and parking the robot on the Center Vortex base in the event that the other
- * autonomous programs cannot be used.
- * 10 points total
- * Knocks off cap ball for 5 points
- * Partially parks on base
+ * This is a test of gyroDrive code
+ * should drive a square  - up , left, down, right
  */
 
 @Autonomous(name="TEST: Gryo Drive Test", group="Pushbot")
@@ -34,13 +31,12 @@ public class Autonomous_Master_GryoDriveTest extends Competition_Hardware {
             // Wait for the game to start (driver presses PLAY)
             waitForStart();
             while (opModeIsActive()) {
-                //Uses the encoders to move robot 16 centimeters depending on alliance color
                gyroDrive("up",DRIVE_SPEED,10);
-                gyroDrive("left", DRIVE_SPEED, 10);
-                gyroDrive("right", DRIVE_SPEED, 10);
+               gyroDrive("left", DRIVE_SPEED, 10);
                 gyroDrive("down",DRIVE_SPEED,10);
+               gyroDrive("right", DRIVE_SPEED, 10);
 
-                break;
+               break;
             }
         } catch (Exception e) {
             telemetry.addData("runOpMode ERROR", e.toString());
