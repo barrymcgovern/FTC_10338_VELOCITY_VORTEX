@@ -138,7 +138,6 @@ public class Autonomous_Master extends Competition_Hardware {
 
             gyro.resetZAxisIntegrator();
 
-            telemetry.addData("1", "Servo1_Position", servo1.getPosition());
             telemetry.addData("2", "MotorTest", motor1.getCurrentPosition());
 
         } catch (Exception e) {

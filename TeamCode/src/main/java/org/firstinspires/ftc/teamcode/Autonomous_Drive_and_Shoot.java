@@ -35,7 +35,7 @@ public class Autonomous_Drive_and_Shoot extends Competition_Hardware {
                     beMotor.setPower(-100);
                     pMotor1.setPower(SPIN_SPEED);
                     pMotor2.setPower(-SPIN_SPEED);
-                    servo1.setPosition(1);
+                    //servo1.setPosition(1);
 
                 }
                 //if alliance color is blue, the robot will move over and then move to the Center Vortex
@@ -75,7 +75,7 @@ public class Autonomous_Drive_and_Shoot extends Competition_Hardware {
             motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            telemetry.addData("1", "Servo1_Position", servo1.getPosition());
+         //   telemetry.addData("1", "Servo1_Position", servo1.getPosition());
             telemetry.addData("2", "MotorTest", motor1.getCurrentPosition());
 
 
