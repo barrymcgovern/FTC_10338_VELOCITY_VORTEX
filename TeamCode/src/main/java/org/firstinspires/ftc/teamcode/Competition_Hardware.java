@@ -312,78 +312,6 @@ public abstract class Competition_Hardware extends LinearOpMode {
         return robotError;
     }
 
-    public void gyroDrive ( double speed,
-                            double distance,
-                            double angle) throws InterruptedException {
-
-
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-
-            // Determine new target position, and pass to motor controller
-            moveCounts = (int) (distance * COUNTS_PER_INCH);
-            newLeftTarget = motor1.getCurrentPosition() + moveCounts;
-            newRightTarget = motor2.getCurrentPosition() + moveCounts;
-
-            // Set Target and Turn On RUN_TO_POSITION
-            motor1.setTargetPosition(newLeftTarget);
-            motor2.setTargetPosition(newRightTarget);
-
-            motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-
-            // start motion.
-            speed = Range.clip(Math.abs(speed), 0.0, 1.0);
-            motor1.setPower(speed);
-            motor2.setPower(speed);
-            motor3.setPower(speed);
-            motor4.setPower(speed);
-
-
-            // keep looping while we are still active, and BOTH motors are running.
-            while (opModeIsActive() &&
-                    motor1.isBusy() && motor2.isBusy()) {
-
-                // adjust relative speed based on headine3sg error.
-                error = getError(angle);
-                steer = getSteer(error, P_DRIVE_COEFF);
-
-                // if driving in reverse, the motor correction also needs to be reversed
-                if (distance < 0)
-                    steer *= -1.0;
-
-                leftSpeed = speed - steer;
-                rightSpeed = speed + steer;
-
-                // Normalize speeds if any one exceeds +/- 1.0;
-
-                max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
-                if (max > 1) {
-                    leftSpeed /= max;
-                    rightSpeed /= max;
-                }
-
-                motor1.setPower(leftSpeed / 4);
-                motor4.setPower(leftSpeed / 4);
-
-                motor2.setPower(rightSpeed / 4);
-                motor3.setPower(rightSpeed / 4);
-
-                // Display drive status for the driver.
-                telemetry.addData("Err/St", "%5.1f/%5.1f", error, steer);
-                telemetry.addData("Target", "%7d:%7d", newLeftTarget, newRightTarget);
-                telemetry.addData("Actual", "%7d:%7d", motor1.getCurrentPosition(),
-                        motor2.getCurrentPosition());
-                telemetry.addData("Speed", "%5.2f:%5.2f", leftSpeed, rightSpeed);
-                telemetry.update();
-
-                // Allow time for other processes to run.
-                idle();
-            }
-        }
-    }
 
 
 
@@ -514,44 +442,121 @@ public abstract class Competition_Hardware extends LinearOpMode {
         }
 
     }
-    void gyro (String gyroDirection){
+    void gyroDrive (String gyroDirection, double speed, double distance) {
         try {
             telemetry.addData("direction", gyroDirection);
-             DcMotor flMotor = null;
-             DcMotor frMotor = null;
-             DcMotor blMotor = null;
-             DcMotor brMotor = null;
-             if (gyroDirection == "F") {
+
+            DcMotor flMotor = null;
+            DcMotor frMotor = null;
+            DcMotor blMotor = null;
+            DcMotor brMotor = null;
+
+            if (gyroDirection == "up") {
                 flMotor = motor1;
                 frMotor = motor2;
                 blMotor = motor3;
                 brMotor = motor4;
 
-                flMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-                frMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-                brMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-                blMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+            } else if (gyroDirection == "right") {
+                flMotor = motor2;
+                frMotor = motor3;
+                blMotor = motor1;
+                brMotor = motor4;
 
-                newLeftTarget = flMotor.getCurrentPosition() + moveCounts;
-                newRightTarget = frMotor.getCurrentPosition() + moveCounts;
-                frMotor.setTargetPosition(newLeftTarget);
-                flMotor.setTargetPosition(newRightTarget);
 
-            } else if (gyroDirection == "R") {
-                newLeftTarget = motor2.getCurrentPosition() + moveCounts;
-                newRightTarget = motor3.getCurrentPosition() + moveCounts;
-                motor1.setTargetPosition(newLeftTarget);
-                motor2.setTargetPosition(newRightTarget);
+            } else if (gyroDirection == "down") {
+                flMotor = motor3;
+                frMotor = motor4;
+                blMotor = motor1;
+                brMotor = motor2;
 
-            } else if (gyroDirection == "B") {
-                motor3.setTargetPosition(newLeftTarget);
-                motor4.setTargetPosition(newRightTarget);
 
-            } else if (gyroDirection == "L") {
-                motor1.setTargetPosition(newLeftTarget);
-                motor2.setTargetPosition(newRightTarget);
+            } else if (gyroDirection == "left") {
+                flMotor = motor4;
+                frMotor = motor3;
+                blMotor = motor2;
+                brMotor = motor1;
+
+
             }
+
+
+                // Ensure that the opmode is still active
+                if (opModeIsActive()) {
+
+                    // Determine new target position, and pass to motor controller
+                    moveCounts = (int) (distance * COUNTS_PER_INCH);
+                    newLeftTarget = flMotor.getCurrentPosition() + moveCounts;
+                    newRightTarget = frMotor.getCurrentPosition() + moveCounts;
+
+                    // Set Target and Turn On RUN_TO_POSITION
+                    flMotor.setTargetPosition(newLeftTarget);
+                    frMotor.setTargetPosition(newRightTarget);
+
+                    flMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    frMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+                    // start motion.
+                    speed = Range.clip(Math.abs(speed), 0.0, 1.0);
+                    flMotor.setPower(speed);
+                    frMotor.setPower(speed);
+                    brMotor.setPower(speed);
+                    blMotor.setPower(speed);
+
+
+                    // keep looping while we are still active, and BOTH motors are running.
+                    while (opModeIsActive() &&
+                            flMotor.isBusy() && frMotor.isBusy()) {
+
+                        // adjust relative speed based on headine3sg error.
+                        error = getError(0);
+                        steer = getSteer(error, P_DRIVE_COEFF);
+
+                        // if driving in reverse, the motor correction also needs to be reversed
+                        if (distance < 0)
+                            steer *= -1.0;
+
+                        leftSpeed = speed - steer;
+                        rightSpeed = speed + steer;
+
+                        // Normalize speeds if any one exceeds +/- 1.0;
+
+                        max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
+                        if (max > 1) {
+                            leftSpeed /= max;
+                            rightSpeed /= max;
+                        }
+
+                        flMotor.setPower(leftSpeed / 4);
+                        blMotor.setPower(leftSpeed / 4);
+
+                        frMotor.setPower(rightSpeed / 4);
+                        brMotor.setPower(rightSpeed / 4);
+
+                        // Display drive status for the driver.
+                        telemetry.addData("Err/St", "%5.1f/%5.1f", error, steer);
+                        telemetry.addData("Target", "%7d:%7d", newLeftTarget, newRightTarget);
+                        telemetry.addData("Actual", "%7d:%7d", flMotor.getCurrentPosition(),
+                                frMotor.getCurrentPosition());
+                        telemetry.addData("Speed", "%5.2f:%5.2f", leftSpeed, rightSpeed);
+                        telemetry.update();
+
+                        // Allow time for other processes to run.
+                        idle();
+                    }
+                    // Stop all motion;
+                    flMotor.setPower(0);
+                    frMotor.setPower(0);
+
+                    brMotor.setPower(0);
+                    blMotor.setPower(0);
+
+                    // Turn off RUN_TO_POSITION
+                    flMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    frMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                }
         }
             catch (Exception p_exception){
 

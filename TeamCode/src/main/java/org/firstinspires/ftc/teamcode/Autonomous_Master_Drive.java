@@ -36,8 +36,10 @@ package org.firstinspires.ftc.teamcode;
                 //Uses the encoders to move robot 16 centimeters depending on alliance color
                 if (teamColor == "blue") {
                     encoderDrive(DRIVE_SPEED, "left", 16, 10);
+                    gyroDrive("left", DRIVE_SPEED, 16);
                 } else {
                     encoderDrive(DRIVE_SPEED, "right", 16, 10);
+                    gyroDrive("right", DRIVE_SPEED, 16);
                 }
 
 

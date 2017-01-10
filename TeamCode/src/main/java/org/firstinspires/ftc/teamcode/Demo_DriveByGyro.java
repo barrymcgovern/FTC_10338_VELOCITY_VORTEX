@@ -257,7 +257,7 @@ public class Demo_DriveByGyro extends Demo_Hardware {
                 telemetry.addData("Err/St",  "%5.1f/%5.1f",  error, steer);
                 telemetry.addData("Target",  "%7d:%7d",      newLeftTarget,  newRightTarget);
                 telemetry.addData("Actual",  "%7d:%7d",      motor1.getCurrentPosition(),
-                                                             motor2.getCurrentPosition());
+                        motor2.getCurrentPosition());
                 telemetry.addData("Speed",   "%5.2f:%5.2f",  leftSpeed, rightSpeed);
                 telemetry.update();
 
