@@ -26,6 +26,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+
 import java.security.PublicKey;
 
 
@@ -43,6 +49,23 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
     public ElapsedTime runtime = new ElapsedTime();
 
+    public VuforiaLocalizer vuforiaLocalizer;
+    public VuforiaLocalizer.Parameters parameters;
+    public VuforiaTrackables visionTargets;
+    public VuforiaTrackable target;
+    public VuforiaTrackableDefaultListener listener;
+
+    public OpenGLMatrix lastKnownLocation;
+    public OpenGLMatrix phoneLocation;
+    public OpenGLMatrix latestLocation;
+    public float[] coordinates;
+
+    public static final String VUFORIA_KEY = "AZNyeJT/////AAAAGcEyNak4ykAkhL+InR+WdKUGDQVzF/FELSuZi1yDVXXgcq8IBY9YUrq/i8CblYxOVZ1f8p3FSqUGHisyj6X2Z/fzTkrhRxyigB1hzK2ua8R5PtjFMrb5bruaTXH0rPs59nmx7OPKDr3rrp74XAKU2Twxt+wRaGCssmWtpwUC2Fk6xz9CRkejMEPhenzNpjd/z4tiQRDAe37LEfpJvos/6QVLZZkamkozBN9gdR8+6JLthq3HL22qwlX21RIbwlJmMoi41qhzcaeyFHk0CamDUHgxVcB1VC5i8Hin3f7Y/EPGGALbPpb4AJUhx2nddSQQVI3nDNoNIhHP5sBJ0OG9WPy5dTvDNGaqK7LQfjbyze2x"; // Insert your own key here
+
+    public float robotX = 0;
+    public float robotY = 0;
+    public float robotAngle = 0;
+
     static final double COUNTS_PER_MOTOR_REV = 1440;    // eg: TETRIX Motor Encoder
     static final double DRIVE_GEAR_REDUCTION = 2.0;     // This is < 1.0 if geared UP
     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
@@ -52,7 +75,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
     static final double TURN_SPEED = 0.5;
     static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
     static final double     P_TURN_COEFF            = 0.1;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_COEFF           = 0.05;     // Larger is more responsive, but also less stable
+    static final double     P_DRIVE_COEFF           = 0.01;     // Larger is more responsive, but also less stable
 
     final double SPIN_SPEED = .85;
     final double ELEVATOR_SPEED = .5;
@@ -520,10 +543,10 @@ public abstract class Competition_Hardware extends LinearOpMode {
                     // start motion.
                     speed = Range.clip(Math.abs(speed), 0.0, 1.0);
 
-                    flMotor.setPower(speed/2);
-                    frMotor.setPower(speed/2);
-                    brMotor.setPower(speed/2);
-                    blMotor.setPower(speed/2);
+                    flMotor.setPower(speed);
+                    frMotor.setPower(speed);
+                    brMotor.setPower(speed);
+                    blMotor.setPower(speed);
 
 
                     // keep looping while we are still active, and BOTH motors are running.
