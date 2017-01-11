@@ -40,10 +40,11 @@ public class Autonomous_Master_GryoDriveTest extends Competition_Hardware {
 
 
             while (opModeIsActive()) {
-                gyroDrive("up",DRIVE_SPEED,10);
+
                 gyroDrive("left", DRIVE_SPEED, 10);
                 gyroDrive("down",DRIVE_SPEED,10);
                 gyroDrive("right", DRIVE_SPEED, 10);
+                gyroDrive("up",DRIVE_SPEED,10);
 
                 break;
             }
