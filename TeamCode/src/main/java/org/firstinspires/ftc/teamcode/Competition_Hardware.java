@@ -368,6 +368,10 @@ public abstract class Competition_Hardware extends LinearOpMode {
             //sets speed needed for motors to run different directions
             //Uses four motor to move robot ten different directions
             //Negative speed moves motor backwards and positive speed moves motor forward
+            motor1.setDirection(DcMotor.Direction.FORWARD);
+            motor2.setDirection(DcMotor.Direction.FORWARD);
+            motor3.setDirection(DcMotor.Direction.FORWARD);
+            motor4.setDirection(DcMotor.Direction.FORWARD);
 
             if (robotDirection == "up") {
                 motor1.setPower(-speed);

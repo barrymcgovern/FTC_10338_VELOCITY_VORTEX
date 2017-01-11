@@ -27,9 +27,11 @@ public class Autonomous_Master extends Competition_Hardware {
             telemetry.addData("Status", "Starting");    //
             telemetry.update();
             speed = DRIVE_SPEED;
-
+            telemetry.addData("Status", "init");    //
+            telemetry.update();
             initSystem(); // See initSystem below
-
+            telemetry.addData("Status", "wait");    //
+            telemetry.update();
             // Wait for the game to start (driver presses PLAY)
             waitForStart();
 
@@ -44,10 +46,10 @@ public class Autonomous_Master extends Competition_Hardware {
 
                 // Has the robot go forward at a set speed, in a set direction, for 14 inches with a 5 second timeout
                 if (teamColor == "blue"){
-                    encoderDrive(DRIVE_SPEED, "left", 15.5, 5);
+
                     gyroDrive("left", DRIVE_SPEED, 15.5);
                 } else {
-                    encoderDrive(DRIVE_SPEED, "right", 15.5, 5);
+                    gyroDrive ("right", DRIVE_SPEED, 15.5);
                 }
 
                 runtime.reset();
@@ -57,27 +59,20 @@ public class Autonomous_Master extends Competition_Hardware {
                 motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                speed = .2;
+
 
                 //run until sensor is less than 17 cm,  or 6 seconds
 
                 while (rangeSensor.rawUltrasonic() > 17 && (runtime.seconds() < 6)) {
                     telemetry.addData("Range_Sensor", rangeSensor.rawUltrasonic());
                     telemetry.update();
-                    // will go left or right, depending on red or blue side
-                    if (teamColor == "blue"){
-                        drive("up");
-                    }
-                    else {
-                        drive("down");
-                    }
-
+                    drive("down");
                 }
+
                 drive("stop");
 
                 // needs to be inside loop
                 // Uses the more specific range sensor to make sure that robot is close enough for color sensor before stopping
-
 
                 // will move the robot a certain way and then move into the button
                 // will need timeout and then move back to neutral afterwards
@@ -85,11 +80,11 @@ public class Autonomous_Master extends Competition_Hardware {
                 if (colorSensor.red() > colorSensor.blue()) {
                     telemetry.addData("1", "Red", colorSensor.red());
                     if (teamColor == "blue") {
-                       encoderDrive(DRIVE_SPEED, "left", 1, 10);
-                        encoderDrive(DRIVE_SPEED, "up", 1, 12);
+                        encoderDrive(DRIVE_SPEED, "left", 1, 10);
+                        encoderDrive(DRIVE_SPEED, "down", 1, 12);
                     } else {
                         encoderDrive(DRIVE_SPEED, "right", 1, 10);
-                        encoderDrive(DRIVE_SPEED, "up", 1, 12);
+                        encoderDrive(DRIVE_SPEED, "down", 1, 12);
 
                     }
                     //if the color detected is blue...
@@ -97,18 +92,17 @@ public class Autonomous_Master extends Competition_Hardware {
                     telemetry.addData("1", "Blue", colorSensor.blue());
                     if (teamColor == "blue"){
                         encoderDrive(DRIVE_SPEED, "right", 1, 10);
-                        encoderDrive(DRIVE_SPEED, "up", 1, 12);
+                        encoderDrive(DRIVE_SPEED, "down", 1, 12);
                     } else {
                         encoderDrive(DRIVE_SPEED, "left", 1, 10);
-                        encoderDrive(DRIVE_SPEED, "up", 1, 12);
+                        encoderDrive(DRIVE_SPEED, "down", 1, 12);
                     }
                 }
                 //moves backwards
-                encoderDrive(DRIVE_SPEED, "down", 16 ,14 );
+                encoderDrive(DRIVE_SPEED, "up", 16 ,14 );
                 break;
 
             }
-
 
         } catch (Exception e) {
             telemetry.addData("runOpMode ERROR", e.toString());
@@ -119,6 +113,9 @@ public class Autonomous_Master extends Competition_Hardware {
     public void initSystem() {
         try {
             // At the beginning of autonomous program, the encoders on the motors are reset
+
+            telemetry.addData("Status", "inside init");    //
+            telemetry.update();
             motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             motor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -129,16 +126,19 @@ public class Autonomous_Master extends Competition_Hardware {
             motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-
+            telemetry.addData("Status", "b4 gyro");    //
+            telemetry.update();
             gyro.calibrate();
+
             while (gyro.isCalibrating())  {
                 Thread.sleep(50);
                 idle();
             }
-
+            telemetry.addData("Status", "after gyro");    //
+            telemetry.update();
             gyro.resetZAxisIntegrator();
 
-            telemetry.addData("2", "MotorTest", motor1.getCurrentPosition());
+
 
         } catch (Exception e) {
 
