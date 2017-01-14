@@ -26,6 +26,20 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 
 //@Autonomous(name="Comp: Autonomous_Drive_Shoot", group="Pushbot")
 
+    /* barry comments
+    What is calling this?
+     - need blue and red that will then call this, right?
+
+    Where is team color defined
+    missing the last steps
+    - detect color of beacon
+    - move to correct button
+    - push button
+    - back up and knock ball off and stop and stand
+
+
+     */
+
 public class Autonomous_Drive_and_Shoot extends Competition_Hardware {
     @Override
     public void runOpMode() throws InterruptedException {
