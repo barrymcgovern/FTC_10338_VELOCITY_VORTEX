@@ -14,7 +14,7 @@ package org.firstinspires.ftc.teamcode;
  * Partially parks on base
  */
 //@Autonomous(name="Comp: Autonomous_Master_Drive", group="Pushbot")
-        public class Autonomous_Master_Drive extends Competition_Hardware {
+public class Autonomous_Master_Drive extends Competition_Hardware {
     @Override
     public void runOpMode() throws InterruptedException {
 

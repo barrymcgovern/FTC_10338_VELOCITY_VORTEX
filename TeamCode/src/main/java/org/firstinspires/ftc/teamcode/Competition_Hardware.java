@@ -368,12 +368,12 @@ public abstract class Competition_Hardware extends LinearOpMode {
                 drive("down");
             }
         } else if (x > .10) {
-            drive("right");
+            drive("left");
 
 
         }else if (x < -.10 ){
 
-                drive ("left");
+                drive ("right");
 
         }else{
             drive("stop");
