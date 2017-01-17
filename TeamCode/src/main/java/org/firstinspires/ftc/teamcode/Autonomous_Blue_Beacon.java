@@ -23,7 +23,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 // Runs all of existing main autonomous except teamColor is blue so it runs autonomous for blue alliance
 @Autonomous(name="Comp: Blue Beacon Only", group="Pushbot")
 
-public class Autonomous_Blue_Beacon extends Autonomous_Drive_and_Shoot{
+public class Autonomous_Blue_Beacon extends Autonomous_Drive_Shoot_Beacon{
     @Override
     public void runOpMode() throws InterruptedException {
         teamColor = "blue";

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.vuforia.HINT;
 import com.vuforia.Vuforia;
@@ -24,23 +23,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
  */
 
 
-//@Autonomous(name="Comp: Autonomous_Drive_Shoot", group="Pushbot")
+/*
+    This would only drive and shoot - no beacon
+    if other team is doing beacon - need this
 
-    /* barry comments
-    What is calling this?
-     - need blue and red that will then call this, right? - Defined in Autonomous_Blue/Autonomous_Red
-
-    Where is team color defined
-    missing the last steps
-    - detect color of beacon - Check
-    - move to correct button - Check
-    - push button - Check
-    - back up and knock ball off and stop and stand - Check
-
-
-     */
-
-public class Autonomous_Drive_and_Shoot extends Competition_Hardware {
+ */
+public class Autonomous_Drive_Shoot_Only extends Competition_Hardware {
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -78,85 +66,6 @@ public class Autonomous_Drive_and_Shoot extends Competition_Hardware {
                     gyroDrive ("right", DRIVE_SPEED, 15.5);
                 }
 
-                runtime.reset();
-
-                // Motors will run without encoders in next step
-                motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-
-                //run until sensor is less than 17 cm,  or 6 seconds
-
-                while (rangeSensor.rawUltrasonic() > 25 && (runtime.seconds() < 6)) {
-                    telemetry.addData("Range_Sensor", rangeSensor.rawUltrasonic());
-                    telemetry.update();
-                    drive("down");
-                }
-
-                drive("stop");
-
-                // Ask the listener for the latest information on where the robot is
-                latestLocation = listener.getUpdatedRobotLocation();
-
-                // The listener will sometimes return null, so we check for that to prevent errors
-                if(latestLocation != null)
-                    lastKnownLocation = latestLocation;
-
-                coordinates = lastKnownLocation.getTranslation().getData();
-
-                robotX = coordinates[0];
-                robotY = coordinates[1];
-                robotAngle = Orientation.getOrientation(lastKnownLocation, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES).thirdAngle;
-
-                // Send information about whether the target is visible, and where the robot is
-                telemetry.addData("Tracking " + target.getName(), listener.isVisible());
-                // let's put in a check to see if listener.isVisible
-                // if not - then we should just abort
-
-                telemetry.addData("Robot X " ,robotX);
-                telemetry.addData("Robot Y " ,robotY);
-                telemetry.update();
-                while (rangeSensor.rawUltrasonic() > 17 && (runtime.seconds() < 6)) {
-                    telemetry.addData("Range_Sensor", rangeSensor.rawUltrasonic());
-                    telemetry.addData("Tracking " + target.getName(), listener.isVisible());
-                    telemetry.addData("Robot X " ,robotX);
-                    telemetry.addData("Robot Y " ,robotY);
-                    telemetry.update();
-                    if (robotY > 550 ) {
-                        drive("right");
-                    }else if ( robotY < 450) {
-                        drive("left");
-                    }else {
-                        drive("down");
-                    }
-                }
-                //if the color is red
-                if (colorSensor.red() > colorSensor.blue()) {
-                    telemetry.addData("1", "Red", colorSensor.red());
-                    if (teamColor == "blue") {
-                        encoderDrive(DRIVE_SPEED, "left", 1, 10);
-                        encoderDrive(DRIVE_SPEED, "down", 1, 12);
-                    } else {
-                        encoderDrive(DRIVE_SPEED, "right", 1, 10);
-                        encoderDrive(DRIVE_SPEED, "down", 1, 12);
-
-                    }
-                    //if the color detected is blue...
-                }else if (colorSensor.blue() > colorSensor.red()){
-                    telemetry.addData("1", "Blue", colorSensor.blue());
-                    if (teamColor == "blue"){
-                        encoderDrive(DRIVE_SPEED, "right", 1, 10);
-                        encoderDrive(DRIVE_SPEED, "down", 1, 12);
-                    } else {
-                        encoderDrive(DRIVE_SPEED, "left", 1, 10);
-                        encoderDrive(DRIVE_SPEED, "down", 1, 12);
-                    }
-                }
-                //moves backwards
-                encoderDrive(DRIVE_SPEED, "up", 16 ,14 );
-                break;
 
             }
 
