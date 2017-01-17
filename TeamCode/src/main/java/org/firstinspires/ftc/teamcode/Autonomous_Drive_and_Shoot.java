@@ -28,14 +28,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 
     /* barry comments
     What is calling this?
-     - need blue and red that will then call this, right?
+     - need blue and red that will then call this, right? - Defined in Autonomous_Blue/Autonomous_Red
 
     Where is team color defined
     missing the last steps
-    - detect color of beacon
-    - move to correct button
-    - push button
-    - back up and knock ball off and stop and stand
+    - detect color of beacon - Check
+    - move to correct button - Check
+    - push button - Check
+    - back up and knock ball off and stop and stand - Check
 
 
      */
@@ -62,6 +62,7 @@ public class Autonomous_Drive_and_Shoot extends Competition_Hardware {
                     gyroDrive("left", DRIVE_SPEED, 7.5);
                 } else {
                     gyroDrive("right", DRIVE_SPEED, 7.5);
+                    encoderDrive(DRIVE_SPEED, "circle right", 3, 11);
                 }
                 //Tentative
                 runtime.reset();
@@ -131,20 +132,42 @@ public class Autonomous_Drive_and_Shoot extends Competition_Hardware {
                         drive("down");
                     }
                 }
+                //if the color is red
+                if (colorSensor.red() > colorSensor.blue()) {
+                    telemetry.addData("1", "Red", colorSensor.red());
+                    if (teamColor == "blue") {
+                        encoderDrive(DRIVE_SPEED, "left", 1, 10);
+                        encoderDrive(DRIVE_SPEED, "down", 1, 12);
+                    } else {
+                        encoderDrive(DRIVE_SPEED, "right", 1, 10);
+                        encoderDrive(DRIVE_SPEED, "down", 1, 12);
 
-                // need to detect color, move to correct button, bump button
-                // then back up and knock ball off stand and drive on stand
-
-
+                    }
+                    //if the color detected is blue...
+                }else if (colorSensor.blue() > colorSensor.red()){
+                    telemetry.addData("1", "Blue", colorSensor.blue());
+                    if (teamColor == "blue"){
+                        encoderDrive(DRIVE_SPEED, "right", 1, 10);
+                        encoderDrive(DRIVE_SPEED, "down", 1, 12);
+                    } else {
+                        encoderDrive(DRIVE_SPEED, "left", 1, 10);
+                        encoderDrive(DRIVE_SPEED, "down", 1, 12);
+                    }
+                }
+                //moves backwards
+                encoderDrive(DRIVE_SPEED, "up", 16 ,14 );
                 break;
+
             }
 
         } catch (Exception e) {
             telemetry.addData("runOpMode ERROR", e.toString());
             telemetry.update();
         }
+    }
 
-        }
+                // need to detect color, move to correct button, bump button
+                // then back up and knock ball off stand and drive on stand
 
 
 
