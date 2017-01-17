@@ -25,7 +25,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
  */
 
 
-public class Autonomous_Master extends Competition_Hardware {
+public class OLDAutonomous_Master extends Competition_Hardware {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -186,6 +186,8 @@ public class Autonomous_Master extends Competition_Hardware {
             visionTargets.activate();
             OpenGLMatrix latestLocation;
             float[] coordinates;
+
+
 
 
 

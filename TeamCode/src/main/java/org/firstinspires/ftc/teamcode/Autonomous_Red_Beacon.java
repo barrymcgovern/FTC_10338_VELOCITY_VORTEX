@@ -15,12 +15,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * 5 points for parking partially on base
  *
  *///Runs the Autonomous_Master but with teamColor as red so the directions match red alliance
-@Autonomous(name="Comp: Red Beacon", group="Pushbot")
+@Autonomous(name="Comp: Red Beacon Only", group="Pushbot")
 
 public class Autonomous_Red_Beacon extends Autonomous_Drive_and_Shoot{
     @Override
     public void runOpMode() throws InterruptedException {
         teamColor = "red";
-           runDriveShoot();
+           // only get red beacon
     }
 }

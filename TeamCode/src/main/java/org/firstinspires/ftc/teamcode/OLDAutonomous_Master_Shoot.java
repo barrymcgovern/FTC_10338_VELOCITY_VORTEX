@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  */
 @Autonomous(name="Comp: Autonomous_Master_Shoot", group="Pushbot")
 
-public class Autonomous_Master_Shoot extends Competition_Hardware {
+public class OLDAutonomous_Master_Shoot extends Competition_Hardware {
 
     @Override
     public void runOpMode() throws InterruptedException {

@@ -26,7 +26,7 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@TeleOp(name="Sensors: Range", group="Pushbot")
+// @TeleOp(name="Sensors: Range", group="Pushbot")
 
 
 public class MRI_Range extends LinearOpMode {

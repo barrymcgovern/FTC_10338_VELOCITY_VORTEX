@@ -1,50 +1,46 @@
 package org.firstinspires.ftc.teamcode;
 
+        import com.qualcomm.hardware.adafruit.BNO055IMU;
         import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
         import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * Team: Dark Matters #10338
  * Velocity Vortex
- * This is a test of gyroDrive code
- * should drive a square  - up , left, down, right
+ * Autonomous program for knocking the Cap Ball and parking the robot on the Center Vortex base in the event that the other
+ * autonomous programs cannot be used.
+ * 10 points total
+ * Knocks off cap ball for 5 points
+ * Partially parks on base
  */
-
-@Autonomous(name="Comp: GryroDriveTest", group="Pushbot")
-
-
-public class Autonomous_Master_GryoDriveTest extends Competition_Hardware {
+//@Autonomous(name="Comp: Autonomous_Master_Drive", group="Pushbot")
+public class OLDAutonomous_Master_Drive extends Competition_Hardware {
     @Override
     public void runOpMode() throws InterruptedException {
 
+    }
+
+    public void runDrive(){
+
         try {
-            telemetry.addData("Status", "Starting");    //
-            telemetry.update();
             init(hardwareMap);
 
-            telemetry.addData("Status", "InitStarted");    //
+            telemetry.addData("Status", "Starting");    //
             telemetry.update();
+
+
             initSystem(); // See initSystem below
 
-            telemetry.addData("Status", "Init Done");    //
-            telemetry.update();
-
             // Wait for the game to start (driver presses PLAY)
-
-            // Wait for the game to start (Display Gyro value), and reset gyro before we move..
-            while (!isStarted()) {
-                telemetry.addData(">", "Robot Heading = %d", gyro.getIntegratedZValue());
-                telemetry.update();
-                idle();
-            }
-
-
+            waitForStart();
             while (opModeIsActive()) {
+                //Uses the encoders to move robot 16 centimeters depending on alliance color
+                if (teamColor == "blue") {
+                    encoderDrive(DRIVE_SPEED, "left", 16, 10);
+                } else {
+                    encoderDrive(DRIVE_SPEED, "right", 16, 10);
+                }
 
-                gyroDrive("left", DRIVE_SPEED, 10);
-                gyroDrive("down",DRIVE_SPEED,10);
-                gyroDrive("right", DRIVE_SPEED, 10);
-                gyroDrive("up",DRIVE_SPEED,10);
 
                 break;
             }
@@ -53,7 +49,6 @@ public class Autonomous_Master_GryoDriveTest extends Competition_Hardware {
             telemetry.update();
         }
     }
-
 
     public void initSystem() {
         try {
@@ -68,15 +63,7 @@ public class Autonomous_Master_GryoDriveTest extends Competition_Hardware {
             motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            gyro.calibrate();
-
-            // make sure the gyro is calibrated before continuing
-            while (gyro.isCalibrating())  {
-                Thread.sleep(50);
-                idle();
-            }
-
-
+            telemetry.addData("2", "MotorTest", motor1.getCurrentPosition());
 
 
         } catch (Exception e) {
