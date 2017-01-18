@@ -68,7 +68,7 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 //Tentative
                 runtime.reset();
                 while (runtime.seconds() < 3) {
-                    beMotor.setPower(-100);
+                    beMotor.setPower(-50);
                     pMotor1.setPower(SPIN_SPEED);
                     pMotor2.setPower(-SPIN_SPEED);
                 }
