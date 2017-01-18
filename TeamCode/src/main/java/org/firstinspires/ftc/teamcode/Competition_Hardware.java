@@ -466,6 +466,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
             telemetry.addData("motor2", motor2.getPower());
             telemetry.addData("motor3", motor3.getPower());
             telemetry.addData("motor4", motor4.getPower());
+            telemetry.update();
 
         }  catch (Exception p_exception) {
             //   telemetry.addData("98", "drive error" + p_exception.toString());

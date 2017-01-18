@@ -17,7 +17,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  *///Runs the Autonomous_Master but with teamColor as red so the directions match red alliance
 @Autonomous(name="Comp: Red Beacon Only", group="Pushbot")
 
-public class Autonomous_Red_Beacon extends Autonomous_Drive_and_Shoot{
+public class Autonomous_Red_Beacon extends Autonomous_Drive_Shoot_Beacon{
     @Override
     public void runOpMode() throws InterruptedException {
         teamColor = "red";

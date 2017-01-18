@@ -55,41 +55,58 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
             runtime.reset();
             // Wait for the game to start (driver presses PLAY)
             waitForStart();
+
             //Within 7 seconds, the 'ball elevator' will feed the balls into the pitching machine to launch them into the Center Vortex
             while (opModeIsActive()){
 
                 if (teamColor == "blue"){
-                    gyroDrive("left", DRIVE_SPEED, 7.5);
+                    gyroDrive("left", DRIVE_SPEED, 5);
                 } else {
-                    gyroDrive("right", DRIVE_SPEED, 7.5);
+                    gyroDrive("right", DRIVE_SPEED, 5);
                     encoderDrive(DRIVE_SPEED, "circle right", 3, 11);
                 }
                 //Tentative
                 runtime.reset();
-                while (runtime.seconds() > 6) {
+                while (runtime.seconds() < 3) {
                     beMotor.setPower(-100);
                     pMotor1.setPower(SPIN_SPEED);
                     pMotor2.setPower(-SPIN_SPEED);
                 }
+                beMotor.setPower(0);
+                pMotor1.setPower(0);
+                pMotor2.setPower(0);
+
                 if (teamColor == "blue"){
 
-                    gyroDrive("left", DRIVE_SPEED, 15.5);
+                    gyroDrive("left", DRIVE_SPEED, 10);
                 } else {
                     gyroDrive ("right", DRIVE_SPEED, 15.5);
                 }
 
                 runtime.reset();
 
-                // Motors will run without encoders in next step
+                // Set to FORWARD
+                motor1.setDirection(DcMotor.Direction.FORWARD);
+                motor2.setDirection(DcMotor.Direction.FORWARD);
+                motor3.setDirection(DcMotor.Direction.FORWARD);
+                motor4.setDirection(DcMotor.Direction.FORWARD);
+                // Set all motors to zero power
+                motor1.setPower(0);
+                motor2.setPower(0);
+                motor3.setPower(0);
+                motor4.setPower(0);
+
+
+
                 motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-
+                speed = DRIVE_SPEED;
                 //run until sensor is less than 17 cm,  or 6 seconds
 
-                while (rangeSensor.rawUltrasonic() > 25 && (runtime.seconds() < 6)) {
+                while (rangeSensor.rawUltrasonic() > 25 && (runtime.seconds() < 10)) {
                     telemetry.addData("Range_Sensor", rangeSensor.rawUltrasonic());
                     telemetry.update();
                     drive("down");
@@ -112,13 +129,24 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
 
                 // Send information about whether the target is visible, and where the robot is
                 telemetry.addData("Tracking " + target.getName(), listener.isVisible());
-                // let's put in a check to see if listener.isVisible
-                // if not - then we should just abort
 
                 telemetry.addData("Robot X " ,robotX);
                 telemetry.addData("Robot Y " ,robotY);
                 telemetry.update();
-                while (rangeSensor.rawUltrasonic() > 17 && (runtime.seconds() < 6)) {
+                while (rangeSensor.rawUltrasonic() > 14 && (runtime.seconds() < 6)) {
+
+                    // Ask the listener for the latest information on where the robot is
+                    latestLocation = listener.getUpdatedRobotLocation();
+
+                    // The listener will sometimes return null, so we check for that to prevent errors
+                    if(latestLocation != null)
+                        lastKnownLocation = latestLocation;
+
+                    coordinates = lastKnownLocation.getTranslation().getData();
+
+                    robotX = coordinates[0];
+                    robotY = coordinates[1];
+
                     telemetry.addData("Range_Sensor", rangeSensor.rawUltrasonic());
                     telemetry.addData("Tracking " + target.getName(), listener.isVisible());
                     telemetry.addData("Robot X " ,robotX);
@@ -127,35 +155,42 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                     if (robotY > 550 ) {
                         drive("right");
                     }else if ( robotY < 450) {
-                        drive("left");
+                         drive("left");
                     }else {
                         drive("down");
                     }
                 }
+
+                telemetry.addData("Red", colorSensor.red());
+                telemetry.addData("Blue", colorSensor.blue());
+                telemetry.update();
                 //if the color is red
                 if (colorSensor.red() > colorSensor.blue()) {
-                    telemetry.addData("1", "Red", colorSensor.red());
+
                     if (teamColor == "blue") {
-                        encoderDrive(DRIVE_SPEED, "left", 1, 10);
-                        encoderDrive(DRIVE_SPEED, "down", 1, 12);
-                    } else {
                         encoderDrive(DRIVE_SPEED, "right", 1, 10);
+                        encoderDrive(DRIVE_SPEED, "down", 1, 12);
+
+
+                    } else {
+                        encoderDrive(DRIVE_SPEED, "left", 1, 10);
                         encoderDrive(DRIVE_SPEED, "down", 1, 12);
 
                     }
                     //if the color detected is blue...
                 }else if (colorSensor.blue() > colorSensor.red()){
-                    telemetry.addData("1", "Blue", colorSensor.blue());
+
                     if (teamColor == "blue"){
-                        encoderDrive(DRIVE_SPEED, "right", 1, 10);
+                        encoderDrive(DRIVE_SPEED, "left", 1, 10);
                         encoderDrive(DRIVE_SPEED, "down", 1, 12);
                     } else {
-                        encoderDrive(DRIVE_SPEED, "left", 1, 10);
+                        encoderDrive(DRIVE_SPEED, "right", 1, 10);
                         encoderDrive(DRIVE_SPEED, "down", 1, 12);
                     }
                 }
                 //moves backwards
                 encoderDrive(DRIVE_SPEED, "up", 16 ,14 );
+
                 break;
 
             }
