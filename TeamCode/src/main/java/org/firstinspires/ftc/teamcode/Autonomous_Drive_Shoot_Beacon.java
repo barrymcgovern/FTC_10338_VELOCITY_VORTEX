@@ -133,7 +133,7 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 telemetry.addData("Robot X " ,robotX);
                 telemetry.addData("Robot Y " ,robotY);
                 telemetry.update();
-                while (rangeSensor.rawUltrasonic() > 14 && (runtime.seconds() < 6)) {
+                while (rangeSensor.rawUltrasonic() > 14 && (runtime.seconds() < 15)) {
 
                     // Ask the listener for the latest information on where the robot is
                     latestLocation = listener.getUpdatedRobotLocation();
