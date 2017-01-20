@@ -60,9 +60,9 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
             while (opModeIsActive()){
 
                 if (teamColor == "blue"){
-                    gyroDrive("left", DRIVE_SPEED, 5);
+                    gyroDrive("left", DRIVE_SPEED, 10);
                 } else {
-                    gyroDrive("right", DRIVE_SPEED, 5);
+                    gyroDrive("right", DRIVE_SPEED, 10);
                     encoderDrive(DRIVE_SPEED, "circle right", 3, 11);
                 }
                 //Tentative
@@ -78,9 +78,9 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
 
                 if (teamColor == "blue"){
 
-                    gyroDrive("left", DRIVE_SPEED, 10);
+                    gyroDrive("left", DRIVE_SPEED, 5);
                 } else {
-                    gyroDrive ("right", DRIVE_SPEED, 15.5);
+                    gyroDrive ("right", DRIVE_SPEED, 5);
                 }
 
                 runtime.reset();
@@ -133,7 +133,7 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 telemetry.addData("Robot X " ,robotX);
                 telemetry.addData("Robot Y " ,robotY);
                 telemetry.update();
-                while (rangeSensor.rawUltrasonic() > 14 && (runtime.seconds() < 15)) {
+                while (rangeSensor.rawUltrasonic() > 7 && (runtime.seconds() < 15)) {
 
                     // Ask the listener for the latest information on where the robot is
                     latestLocation = listener.getUpdatedRobotLocation();
@@ -152,13 +152,19 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                     telemetry.addData("Robot X " ,robotX);
                     telemetry.addData("Robot Y " ,robotY);
                     telemetry.update();
+                    speed = .1;
+
                     if (robotY > 550 ) {
+                        speed = .1;
                         drive("right");
-                    }else if ( robotY < 450) {
-                         drive("left");
+                    }else if ( robotY < 510) {
+                        speed = .1;
+                        drive("left");
                     }else {
+                        speed = .2;
                         drive("down");
                     }
+
                 }
 
                 telemetry.addData("Red", colorSensor.red());
@@ -168,8 +174,8 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 if (colorSensor.red() > colorSensor.blue()) {
 
                     if (teamColor == "blue") {
-                        encoderDrive(DRIVE_SPEED, "right", 1, 10);
-                        encoderDrive(DRIVE_SPEED, "down", 1, 12);
+                        encoderDrive(DRIVE_SPEED, "right", 2, 10);
+                        encoderDrive(DRIVE_SPEED, "down", 2, 12);
 
 
                     } else {
@@ -181,8 +187,8 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 }else if (colorSensor.blue() > colorSensor.red()){
 
                     if (teamColor == "blue"){
-                        encoderDrive(DRIVE_SPEED, "left", 1, 10);
-                        encoderDrive(DRIVE_SPEED, "down", 1, 12);
+                        encoderDrive(DRIVE_SPEED, "left", 2, 10);
+                        encoderDrive(DRIVE_SPEED, "down", 2, 12);
                     } else {
                         encoderDrive(DRIVE_SPEED, "right", 1, 10);
                         encoderDrive(DRIVE_SPEED, "down", 1, 12);

@@ -99,13 +99,24 @@ public class Autonomous_Vuforia extends Competition_Hardware {
                 telemetry.addData("Robot X " ,robotX);
                 telemetry.addData("Robot Y " ,robotY);
                 telemetry.update();
+
+                speed = .1;
+
                 if (robotY > 550 ) {
+                    speed = .1;
                     drive("right");
-                }else if ( robotY < 450) {
+                }else if ( robotY < 510) {
+                    speed = .1;
                     drive("left");
                 }else {
+                    speed = .2;
                     drive("down");
                 }
+                telemetry.addData("Range_Sensor", rangeSensor.rawUltrasonic());
+                telemetry.addData("Tracking " + target.getName(), listener.isVisible());
+                telemetry.addData("Robot X " ,robotX);
+                telemetry.addData("Robot Y " ,robotY);
+                telemetry.update();
             }
     }
 

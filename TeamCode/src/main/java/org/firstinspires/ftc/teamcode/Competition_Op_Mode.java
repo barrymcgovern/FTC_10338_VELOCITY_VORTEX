@@ -42,11 +42,11 @@ public class Competition_Op_Mode extends Competition_Hardware {
 
             if (gamepad1.right_stick_x > 0){
                 speed = (gamepad1.right_stick_x);
-                drive("circle right");
+                drive("circle left");
                 //uses left and right direction of right joystick to circle left or right
             } else if (gamepad1.right_stick_x < 0){
                 speed = -(gamepad1.right_stick_x);
-                drive("circle left");
+                drive("circle right");
             } else{
                 driveStick(gamepad1.left_stick_x, gamepad1.left_stick_y);
             }

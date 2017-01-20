@@ -77,7 +77,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
     static final double     P_TURN_COEFF            = 0.1;     // Larger is more responsive, but also less stable
     static final double     P_DRIVE_COEFF           = 0.01;     // Larger is more responsive, but also less stable
 
-    final double SPIN_SPEED = .85;
+    final double SPIN_SPEED = 1;
     final double ELEVATOR_SPEED = .5;
 
     int newLeftTarget;
@@ -224,6 +224,12 @@ public abstract class Competition_Hardware extends LinearOpMode {
                     motor2.setDirection(DcMotorSimple.Direction.REVERSE);
                     motor3.setDirection(DcMotorSimple.Direction.FORWARD);
                     motor4.setDirection(DcMotorSimple.Direction.FORWARD);
+                } else if (robotDirection == "circle right"){
+                    motor1.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor2.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor3.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor4.setDirection(DcMotorSimple.Direction.REVERSE);
+
                 }
                 //Resets encoders
 
@@ -259,24 +265,12 @@ public abstract class Competition_Hardware extends LinearOpMode {
                 motor3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motor4.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 //sets motors needed to make robot go different directions
-                if (robotDirection == "circle left") {
-                    motor1.setPower(0);
-                    motor2.setPower(eSpeed);
-                    motor3.setPower(0);
-                    motor4.setPower(eSpeed);
 
-                } else if (robotDirection == "circle right") {
+                motor1.setPower(eSpeed);
+                motor2.setPower(eSpeed);
+                motor3.setPower(eSpeed);
+                motor4.setPower(eSpeed);
 
-                    motor1.setPower(eSpeed);
-                    motor2.setPower(0);
-                    motor3.setPower(eSpeed);
-                    motor4.setPower(0);
-                } else {
-                    motor1.setPower(eSpeed);
-                    motor2.setPower(eSpeed);
-                    motor3.setPower(eSpeed);
-                   motor4.setPower(eSpeed);
-                }
                 // keep looping while we are still active, and there is time left, and both motors are running.
 
                 runtime.reset();
@@ -348,7 +342,22 @@ public abstract class Competition_Hardware extends LinearOpMode {
         speed = (Math.abs(x) > Math.abs(y) ? Math.abs(x) : Math.abs(y))/2;
         telemetry.addData("y", y);
         telemetry.addData("x", x);
+
         //One program to combine 8 directions of motion on one joystick using ranges of x and y values
+            if (y > .10) {
+                drive("left");
+                }
+                else if (y < -.10) {
+                    drive("right");
+                }
+            else if (x > .10) {
+                drive("down");
+            }else if (x < -.10 ){
+                drive ("up");
+            }else{
+                drive("stop");
+            }
+            /*
         if (y > .10) {
             if (x > .10) {
                 drive("up right");
@@ -369,16 +378,13 @@ public abstract class Competition_Hardware extends LinearOpMode {
             }
         } else if (x > .10) {
             drive("left");
-
-
-        }else if (x < -.10 ){
-
+       }else if (x < -.10 ){
                 drive ("right");
 
         }else{
             drive("stop");
         }
-
+*/
 
     }
 
