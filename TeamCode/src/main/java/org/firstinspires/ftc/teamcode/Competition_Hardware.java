@@ -25,8 +25,15 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+import com.vuforia.HINT;
+import com.vuforia.Vuforia;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
@@ -53,6 +60,11 @@ public abstract class Competition_Hardware extends LinearOpMode {
     public VuforiaLocalizer.Parameters parameters;
     public VuforiaTrackables visionTargets;
     public VuforiaTrackable target;
+    public VuforiaTrackable vuforiaWheels;
+    public VuforiaTrackable vuforiaTools;
+    public VuforiaTrackable vuforiaLegos;
+    public VuforiaTrackable vuforiaGears;
+
     public VuforiaTrackableDefaultListener listener;
 
     public OpenGLMatrix lastKnownLocation;
@@ -626,7 +638,68 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
         }
 
+
+
+    public void setupVuforia()
+    {
+        // Setup parameters to create localizer
+        //parameters = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId); // To remove the camera view from the screen, remove the R.id.cameraMonitorViewId
+        parameters = new VuforiaLocalizer.Parameters(); // To remove the camera view from the screen, remove the R.id.cameraMonitorViewId
+        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
+        parameters.useExtendedTracking = false;
+        vuforiaLocalizer = ClassFactory.createVuforiaLocalizer(parameters);
+
+        // These are the vision targets that we want to use
+        // The string needs to be the name of the appropriate .xml file in the assets folder
+        visionTargets = vuforiaLocalizer.loadTrackablesFromAsset("FTC_2016-17");
+        Vuforia.setHint(HINT.HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, 4);
+
+        // Setup the target to be tracked
+
+        vuforiaWheels = visionTargets.get(0);
+        vuforiaWheels.setName("wheels");  // wheels - blue 1
+
+        vuforiaTools = visionTargets.get(1);
+        vuforiaTools.setName("tools");  // Tools = red 2
+
+        vuforiaLegos = visionTargets.get(2);
+        vuforiaLegos.setName("legos");  // legos - blue 2
+
+        vuforiaGears = visionTargets.get(3);
+        vuforiaGears.setName("gears");  // Gears - red 1
+
+        if (teamColor == "Blue"){
+            target = vuforiaWheels;
+        }else{
+            target = vuforiaGears;
+        }
+
+        target.setLocation(createMatrix(0, 500, 0, 90, 0, 90));
+
+        // Set phone location on robot - not set
+        phoneLocation = createMatrix(0, 225, 0, 90, 0, 0);
+
+        // Setup listener and inform it of phone information
+        listener = (VuforiaTrackableDefaultListener) target.getListener();
+        listener.setPhoneInformation(phoneLocation, parameters.cameraDirection);
     }
+
+    // Creates a matrix for determining the locations and orientations of objects
+    // Units are millimeters for x, y, and z, and degrees for u, v, and w
+    public OpenGLMatrix createMatrix(float x, float y, float z, float u, float v, float w)
+    {
+        return OpenGLMatrix.translation(x, y, z).
+                multiplied(Orientation.getRotationMatrix(
+                        AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES, u, v, w));
+    }
+
+    // Formats a matrix into a readable string
+    public String formatMatrix(OpenGLMatrix matrix)
+    {
+        return matrix.formatAsTransform();
+    }
+}
 
 
 
