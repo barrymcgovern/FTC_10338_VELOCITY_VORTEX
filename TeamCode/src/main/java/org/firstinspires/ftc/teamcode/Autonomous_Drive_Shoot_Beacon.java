@@ -24,21 +24,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
  */
 
 
-//@Autonomous(name="Comp: Autonomous_Drive_Shoot", group="Pushbot")
-
-    /* barry comments
-    What is calling this?
-     - need blue and red that will then call this, right? - Defined in Autonomous_Blue/Autonomous_Red
-
-    Where is team color defined
-    missing the last steps
-    - detect color of beacon - Check
-    - move to correct button - Check
-    - push button - Check
-    - back up and knock ball off and stop and stand - Check
-
-
-     */
 
 public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
     @Override
@@ -46,7 +31,7 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
 
     }
 
-    public void runDriveShoot() {
+    public void runDriveShootBeacon() {
         try {
 
             init(hardwareMap);
@@ -62,10 +47,10 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
             while (opModeIsActive()) {
 
                 if (teamColor == "blue") {
-                    gyroDrive("left", DRIVE_SPEED, 10);
+                    gyroDrive("left", DRIVE_SPEED, 12);
                 } else {
-                    gyroDrive("right", DRIVE_SPEED, 10);
-                    encoderDrive(DRIVE_SPEED, "circle right", 3, 11);
+                    gyroDrive("left", DRIVE_SPEED, 12);
+
                 }
 
                 runtime.reset();
@@ -78,10 +63,20 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 pMotor1.setPower(0);
                 pMotor2.setPower(0);
 
-                if (teamColor == "blue") {
-                    gyroDrive("left", DRIVE_SPEED, 5);
+                if (teamColor == "red") {
+                    encoderDrive(DRIVE_SPEED, "circle right", 13, 10);
+                    gyro.calibrate();
+
+                    while (gyro.isCalibrating()) {
+                        Thread.sleep(50);
+                        idle();
+                    }
+                    gyroDrive("right", DRIVE_SPEED, 4);
+
                 } else {
-                    gyroDrive("right", DRIVE_SPEED, 5);
+
+                    gyroDrive("left", DRIVE_SPEED, 4);
+
                 }
 
                 runtime.reset();
@@ -106,7 +101,7 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 speed = DRIVE_SPEED;
                 //run until sensor is less than 17 cm,  or 6 seconds
 
-                while (rangeSensor.rawUltrasonic() > 25 && (runtime.seconds() < 10)) {
+                while (rangeSensor.rawUltrasonic() > 15 && (runtime.seconds() < 10)) {
                     telemetry.addData("Range_Sensor", rangeSensor.rawUltrasonic());
                     telemetry.update();
                     drive("down");
@@ -174,24 +169,24 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 if (colorSensor.red() > colorSensor.blue()) {
 
                     if (teamColor == "blue") {
-                        encoderDrive(DRIVE_SPEED, "right", 2, 10);
-                        encoderDrive(DRIVE_SPEED, "down", 2, 12);
+                        encoderDrive(DRIVE_SPEED, "right", 3, 10);
+                        encoderDrive(DRIVE_SPEED, "down", 1, 12);
 
 
                     } else {
-                        encoderDrive(DRIVE_SPEED, "left", 1, 10);
+                        encoderDrive(DRIVE_SPEED, "left", 3, 10);
                         encoderDrive(DRIVE_SPEED, "down", 1, 12);
 
                     }
                     //if the color detected is blue...
-                } else if (colorSensor.blue() > colorSensor.red()) {
+                } else {//if (colorSensor.blue() > colorSensor.red()) {
 
                     if (teamColor == "blue") {
-                        encoderDrive(DRIVE_SPEED, "left", 1, 10);
+                        encoderDrive(DRIVE_SPEED, "left", 3, 10);
                         encoderDrive(DRIVE_SPEED, "down", 1, 12);
                     } else {
-                        encoderDrive(DRIVE_SPEED, "right", 2, 10);
-                        encoderDrive(DRIVE_SPEED, "down", 2, 12);
+                        encoderDrive(DRIVE_SPEED, "right", 3, 10);
+                        encoderDrive(DRIVE_SPEED, "down", 1, 12);
                     }
                 }
                 //moves backwards

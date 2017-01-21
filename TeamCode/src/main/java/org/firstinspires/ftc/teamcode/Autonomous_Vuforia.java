@@ -171,7 +171,7 @@ public class Autonomous_Vuforia extends Competition_Hardware {
 
 
 
-    private void setupVuforia()
+    private void oldsetupVuforia()
     {
         // Setup parameters to create localizer
         parameters = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId); // To remove the camera view from the screen, remove the R.id.cameraMonitorViewId
@@ -200,16 +200,5 @@ public class Autonomous_Vuforia extends Competition_Hardware {
 
     // Creates a matrix for determining the locations and orientations of objects
     // Units are millimeters for x, y, and z, and degrees for u, v, and w
-    private OpenGLMatrix createMatrix(float x, float y, float z, float u, float v, float w)
-    {
-        return OpenGLMatrix.translation(x, y, z).
-                multiplied(Orientation.getRotationMatrix(
-                        AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES, u, v, w));
-    }
 
-    // Formats a matrix into a readable string
-    private String formatMatrix(OpenGLMatrix matrix)
-    {
-        return matrix.formatAsTransform();
-    }
 }

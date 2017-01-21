@@ -669,7 +669,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
         vuforiaGears = visionTargets.get(3);
         vuforiaGears.setName("gears");  // Gears - red 1
 
-        if (teamColor == "Blue"){
+        if (teamColor == "blue"){
             target = vuforiaWheels;
         }else{
             target = vuforiaGears;
