@@ -64,7 +64,7 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 pMotor2.setPower(0);
 
                 if (teamColor == "red") {
-                    encoderDrive(DRIVE_SPEED, "circle right", 13, 10);
+                    encoderDrive(DRIVE_SPEED, "circle right", 12, 10);
                     gyro.calibrate();
 
                     while (gyro.isCalibrating()) {
@@ -98,15 +98,23 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+                gyro.calibrate();
+
+                while (gyro.isCalibrating()) {
+                    Thread.sleep(50);
+                    idle();
+                }
+                gyroDrive("down",DRIVE_SPEED,12);
+
                 speed = DRIVE_SPEED;
                 //run until sensor is less than 17 cm,  or 6 seconds
-
+/*
                 while (rangeSensor.rawUltrasonic() > 15 && (runtime.seconds() < 10)) {
                     telemetry.addData("Range_Sensor", rangeSensor.rawUltrasonic());
                     telemetry.update();
                     drive("down");
                 }
-
+*/
                 drive("stop");
 
                 // Ask the listener for the latest information on where the robot is
