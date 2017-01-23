@@ -47,9 +47,9 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
             while (opModeIsActive()) {
 
                 if (teamColor == "blue") {
-                    gyroDrive("left", DRIVE_SPEED, 12);
+                    encoderDrive(DRIVE_SPEED, "left",8, 11);
                 } else {
-                    gyroDrive("left", DRIVE_SPEED, 12);
+                    encoderDrive(DRIVE_SPEED, "left", 8, 11);
 
                 }
 
@@ -64,47 +64,30 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 pMotor2.setPower(0);
 
                 if (teamColor == "red") {
-                    encoderDrive(DRIVE_SPEED, "circle right", 12, 10);
-                    gyro.calibrate();
+                    encoderDrive(DRIVE_SPEED, "circle right", 12.5, 10);
+                 /*  gyro.calibrate()
 
                     while (gyro.isCalibrating()) {
                         Thread.sleep(50);
                         idle();
                     }
-                    gyroDrive("right", DRIVE_SPEED, 4);
+                    */
+                    //encoderDrive(DRIVE_SPEED, "right", 4, 15);
+
+                }
+
+                if (teamColor == "blue"){
+
+                    encoderDrive(DRIVE_SPEED,"up" , 6, 10);
+                    encoderDrive(DRIVE_SPEED, "left", 4, 20);
 
                 } else {
-
-                    gyroDrive("left", DRIVE_SPEED, 4);
-
+                    encoderDrive(DRIVE_SPEED,"up" , 6, 10);
+                    encoderDrive(DRIVE_SPEED, "right", 4, 20);
+                    encoderDrive(DRIVE_SPEED, "up", 4, 20);
                 }
 
-                runtime.reset();
 
-                // Set to FORWARD
-                motor1.setDirection(DcMotor.Direction.FORWARD);
-                motor2.setDirection(DcMotor.Direction.FORWARD);
-                motor3.setDirection(DcMotor.Direction.FORWARD);
-                motor4.setDirection(DcMotor.Direction.FORWARD);
-                // Set all motors to zero power
-                motor1.setPower(0);
-                motor2.setPower(0);
-                motor3.setPower(0);
-                motor4.setPower(0);
-
-
-                motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-                gyro.calibrate();
-
-                while (gyro.isCalibrating()) {
-                    Thread.sleep(50);
-                    idle();
-                }
-                gyroDrive("down",DRIVE_SPEED,12);
 
                 speed = DRIVE_SPEED;
                 //run until sensor is less than 17 cm,  or 6 seconds
@@ -136,7 +119,7 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 telemetry.addData("Robot X ", robotX);
                 telemetry.addData("Robot Y ", robotY);
                 telemetry.update();
-                while (rangeSensor.rawUltrasonic() > 7 && (runtime.seconds() < 15)) {
+                while (rangeSensor.rawUltrasonic() > 9 && (runtime.seconds() < 15)) {
 
                     // Ask the listener for the latest information on where the robot is
                     latestLocation = listener.getUpdatedRobotLocation();
@@ -177,28 +160,28 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 if (colorSensor.red() > colorSensor.blue()) {
 
                     if (teamColor == "blue") {
-                        encoderDrive(DRIVE_SPEED, "right", 3, 10);
-                        encoderDrive(DRIVE_SPEED, "down", 1, 12);
+                        encoderDrive(DRIVE_SPEED, "left", 2, 10);
+                        encoderDrive(DRIVE_SPEED, "up", 1, 12);
 
 
                     } else {
-                        encoderDrive(DRIVE_SPEED, "left", 3, 10);
-                        encoderDrive(DRIVE_SPEED, "down", 1, 12);
+                        encoderDrive(DRIVE_SPEED, "right", 2, 10);
+                        encoderDrive(DRIVE_SPEED, "up", 1, 12);
 
                     }
                     //if the color detected is blue...
                 } else {//if (colorSensor.blue() > colorSensor.red()) {
 
                     if (teamColor == "blue") {
-                        encoderDrive(DRIVE_SPEED, "left", 3, 10);
-                        encoderDrive(DRIVE_SPEED, "down", 1, 12);
+                        encoderDrive(DRIVE_SPEED, "right", 2, 10);
+                        encoderDrive(DRIVE_SPEED, "up", 1, 12);
                     } else {
-                        encoderDrive(DRIVE_SPEED, "right", 3, 10);
-                        encoderDrive(DRIVE_SPEED, "down", 1, 12);
+                        encoderDrive(DRIVE_SPEED, "left", 2, 10);
+                        encoderDrive(DRIVE_SPEED, "up", 1, 12);
                     }
                 }
                 //moves backwards
-                encoderDrive(DRIVE_SPEED, "up", 16, 14);
+             encoderDrive(DRIVE_SPEED, "down", 20, 14);
 
                 break;
 
@@ -230,15 +213,7 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
             motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            telemetry.addData("Status", "b4 gyro");    //
-            telemetry.update();
-            gyro.calibrate();
 
-            while (gyro.isCalibrating()) {
-                Thread.sleep(50);
-                idle();
-            }
-            telemetry.addData("Status", "after gyro");    //
             telemetry.update();
             gyro.resetZAxisIntegrator();
             setupVuforia();
@@ -250,6 +225,7 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
             visionTargets.activate();
             OpenGLMatrix latestLocation;
             float[] coordinates;
+            telemetry.addData("Status", "Init Ready");
 
 
         } catch (Exception e) {

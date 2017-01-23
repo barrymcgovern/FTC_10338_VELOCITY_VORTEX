@@ -29,9 +29,9 @@ public class Autonomous_Drive_Shoot extends Competition_Hardware {
                 while (opModeIsActive()) {
 
                     if (teamColor == "blue") {
-                        gyroDrive("left", DRIVE_SPEED, 12);
+                        encoderDrive(DRIVE_SPEED, "left",8, 11);
                     } else {
-                        gyroDrive("left", DRIVE_SPEED, 12);
+                        encoderDrive(DRIVE_SPEED, "left", 8, 11);
 
                     }
 
@@ -44,6 +44,8 @@ public class Autonomous_Drive_Shoot extends Competition_Hardware {
                     beMotor.setPower(0);
                     pMotor1.setPower(0);
                     pMotor2.setPower(0);
+
+                    encoderDrive(DRIVE_SPEED, "left", 5, 20);
 
 
                 }
@@ -58,6 +60,7 @@ public class Autonomous_Drive_Shoot extends Competition_Hardware {
         try {
             // At the beginning of autonomous program, the encoders on the motors are reset
 
+
             telemetry.addData("Status", "inside init");    //
             telemetry.update();
             motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -70,15 +73,7 @@ public class Autonomous_Drive_Shoot extends Competition_Hardware {
             motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            telemetry.addData("Status", "b4 gyro");    //
-            telemetry.update();
-            gyro.calibrate();
 
-            while (gyro.isCalibrating()) {
-                Thread.sleep(50);
-                idle();
-            }
-            telemetry.addData("Status", "after gyro");    //
             telemetry.update();
             gyro.resetZAxisIntegrator();
             setupVuforia();
@@ -90,6 +85,7 @@ public class Autonomous_Drive_Shoot extends Competition_Hardware {
             visionTargets.activate();
             OpenGLMatrix latestLocation;
             float[] coordinates;
+            telemetry.addData("Status", "Init Ready");
 
 
         } catch (Exception e) {

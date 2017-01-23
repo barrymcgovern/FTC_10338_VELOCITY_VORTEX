@@ -89,7 +89,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
     static final double     P_TURN_COEFF            = 0.1;     // Larger is more responsive, but also less stable
     static final double     P_DRIVE_COEFF           = 0.01;     // Larger is more responsive, but also less stable
 
-    final double SPIN_SPEED = 1;
+    final double SPIN_SPEED = .9;
     final double ELEVATOR_SPEED = .5;
 
     int newLeftTarget;
@@ -216,22 +216,22 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
                 // change directions so encoders are all positive
                 //Shows all possible directions and controls.
-                if (robotDirection == "up") {
+                if (robotDirection == "down") {
                     motor1.setDirection(DcMotorSimple.Direction.REVERSE);
                     motor2.setDirection(DcMotorSimple.Direction.FORWARD);
                     motor3.setDirection(DcMotorSimple.Direction.FORWARD);
                     motor4.setDirection(DcMotorSimple.Direction.REVERSE);
-                } else if (robotDirection == "down") {
+                } else if (robotDirection == "up") {
                     motor1.setDirection(DcMotorSimple.Direction.FORWARD);
                     motor2.setDirection(DcMotorSimple.Direction.REVERSE);
                     motor3.setDirection(DcMotorSimple.Direction.REVERSE);
                     motor4.setDirection(DcMotorSimple.Direction.FORWARD);
-                } else if (robotDirection == "left") {
+                } else if (robotDirection == "right") {
                     motor1.setDirection(DcMotorSimple.Direction.FORWARD);
                     motor2.setDirection(DcMotorSimple.Direction.FORWARD);
                     motor3.setDirection(DcMotorSimple.Direction.REVERSE);
                     motor4.setDirection(DcMotorSimple.Direction.REVERSE);
-                } else if (robotDirection == "right") {
+                } else if (robotDirection == "left") {
                     motor1.setDirection(DcMotorSimple.Direction.REVERSE);
                     motor2.setDirection(DcMotorSimple.Direction.REVERSE);
                     motor3.setDirection(DcMotorSimple.Direction.FORWARD);
