@@ -25,18 +25,14 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 public class MRI_ODS_Encoder_1 extends OpMode {
 
     OpticalDistanceSensor ods1;
-    DeviceInterfaceModule CDI;
 
     //sensor value between 0 and 1023
     int raw1;
     double odsReadingRaw;
-    int state = 0;
-    int count = 0;
 
     @Override
     public void init() {
-        ods1 = hardwareMap.opticalDistanceSensor.get("ods1");
-        CDI = hardwareMap.deviceInterfaceModule.get("Device Interface Module 1");
+        ods1 = hardwareMap.opticalDistanceSensor.get("ods");
     }
 
     @Override
@@ -45,23 +41,8 @@ public class MRI_ODS_Encoder_1 extends OpMode {
         raw1 = (int) (ods1.getLightDetected()*1023);
         odsReadingRaw = ods1.getRawLightDetected();
 
-
-        if(raw1 > 400){ //Adjust this test value to be half way between the white and black value for this sensor.
-            CDI.setLED(0, true);
-            if(state == 1)
-                count++;
-            state = 0;
-        }else{
-            CDI.setLED(0, false);
-            if(state == 0)
-                count++;
-            state = 1;
-
-        }
-
-        telemetry.addData("ODS1 light", raw1);
-        telemetry.addData("ODS1 raw light", odsReadingRaw);
-        telemetry.addData("State", state);
+        telemetry.addData("ODS1 int light", raw1);
+        telemetry.addData("ODS1 raw double light", odsReadingRaw);
 
 
     }
