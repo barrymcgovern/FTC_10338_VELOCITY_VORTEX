@@ -50,7 +50,7 @@ public class Autonomous_Drive_Shoot_2 extends Competition_Hardware {
 
                 runtime.reset();
                 while (runtime.seconds() < 3) {
-                    beMotor.setPower(-50);
+                    beMotor.setPower(-ELEVATOR_SPEED);
                     pMotor1.setPower(SPIN_SPEED);
                     pMotor2.setPower(-SPIN_SPEED);
                 }
