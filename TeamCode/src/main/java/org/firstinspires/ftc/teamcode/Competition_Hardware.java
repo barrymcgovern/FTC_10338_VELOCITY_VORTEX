@@ -192,9 +192,45 @@ public abstract class Competition_Hardware extends LinearOpMode {
         // Reset the cycle clock for the next pass.
         period.reset();
     }
-    public void ODSdrive(double inches, String robotDirection){
+    public void ODSdrive(){
         /*https://ftc-tricks.com/proportional-line-follower/ is the website that we got part of the
         ODS code from*/
+        /*
+        you want to follow the line along edge of white tape
+
+        to do this, you need to get two reflected light values - full white and full gray
+        - remember -white is reflecting more light than grey
+
+        Then take 1/2 of the difference and that is the perfect value.  That value is what we will strive for
+        the perfect value will be defined outside of this function.  Will want to adjust this at competition.
+
+        The greater value should be full white
+        so if current value is greater than perfect value, we move towards grey
+
+        if current value is less than perfect value, we move towards white
+
+        We will only ge going one direction.
+
+         */
+
+        /*
+        //so your code will be something like this
+        int currentODSLightValue = int ods.getLightDetected()
+        if (currentODSLightValue > perfectODSLightValue){
+             //give more power to left motors
+             leftFrontMotor.setPower(speed + .1);
+             leftBackMotor.setPower(speed + .1);
+             rightFrontMotor.setPower(speed -.1);
+             rightBackMotor.setPower(speed -.1);
+        }else if (currentODSLightValue < perfectODSLightValue){
+            //give more power to right motors
+            // reverse speeds from above
+        }else{
+            // all would be equal
+        }
+
+    */
+
 
     }
 
