@@ -192,6 +192,11 @@ public abstract class Competition_Hardware extends LinearOpMode {
         // Reset the cycle clock for the next pass.
         period.reset();
     }
+    public void ODSdrive(double inches, String robotDirection){
+        /*https://ftc-tricks.com/proportional-line-follower/ is the website that we got part of the
+        ODS code from*/
+
+    }
 
     public void encoderDrive(double eSpeed, String robotDirection, double inches, double timeoutS) throws InterruptedException {
         try {
