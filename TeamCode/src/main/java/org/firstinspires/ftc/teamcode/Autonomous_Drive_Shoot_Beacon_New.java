@@ -19,6 +19,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
 
+
+
 public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -27,6 +29,26 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
 
     public void runDriveShootBeacon() {
         try {
+            /*
+            drive towards hoop a foot or so
+            shoot balls
+            if blue, need to spin 180
+            drive towards wall till 10 or so inches away
+
+            drive towards white line and stop at white line
+            follow white line and hit beacon
+                - stop around 7 or so on ultrasonic sensor
+            back up an inch
+            read color
+            if color does not equal team color,
+                then hit button again and back up
+
+            Go to next white line and repeat above
+
+
+            try and knock cap ball off
+
+             */
 
             init(hardwareMap);
 
@@ -34,11 +56,14 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
             telemetry.update();
             initSystem();
             runtime.reset();
-            // Wait for the game to start (driver presses PLAY)
+
             waitForStart();
 
 
             while (opModeIsActive()) {
+
+
+
                 encoderDrive(DRIVE_SPEED, "right", 8, 11);
 
                 runtime.reset();
@@ -52,23 +77,29 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
                 pMotor2.setPower(0);
 
                 if (teamColor == "blue") {
+                    // need to do 180 for blue
                     encoderDrive(DRIVE_SPEED, "circle right", 12.5, 10);
 
                 }
 
+                // goal is to drive pretty close to wall
                 encoderDrive(DRIVE_SPEED, "down", 10, 10);
-                // this needs to go till white line
+
+
+                // this needs to go to white line
                 encoderDrive(DRIVE_SPEED, "right", 1.5, 10);
 
                 while (rangeSensor.rawUltrasonic() > 7) {
                     // drive down till robot hits button
                     drive("down");
                 }
+                // back up just a bit
                 encoderDrive(DRIVE_SPEED, "up", .5, 10);
 
                 telemetry.addData("Red", colorSensor.red());
                 telemetry.addData("Blue", colorSensor.blue());
                 telemetry.update();
+
                 //if the color is red
                 if (colorSensor.red() > colorSensor.blue()) {
 
@@ -76,14 +107,19 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
                         encoderDrive(DRIVE_SPEED, "down", .5, 10);
 
                     }
-                    //if the color detected is blue...
+                 //if the color detected is blue...
                 } else if (colorSensor.blue() > colorSensor.red()) {
-
                     if (teamColor == "red") {
                         encoderDrive(DRIVE_SPEED, "down", .5, 10);
 
                     }
                 }
+                // let's go for 2nd beacon
+
+
+
+
+
                 //moves backwards and knocks cap ball off and parks on center vortex
                 encoderDrive(DRIVE_SPEED, "up", 20, 14);
 
