@@ -22,7 +22,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  *  have no idea if that's the right coordinate yet or if left is right direction
  * using VuforiaDemo in FTC.
  */
-@Autonomous(name="Comp: VuforiaDemoDrive", group="Pushbot")
+// @Autonomous(name="Comp: VuforiaDemoDrive", group="Pushbot")
 
 public class VuforiaDemo extends Competition_Hardware
 {
