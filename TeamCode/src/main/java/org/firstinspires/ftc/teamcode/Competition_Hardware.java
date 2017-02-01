@@ -257,12 +257,12 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
                 // change directions so encoders are all positive
                 //Shows all possible directions and controls.
-                if (robotDirection == "down") {
+                if (robotDirection == "up") {
                     motor1.setDirection(DcMotorSimple.Direction.REVERSE);
                     motor2.setDirection(DcMotorSimple.Direction.FORWARD);
                     motor3.setDirection(DcMotorSimple.Direction.FORWARD);
                     motor4.setDirection(DcMotorSimple.Direction.REVERSE);
-                } else if (robotDirection == "up") {
+                } else if (robotDirection == "down") {
                     motor1.setDirection(DcMotorSimple.Direction.FORWARD);
                     motor2.setDirection(DcMotorSimple.Direction.REVERSE);
                     motor3.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -450,6 +450,13 @@ public abstract class Competition_Hardware extends LinearOpMode {
             //sets speed needed for motors to run different directions
             //Uses four motor to move robot ten different directions
             //Negative speed moves motor backwards and positive speed moves motor forward
+
+            // Turn off RUN_TO_POSITION
+            motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
             motor1.setDirection(DcMotor.Direction.FORWARD);
             motor2.setDirection(DcMotor.Direction.FORWARD);
             motor3.setDirection(DcMotor.Direction.FORWARD);

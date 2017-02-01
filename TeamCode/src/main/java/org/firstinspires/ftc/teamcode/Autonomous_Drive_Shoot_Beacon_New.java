@@ -63,7 +63,7 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
             while (opModeIsActive()) {
 
 
-
+/*
                 encoderDrive(DRIVE_SPEED, "right", 8, 11);
 
                 runtime.reset();
@@ -83,46 +83,59 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
                 }
 
                 // goal is to drive pretty close to wall
-                encoderDrive(DRIVE_SPEED, "down", 10, 10);
+                speed = .2;
+                while (rangeSensor.rawUltrasonic() >13 ){
+                    drive("down");
+                }
 
 
                 // this needs to go to white line
-                encoderDrive(DRIVE_SPEED, "right", 1.5, 10);
-
-                while (rangeSensor.rawUltrasonic() > 7) {
+                encoderDrive(DRIVE_SPEED, "left", 5, 10);
+                */
+                speed = .2;
+                while (rangeSensor.rawUltrasonic() > 5) {
                     // drive down till robot hits button
                     drive("down");
                 }
                 // back up just a bit
-                encoderDrive(DRIVE_SPEED, "up", .5, 10);
+                encoderDrive(DRIVE_SPEED, "up", 3, 10);
 
                 telemetry.addData("Red", colorSensor.red());
                 telemetry.addData("Blue", colorSensor.blue());
                 telemetry.update();
+                runtime.reset();
+                while (runtime.seconds() < 5){
+                    telemetry.addData("step", "before");
+                    telemetry.addData("Red", colorSensor.red());
+                    telemetry.addData("Blue", colorSensor.blue());
+                    telemetry.update();
+                }
 
                 //if the color is red
                 if (colorSensor.red() > colorSensor.blue()) {
 
                     if (teamColor == "blue") {
-                        encoderDrive(DRIVE_SPEED, "down", .5, 10);
+                        encoderDrive(DRIVE_SPEED, "down", 3, 10);
 
                     }
                  //if the color detected is blue...
                 } else if (colorSensor.blue() > colorSensor.red()) {
                     if (teamColor == "red") {
-                        encoderDrive(DRIVE_SPEED, "down", .5, 10);
+                        encoderDrive(DRIVE_SPEED, "down", 3, 10);
 
                     }
                 }
-                // let's go for 2nd beacon
-
-
-
-
+                runtime.reset();
+                while (runtime.seconds() < 5){
+                    telemetry.addData("step", "after");
+                    telemetry.addData("Red", colorSensor.red());
+                    telemetry.addData("Blue", colorSensor.blue());
+                    telemetry.update();
+                }
 
                 //moves backwards and knocks cap ball off and parks on center vortex
-                encoderDrive(DRIVE_SPEED, "up", 20, 14);
-
+                encoderDrive(DRIVE_SPEED,"up", 20, 14);
+                speed = .2;
                 break;
 
 
@@ -168,17 +181,7 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
 
 
             telemetry.update();
-            gyro.resetZAxisIntegrator();
-            setupVuforia();
 
-            // We don't know where the robot is, so set it to the origin
-            // If we don't include this, it would be null, which would cause errors later on
-            lastKnownLocation = createMatrix(0, 0, 0, 0, 0, 0);
-
-            visionTargets.activate();
-            OpenGLMatrix latestLocation;
-            float[] coordinates;
-            telemetry.addData("Status", "Init Ready");
 
 
         } catch (Exception e) {
