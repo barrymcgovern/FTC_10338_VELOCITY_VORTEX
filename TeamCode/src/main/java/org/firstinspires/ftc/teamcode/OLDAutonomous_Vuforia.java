@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.vuforia.HINT;
 import com.vuforia.Vuforia;
@@ -17,8 +16,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 /**
  * Created by kids on 1/18/2017.
  */
-@Autonomous(name="Comp: Vuforia Only", group="Pushbot")
-public class Autonomous_Vuforia extends Competition_Hardware {
+// @Autonomous(name="Comp: Vuforia Only", group="Pushbot")
+public class OLDAutonomous_Vuforia extends Competition_Hardware {
     @Override
     public void runOpMode() throws InterruptedException {
         init(hardwareMap);

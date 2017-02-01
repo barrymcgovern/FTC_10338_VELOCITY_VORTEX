@@ -2,12 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-
 /**
  * Team: Dark Matters #10338
  * Velocity Vortex
@@ -20,13 +14,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
 
-public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
+
+public class Autonomous_Drive_Shoot_Main extends Competition_Hardware {
     @Override
     public void runOpMode() throws InterruptedException {
 
     }
 
-    public void runDriveShootBeacon() {
+    public void runDriveShoot() {
         try {
             /*
             drive towards hoop a foot or so
@@ -158,58 +153,8 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
         }
     }
 
-
-
-    public void runDriveShoot(){
-        try {
-
-            /*
-            No beacon - only shoots
-
-             */
-
-            init(hardwareMap);
-
-            telemetry.addData("Status", "Starting");
-            telemetry.update();
-            initSystem();
-            runtime.reset();
-
-            waitForStart();
-
-
-            while (opModeIsActive()) {
-
-
-
-                encoderDrive(DRIVE_SPEED, "right", 8, 11);
-
-                runtime.reset();
-                while (runtime.seconds() < 3) {
-                    beMotor.setPower(-ELEVATOR_SPEED);
-                    pMotor1.setPower(SPIN_SPEED);
-                    pMotor2.setPower(-SPIN_SPEED);
-                }
-                beMotor.setPower(0);
-                pMotor1.setPower(0);
-                pMotor2.setPower(0);
-
-                encoderDrive(DRIVE_SPEED, "right", 8, 11);
-
-                break;
-
-            }
-
-
-
-
-        } catch (Exception e) {
-            telemetry.addData("runOpMode ERROR", e.toString());
-            telemetry.update();
-        }
-    }
-
-
+    // need to detect color, move to correct button, bump button
+    // then back up and knock ball off stand and drive on stand
 
 
     public void initSystem() {

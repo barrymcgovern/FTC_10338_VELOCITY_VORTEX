@@ -90,7 +90,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
     static final double     P_DRIVE_COEFF           = 0.01;     // Larger is more responsive, but also less stable
 
     final double SPIN_SPEED = 1;
-    final double ELEVATOR_SPEED = .25;
+    final double ELEVATOR_SPEED = .75;
 
     int newLeftTarget;
     int newRightTarget;

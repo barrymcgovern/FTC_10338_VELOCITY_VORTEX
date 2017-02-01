@@ -16,20 +16,18 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
-import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-// @TeleOp(name="Sensors: Range", group="Pushbot")
 
 
-public class MRI_Range extends LinearOpMode {
+@TeleOp(name = "Demo: Range", group = "MRI")
+
+public class Demo_Range extends LinearOpMode {
 
     byte[] range1Cache; //The read will return an array of bytes. They are stored in this variable
 

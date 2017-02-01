@@ -18,11 +18,10 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
-@TeleOp(name = "ODS Get Light Values", group = "MRI")
-public class MRI_ODS_Encoder_1 extends OpMode {
+@TeleOp(name = "Demo: ODS", group = "MRI")
+public class Demo_ODS extends OpMode {
 
     OpticalDistanceSensor ods1;
 
