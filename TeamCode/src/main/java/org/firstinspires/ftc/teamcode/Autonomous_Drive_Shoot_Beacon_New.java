@@ -63,7 +63,7 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
             while (opModeIsActive()) {
 
 
-/*
+
                 encoderDrive(DRIVE_SPEED, "right", 8, 11);
 
                 runtime.reset();
@@ -91,7 +91,7 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
 
                 // this needs to go to white line
                 encoderDrive(DRIVE_SPEED, "left", 5, 10);
-                */
+
                 speed = .2;
                 while (rangeSensor.rawUltrasonic() > 5) {
                     // drive down till robot hits button
