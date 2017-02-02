@@ -92,6 +92,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
     final double SPIN_SPEED = 1;
     final double ELEVATOR_SPEED = .75;
+    final double FORKLIFT_SPEED = .1;
 
     int newLeftTarget;
     int newRightTarget;
@@ -105,18 +106,13 @@ public abstract class Competition_Hardware extends LinearOpMode {
     //public Servo servo1 = null;
     //public Servo servo2 = null;
 
+    // Not used anymore
     ModernRoboticsI2cGyro gyro    = null;
-/*
-    public static final double MID_SERVO = 0.5;
-    public static final double ARM_UP_POWER = 0.45;
-    public static final double ARM_DOWN_POWER = -0.45;
-*/
 
     public String teamColor;
 
     ColorSensor colorSensor;
 
-    /* local OpMode members. */
     HardwareMap hwMap = null;
     private ElapsedTime period = new ElapsedTime();
     ModernRoboticsI2cRangeSensor rangeSensor;
@@ -124,49 +120,66 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
-        try{
+        try {
+            // Save reference to Hardware map
+            hwMap = ahwMap;
+
+            // Define and Initialize Motors
+            motor1 = hwMap.dcMotor.get("motor1");
+            motor2 = hwMap.dcMotor.get("motor2");
+            motor3 = hwMap.dcMotor.get("motor3");
+            motor4 = hwMap.dcMotor.get("motor4");
+
+            pMotor1 = hwMap.dcMotor.get("pMotor1");
+            pMotor2 = hwMap.dcMotor.get("pMotor2");
+            beMotor = hwMap.dcMotor.get("beMotor");
+            fkMotor = hwMap.dcMotor.get("fkMotor");
 
 
-        // Save reference to Hardware map
-        hwMap = ahwMap;
+            // Set to FORWARD
+            motor1.setDirection(DcMotor.Direction.FORWARD);
+            motor2.setDirection(DcMotor.Direction.FORWARD);
+            motor3.setDirection(DcMotor.Direction.FORWARD);
+            motor4.setDirection(DcMotor.Direction.FORWARD);
 
-        // Define and Initialize Motors
-        motor1 = hwMap.dcMotor.get("motor1");
-        motor2 = hwMap.dcMotor.get("motor2");
-        motor3 = hwMap.dcMotor.get("motor3");
-        motor4 = hwMap.dcMotor.get("motor4");
-        pMotor1 = hwMap.dcMotor.get("pMotor1");
-        pMotor2 = hwMap.dcMotor.get("pMotor2");
-        beMotor = hwMap.dcMotor.get("beMotor");
-        fkMotor = hwMap.dcMotor.get("fkMotor");
+            pMotor1.setDirection(DcMotor.Direction.FORWARD);
+            pMotor2.setDirection(DcMotor.Direction.FORWARD);
+            beMotor.setDirection(DcMotor.Direction.FORWARD);
+            fkMotor.setDirection(DcMotor.Direction.FORWARD);
 
 
+            // Set all motors to zero power
+            motor1.setPower(0);
+            motor2.setPower(0);
+            motor3.setPower(0);
+            motor4.setPower(0);
 
-        // Set to FORWARD
-        motor1.setDirection(DcMotor.Direction.FORWARD);
-        motor2.setDirection(DcMotor.Direction.FORWARD);
-        motor3.setDirection(DcMotor.Direction.FORWARD);
-        motor4.setDirection(DcMotor.Direction.FORWARD);
-        // Set all motors to zero power
-        motor1.setPower(0);
-        motor2.setPower(0);
-        motor3.setPower(0);
-        motor4.setPower(0);
+            pMotor1.setPower(0);
+            pMotor2.setPower(0);
+            beMotor.setPower(0);
+            fkMotor.setPower(0);
 
 
-        // Set all motors to run without encoders.
-        // only use RUN_USING_ENCODERS in autonomous
-        motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            // Set all motors to run without encoders.
+            // only use RUN_USING_ENCODERS in autonomous
+            motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        gyro = (ModernRoboticsI2cGyro)hardwareMap.gyroSensor.get("gyro");
-        colorSensor = hardwareMap.colorSensor.get("color");
-        rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
-        // Define and initialize ALL installed servos.
-        //servo1 = hwMap.servo.get("servo1");
-        runtime.reset();
+            pMotor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            pMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            beMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            fkMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            //gyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyro");
+            colorSensor = hardwareMap.colorSensor.get("color");
+            rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
+
+            // Define and initialize ALL installed servos.
+            //servo1 = hwMap.servo.get("servo1");
+
+            runtime.reset();
 
         } catch (Exception e) {
             telemetry.addData("runOpMode ERROR", e.toString());
@@ -194,6 +207,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
         // Reset the cycle clock for the next pass.
         period.reset();
     }
+
     public void ODSdrive(){
         /*https://ftc-tricks.com/proportional-line-follower/ is the website that we got part of the
         ODS code from*/
