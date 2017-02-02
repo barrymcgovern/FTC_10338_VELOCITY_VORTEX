@@ -153,21 +153,10 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
                 //Turn to prepare for angled drive to center vortex
                 encoderDrive(DRIVE_SPEED, "circle right", 6.25, 10);
 
-
-
                 //moves backwards and knocks cap ball off and parks on center vortex
                 encoderDrive(DRIVE_SPEED,"up", 17, 14);
                 speed = .2;
                 break;
-
-
-
-               /*
-               We plan to go forward"left", shoot, go right"back" , and then go forward"left" until
-               a sensor can find the white line, then go forward staying on the white line, and hit
-               both beacon buttons. Back up slightly, then check to see if color on the beacon
-               matches the team color. If so, stop, and if not, hit it again, and back up.
-                */
 
 
             }
