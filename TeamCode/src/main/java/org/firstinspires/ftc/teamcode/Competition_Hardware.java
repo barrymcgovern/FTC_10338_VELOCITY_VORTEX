@@ -51,6 +51,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
     public DcMotor pMotor1 = null;
     public DcMotor pMotor2 = null;
     public DcMotor beMotor = null;
+    public DcMotor fkMotor = null;
 
     double speed;
 
@@ -83,7 +84,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double DRIVE_SPEED = 0.2;
+    static final double DRIVE_SPEED = 0.3;
     static final double TURN_SPEED = 0.5;
     static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
     static final double     P_TURN_COEFF            = 0.1;     // Larger is more responsive, but also less stable
@@ -137,6 +138,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
         pMotor1 = hwMap.dcMotor.get("pMotor1");
         pMotor2 = hwMap.dcMotor.get("pMotor2");
         beMotor = hwMap.dcMotor.get("beMotor");
+        fkMotor = hwMap.dcMotor.get("fkMotor");
 
 
 
@@ -370,6 +372,9 @@ public abstract class Competition_Hardware extends LinearOpMode {
             telemetry.addData("ERROR", e.toString());
         }
     }
+
+
+
     public double getSteer(double error, double PCoeff) {
         return Range.clip(error * PCoeff, -1, 1);
     }
