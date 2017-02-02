@@ -83,13 +83,13 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
 
                 // goal is to drive pretty close to wall
                 speed = .2;
-                while (rangeSensor.rawUltrasonic() >13 ){
+                while (rangeSensor.rawUltrasonic() > 17 ){
                     drive("down");
                 }
 
 
                 // this needs to go to white line
-                encoderDrive(DRIVE_SPEED, "left", 5, 10);
+                encoderDrive(DRIVE_SPEED, "left", 7, 10);
 
                 speed = .2;
                 while (rangeSensor.rawUltrasonic() > 5) {
@@ -97,43 +97,66 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
                     drive("down");
                 }
                 // back up just a bit
-                encoderDrive(DRIVE_SPEED, "up", 3, 10);
+                encoderDrive(DRIVE_SPEED, "up", 2, 10);
 
                 telemetry.addData("Red", colorSensor.red());
                 telemetry.addData("Blue", colorSensor.blue());
                 telemetry.update();
-                runtime.reset();
-                while (runtime.seconds() < 5){
-                    telemetry.addData("step", "before");
-                    telemetry.addData("Red", colorSensor.red());
-                    telemetry.addData("Blue", colorSensor.blue());
-                    telemetry.update();
-                }
 
                 //if the color is red
                 if (colorSensor.red() > colorSensor.blue()) {
 
                     if (teamColor == "blue") {
-                        encoderDrive(DRIVE_SPEED, "down", 3, 10);
+                        encoderDrive(DRIVE_SPEED, "down", 2, 10);
 
                     }
                  //if the color detected is blue...
                 } else if (colorSensor.blue() > colorSensor.red()) {
                     if (teamColor == "red") {
-                        encoderDrive(DRIVE_SPEED, "down", 3, 10);
+                        encoderDrive(DRIVE_SPEED, "down", 2, 10);
 
                     }
                 }
-                runtime.reset();
-                while (runtime.seconds() < 5){
-                    telemetry.addData("step", "after");
-                    telemetry.addData("Red", colorSensor.red());
-                    telemetry.addData("Blue", colorSensor.blue());
-                    telemetry.update();
+                //Move over to second beacon
+                encoderDrive(DRIVE_SPEED, "left", 12, 10);
+
+
+                //repeat of deciding whether to hit beacon once or twice
+                speed = .2;
+                while (rangeSensor.rawUltrasonic() > 5) {
+                    // drive down till robot hits button
+                    drive("down");
+                }
+                // back up just a bit
+                encoderDrive(DRIVE_SPEED, "up", 2, 10);
+
+                telemetry.addData("Red", colorSensor.red());
+                telemetry.addData("Blue", colorSensor.blue());
+                telemetry.update();
+
+                //if the color is red
+                if (colorSensor.red() > colorSensor.blue()) {
+                    //And alliance color is blue, hit the beacon again
+                    if (teamColor == "blue") {
+                        encoderDrive(DRIVE_SPEED, "down", 2, 10);
+
+                    }
+                    //if the color detected is blue...
+                } else if (colorSensor.blue() > colorSensor.red()) {
+                    //And the alliance color is red, hit the beacon again
+                    if (teamColor == "red") {
+                        encoderDrive(DRIVE_SPEED, "down", 2, 10);
+
+                    }
                 }
 
+                //Turn to prepare for angled drive to center vortex
+                encoderDrive(DRIVE_SPEED, "circle right", 6.25, 10);
+
+
+
                 //moves backwards and knocks cap ball off and parks on center vortex
-                encoderDrive(DRIVE_SPEED,"up", 20, 14);
+                encoderDrive(DRIVE_SPEED,"up", 17, 14);
                 speed = .2;
                 break;
 
