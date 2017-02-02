@@ -65,10 +65,10 @@ if (gamepad1.right_stick_x > 0){
         }
 
         if (gamepad2.right_trigger > 0){
-            fkMotor.setPower(100);
+            fkMotor.setPower(10);
 
         } else if (gamepad2.left_trigger > 0){
-            fkMotor.setPower(-100);
+            fkMotor.setPower(-10);
 
         } else {
             fkMotor.setPower(0);
