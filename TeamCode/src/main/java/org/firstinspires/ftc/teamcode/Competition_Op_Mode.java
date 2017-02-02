@@ -63,11 +63,11 @@ if (gamepad1.right_stick_x > 0){
         beMotor.setPower(0);
 
         }
-
-        if (gamepad2.right_trigger > 0){
+        //Manipulator controller's dpad controls the forklift motion
+        if (gamepad2.dpad_up ){
             fkMotor.setPower(.1);
 
-        } else if (gamepad2.left_trigger > 0){
+        } else if (gamepad2.dpad_down){
             fkMotor.setPower(-.1);
 
         } else {
