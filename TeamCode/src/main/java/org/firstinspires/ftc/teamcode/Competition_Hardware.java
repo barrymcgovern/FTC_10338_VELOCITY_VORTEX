@@ -93,6 +93,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
     final double SPIN_SPEED = 1;
     final double ELEVATOR_SPEED = .75;
 
+
     int newLeftTarget;
     int newRightTarget;
     int moveCounts;
@@ -101,6 +102,8 @@ public abstract class Competition_Hardware extends LinearOpMode {
     double steer;
     double leftSpeed;
     double rightSpeed;
+    int lowVal;
+    int lastPos;
 
     //public Servo servo1 = null;
     //public Servo servo2 = null;

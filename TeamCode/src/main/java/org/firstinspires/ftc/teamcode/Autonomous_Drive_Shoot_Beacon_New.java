@@ -87,6 +87,31 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
                     drive("down");
                 }
 
+                lowVal = rangeSensor.rawUltrasonic();
+                lastPos = rangeSensor.rawUltrasonic();
+
+                while ( rangeSensor.rawUltrasonic() <= lastPos){
+                    speed = .05;
+
+                    telemetry.addData("70", "lastPos", lastPos);
+                    telemetry.addData("90", "rangeSensor", rangeSensor.rawUltrasonic());
+                    telemetry.update();
+                    lastPos = rangeSensor.rawUltrasonic();
+                    drive("circle right");
+
+                }
+                lastPos = rangeSensor.rawUltrasonic();
+                while (rangeSensor.rawUltrasonic() <= lastPos){
+                    speed = .05;
+
+                    telemetry.addData("70", "lastPos", lastPos);
+                    telemetry.addData("90", "rangeSensor", rangeSensor.rawUltrasonic());
+                    telemetry.update();
+                    drive("circle left");
+                    lastPos = rangeSensor.rawUltrasonic();
+                }
+
+
 
                 // this needs to go to white line
                 encoderDrive(DRIVE_SPEED, "left", 7, 10);
