@@ -63,10 +63,10 @@ public class Competition_Op_Mode extends Competition_Hardware {
             }
             //Manipulator controller's dpad controls the forklift motion
             if (gamepad2.dpad_up) {
-                fkMotor.setPower(FORKLIFT_SPEED);
+                fkMotor.setPower(-FORKLIFT_SPEED);
 
             } else if (gamepad2.dpad_down) {
-                fkMotor.setPower(-FORKLIFT_SPEED);
+                fkMotor.setPower(FORKLIFT_SPEED);
 
             } else {
                 fkMotor.setPower(0);

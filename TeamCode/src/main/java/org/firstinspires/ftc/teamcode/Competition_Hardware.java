@@ -92,7 +92,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
     final double SPIN_SPEED = 1;
     final double ELEVATOR_SPEED = .75;
-    final double FORKLIFT_SPEED = .1;
+    final double FORKLIFT_SPEED = .3;
 
 
     int newLeftTarget;
