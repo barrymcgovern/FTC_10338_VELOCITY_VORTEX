@@ -9,9 +9,9 @@ package org.firstinspires.ftc.teamcode;
  * color sensor
  * range finder
  * drive functions
- *  encoderDrive
- *  driveStick
- *  drive
+ * encoderDrive
+ * driveStick
+ * drive
  */
 
 
@@ -86,9 +86,9 @@ public abstract class Competition_Hardware extends LinearOpMode {
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double DRIVE_SPEED = 0.3;
     static final double TURN_SPEED = 0.5;
-    static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
-    static final double     P_TURN_COEFF            = 0.1;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_COEFF           = 0.01;     // Larger is more responsive, but also less stable
+    static final double HEADING_THRESHOLD = 1;      // As tight as we can make it with an integer gyro
+    static final double P_TURN_COEFF = 0.1;     // Larger is more responsive, but also less stable
+    static final double P_DRIVE_COEFF = 0.01;     // Larger is more responsive, but also less stable
 
     final double SPIN_SPEED = 1;
     final double ELEVATOR_SPEED = .75;
@@ -109,7 +109,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
     //public Servo servo2 = null;
 
     // Not used anymore
-    ModernRoboticsI2cGyro gyro    = null;
+    ModernRoboticsI2cGyro gyro = null;
 
     public String teamColor;
 
@@ -210,10 +210,9 @@ public abstract class Competition_Hardware extends LinearOpMode {
         period.reset();
     }
 
-    public void ODSdrive(){
+    public void ODSdrive() {
         /*https://ftc-tricks.com/proportional-line-follower/ is the website that we got part of the
-        ODS code from*/
-        /*
+
         you want to follow the line along edge of white tape
 
         to do this, you need to get two reflected light values - full white and full gray
@@ -236,10 +235,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
         int currentODSLightValue = int ods.getLightDetected()
         if (currentODSLightValue > perfectODSLightValue){
              //give more power to left motors
-             leftFrontMotor.setPower(speed + .1);
-             leftBackMotor.setPower(speed + .1);
-             rightFrontMotor.setPower(speed -.1);
-             rightBackMotor.setPower(speed -.1);
+
         }else if (currentODSLightValue < perfectODSLightValue){
             //give more power to right motors
             // reverse speeds from above
@@ -296,7 +292,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
                     motor2.setDirection(DcMotorSimple.Direction.REVERSE);
                     motor3.setDirection(DcMotorSimple.Direction.FORWARD);
                     motor4.setDirection(DcMotorSimple.Direction.FORWARD);
-                } else if (robotDirection == "circle right"){
+                } else if (robotDirection == "circle right") {
                     motor1.setDirection(DcMotorSimple.Direction.REVERSE);
                     motor2.setDirection(DcMotorSimple.Direction.REVERSE);
                     motor3.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -338,7 +334,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
                     // Display it for the driver.
                     telemetry.addData("Encoder Direction", robotDirection);
-                    telemetry.addData("Mot 1234","%5.2f:%5.2f:%5.2f:%5.2f",motor1.getPower(),motor2.getPower(),motor3.getPower(),motor4.getPower());
+                    telemetry.addData("Mot 1234", "%5.2f:%5.2f:%5.2f:%5.2f", motor1.getPower(), motor2.getPower(), motor3.getPower(), motor4.getPower());
                     telemetry.update();
 
                     // Allow time for other processes to run.
@@ -370,7 +366,6 @@ public abstract class Competition_Hardware extends LinearOpMode {
     }
 
 
-
     public double getSteer(double error, double PCoeff) {
         return Range.clip(error * PCoeff, -1, 1);
     }
@@ -381,36 +376,32 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
         // calculate error in -179 to +180 range  (
         robotError = targetAngle - gyro.getIntegratedZValue();
-        while (robotError > 180)  robotError -= 360;
+        while (robotError > 180) robotError -= 360;
         while (robotError <= -180) robotError += 360;
         return robotError;
     }
 
 
-
-
-        void driveStick(float x, float y) {
+    void driveStick(float x, float y) {
 
         // speed is greater value of x or y
         //Uses the value of the joystick like the direction of motion does, only to set speed and divides it in half
-        speed = (Math.abs(x) > Math.abs(y) ? Math.abs(x) : Math.abs(y))/2;
+        speed = (Math.abs(x) > Math.abs(y) ? Math.abs(x) : Math.abs(y)) / 2;
         telemetry.addData("y", y);
         telemetry.addData("x", x);
 
         //One program to combine 8 directions of motion on one joystick using ranges of x and y values
-            if (y > .10) {
-                drive("left");
-                }
-                else if (y < -.10) {
-                    drive("right");
-                }
-            else if (x > .10) {
-                drive("down");
-            }else if (x < -.10 ){
-                drive ("up");
-            }else{
-                drive("stop");
-            }
+        if (y > .10) {
+            drive("left");
+        } else if (y < -.10) {
+            drive("right");
+        } else if (x > .10) {
+            drive("down");
+        } else if (x < -.10) {
+            drive("up");
+        } else {
+            drive("stop");
+        }
             /*
         if (y > .10) {
             if (x > .10) {
@@ -442,11 +433,11 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
     }
 
-    void resetEncoders(String resetType){
-        telemetry.addData("resetEncoders",resetType);
+    void resetEncoders(String resetType) {
+        telemetry.addData("resetEncoders", resetType);
         telemetry.update();
 
-        if (resetType == "drive"){
+        if (resetType == "drive") {
             motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             motor1.setDirection(DcMotor.Direction.FORWARD);
 
@@ -462,7 +453,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
             motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             motor4.setDirection(DcMotor.Direction.FORWARD);
 
-        }else { // if (resetType == "encoder"){
+        } else { // if (resetType == "encoder"){
 
             motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             motor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -485,17 +476,17 @@ public abstract class Competition_Hardware extends LinearOpMode {
         }
     }
 
-    void drive(String robotDirection){
-        try{
+    void drive(String robotDirection) {
+        try {
 
-            telemetry.addData("direction",robotDirection);
+            telemetry.addData("direction", robotDirection);
             //sets speed needed for motors to run different directions
             //Uses four motor to move robot ten different directions
             //Negative speed moves motor backwards and positive speed moves motor forward
 
             // Turn off RUN_TO_POSITION
 
-            if (motor1.getMode() != DcMotor.RunMode.RUN_WITHOUT_ENCODER){
+            if (motor1.getMode() != DcMotor.RunMode.RUN_WITHOUT_ENCODER) {
                 resetEncoders("drive");
             }
 
@@ -506,66 +497,66 @@ public abstract class Competition_Hardware extends LinearOpMode {
                 motor4.setPower(-speed);
 
 
-            }else if (robotDirection == "up left"){
+            } else if (robotDirection == "up left") {
                 motor1.setPower(0);
                 motor2.setPower(speed);
                 motor3.setPower(0);
                 motor4.setPower(-speed);
 
-            }else if (robotDirection == "up right"){
+            } else if (robotDirection == "up right") {
                 motor1.setPower(0);
                 motor2.setPower(-speed);
                 motor3.setPower(0);
                 motor4.setPower(speed);
 
-            }else if (robotDirection == "down"){
+            } else if (robotDirection == "down") {
                 motor1.setPower(speed);
                 motor2.setPower(-speed);
                 motor3.setPower(-speed);
                 motor4.setPower(speed);
 
-            }else if (robotDirection == "down left"){
+            } else if (robotDirection == "down left") {
                 motor1.setPower(speed);
                 motor2.setPower(0);
                 motor3.setPower(-speed);
                 motor4.setPower(0);
-            }else if (robotDirection == "down right"){
+            } else if (robotDirection == "down right") {
                 motor1.setPower(-speed);
                 motor2.setPower(0);
                 motor3.setPower(speed);
                 motor4.setPower(0);
 
-            }else if (robotDirection == "left"){
+            } else if (robotDirection == "left") {
                 motor1.setPower(speed);
                 motor2.setPower(speed);
                 motor3.setPower(-speed);
                 motor4.setPower(-speed);
-            }else  if (robotDirection == "right"){
+            } else if (robotDirection == "right") {
                 motor1.setPower(-speed);
                 motor2.setPower(-speed);
                 motor3.setPower(speed);
                 motor4.setPower(speed);
 
-            }else  if (robotDirection == "circle left"){
+            } else if (robotDirection == "circle left") {
                 motor1.setPower(speed);
                 motor2.setPower(speed);
                 motor3.setPower(speed);
                 motor4.setPower(speed);
 
-            }else  if (robotDirection == "circle right"){
+            } else if (robotDirection == "circle right") {
                 motor1.setPower(-speed);
                 motor2.setPower(-speed);
                 motor3.setPower(-speed);
                 motor4.setPower(-speed);
 
-            }else{
+            } else {
                 motor1.setPower(0);
                 motor2.setPower(0);
                 motor3.setPower(0);
                 motor4.setPower(0);
             }
 
-            telemetry.addData("Mot 1234","%5.2f:%5.2f:%5.2f:%5.2f",motor1.getPower(),motor2.getPower(),motor3.getPower(),motor4.getPower());
+            telemetry.addData("Mot 1234", "%5.2f:%5.2f:%5.2f:%5.2f", motor1.getPower(), motor2.getPower(), motor3.getPower(), motor4.getPower());
 
             /*
             telemetry.addData("motor1", motor1.getPower());
@@ -576,13 +567,14 @@ public abstract class Competition_Hardware extends LinearOpMode {
             */
 
 
-        }  catch (Exception p_exception) {
-            telemetry.addData("drive error" , p_exception.toString());
+        } catch (Exception p_exception) {
+            telemetry.addData("drive error", p_exception.toString());
             telemetry.update();
         }
 
     }
-    void gyroDrive (String gyroDirection, double speed, double distance) {
+
+    void gyroDrive(String gyroDirection, double speed, double distance) {
         try {
             telemetry.addData("direction", gyroDirection);
 
@@ -620,119 +612,111 @@ public abstract class Competition_Hardware extends LinearOpMode {
             }
 
 
+            // Ensure that the opmode is still active
+            if (opModeIsActive()) {
+
+                flMotor.setDirection(DcMotor.Direction.FORWARD);
+                blMotor.setDirection(DcMotor.Direction.FORWARD);
+                frMotor.setDirection(DcMotor.Direction.REVERSE);
+                brMotor.setDirection(DcMotor.Direction.REVERSE);
+
+                flMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                frMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                blMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                brMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
+                // Determine new target position, and pass to motor controller
+                moveCounts = (int) (distance * COUNTS_PER_INCH);
+                newLeftTarget = flMotor.getCurrentPosition() + moveCounts;
+                newRightTarget = frMotor.getCurrentPosition() + moveCounts;
 
-                // Ensure that the opmode is still active
-                if (opModeIsActive()) {
-
-                    flMotor.setDirection(DcMotor.Direction.FORWARD);
-                    blMotor.setDirection(DcMotor.Direction.FORWARD);
-                    frMotor.setDirection(DcMotor.Direction.REVERSE);
-                    brMotor.setDirection(DcMotor.Direction.REVERSE);
-
-                    flMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    frMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                    blMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                    brMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                // Set Target and Turn On RUN_TO_POSITION
+                flMotor.setTargetPosition(newLeftTarget);
+                frMotor.setTargetPosition(newRightTarget);
 
 
-                    // Determine new target position, and pass to motor controller
-                    moveCounts = (int) (distance * COUNTS_PER_INCH);
-                    newLeftTarget = flMotor.getCurrentPosition() + moveCounts;
-                    newRightTarget = frMotor.getCurrentPosition() + moveCounts;
+                // start motion.
+                speed = Range.clip(Math.abs(speed), 0.0, 1.0);
 
-                    // Set Target and Turn On RUN_TO_POSITION
-                    flMotor.setTargetPosition(newLeftTarget);
-                    frMotor.setTargetPosition(newRightTarget);
-
+                flMotor.setPower(speed);
+                frMotor.setPower(speed);
+                brMotor.setPower(speed);
+                blMotor.setPower(speed);
 
 
+                // keep looping while we are still active, and BOTH motors are running.
+                while (opModeIsActive() &&
+                        flMotor.isBusy() && frMotor.isBusy()) {
 
-                    // start motion.
-                    speed = Range.clip(Math.abs(speed), 0.0, 1.0);
+                    // adjust relative speed based on headine3sg error.
+                    error = getError(0);
+                    steer = getSteer(error, P_DRIVE_COEFF);
 
-                    flMotor.setPower(speed);
-                    frMotor.setPower(speed);
-                    brMotor.setPower(speed);
-                    blMotor.setPower(speed);
+                    // if driving in reverse, the motor correction also needs to be reversed
+                    if (distance < 0)
+                        steer *= -1.0;
 
+                    leftSpeed = speed - steer;
+                    rightSpeed = speed + steer;
 
-                    // keep looping while we are still active, and BOTH motors are running.
-                    while (opModeIsActive() &&
-                            flMotor.isBusy() && frMotor.isBusy()) {
+                    // Normalize speeds if any one exceeds +/- 1.0;
 
-                        // adjust relative speed based on headine3sg error.
-                        error = getError(0);
-                        steer = getSteer(error, P_DRIVE_COEFF);
-
-                        // if driving in reverse, the motor correction also needs to be reversed
-                        if (distance < 0)
-                            steer *= -1.0;
-
-                        leftSpeed = speed - steer;
-                        rightSpeed = speed + steer;
-
-                        // Normalize speeds if any one exceeds +/- 1.0;
-
-                        max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
-                        if (max > 1) {
-                            leftSpeed /= max;
-                            rightSpeed /= max;
-                        }
-
-                        flMotor.setPower(leftSpeed / 2);
-                        blMotor.setPower(leftSpeed / 2);
-
-                        frMotor.setPower(rightSpeed / 2);
-                        brMotor.setPower(rightSpeed / 2);
-
-                        // Display drive status for the driver.
-                        telemetry.addData("direction", gyroDirection);
-                        telemetry.addData("Err/St", "%5.1f/%5.1f", error, steer);
-                        telemetry.addData("Target", "%7d:%7d", newLeftTarget, newRightTarget);
-                        telemetry.addData("Actual", "%7d:%7d", flMotor.getCurrentPosition(),
-                         frMotor.getCurrentPosition());
-                        telemetry.addData("Speed", "%5.2f:%5.2f", leftSpeed, rightSpeed);
-                        telemetry.addData("motor1", motor1.getPower());
-                        telemetry.addData("motor2", motor2.getPower());
-                        telemetry.addData("motor3", motor3.getPower());
-                        telemetry.addData("motor4", motor4.getPower());
-
-                        telemetry.addData("motor1 D", motor1.getDirection());
-                        telemetry.addData("motor2 D", motor2.getDirection());
-                        telemetry.addData("motor3 D", motor3.getDirection());
-                        telemetry.addData("motor4 D", motor4.getDirection());
-                        telemetry.update();
-
-                        // Allow time for other processes to run.
-                        idle();
+                    max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
+                    if (max > 1) {
+                        leftSpeed /= max;
+                        rightSpeed /= max;
                     }
-                    // Stop all motion;
-                    flMotor.setPower(0);
-                    frMotor.setPower(0);
 
-                    brMotor.setPower(0);
-                    blMotor.setPower(0);
+                    flMotor.setPower(leftSpeed / 2);
+                    blMotor.setPower(leftSpeed / 2);
 
-                    // Turn off RUN_TO_POSITION
-                    flMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                    frMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                    blMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                    brMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    frMotor.setPower(rightSpeed / 2);
+                    brMotor.setPower(rightSpeed / 2);
+
+                    // Display drive status for the driver.
+                    telemetry.addData("direction", gyroDirection);
+                    telemetry.addData("Err/St", "%5.1f/%5.1f", error, steer);
+                    telemetry.addData("Target", "%7d:%7d", newLeftTarget, newRightTarget);
+                    telemetry.addData("Actual", "%7d:%7d", flMotor.getCurrentPosition(),
+                            frMotor.getCurrentPosition());
+                    telemetry.addData("Speed", "%5.2f:%5.2f", leftSpeed, rightSpeed);
+                    telemetry.addData("motor1", motor1.getPower());
+                    telemetry.addData("motor2", motor2.getPower());
+                    telemetry.addData("motor3", motor3.getPower());
+                    telemetry.addData("motor4", motor4.getPower());
+
+                    telemetry.addData("motor1 D", motor1.getDirection());
+                    telemetry.addData("motor2 D", motor2.getDirection());
+                    telemetry.addData("motor3 D", motor3.getDirection());
+                    telemetry.addData("motor4 D", motor4.getDirection());
+                    telemetry.update();
+
+                    // Allow time for other processes to run.
+                    idle();
                 }
-        }
-            catch (Exception p_exception){
+                // Stop all motion;
+                flMotor.setPower(0);
+                frMotor.setPower(0);
 
+                brMotor.setPower(0);
+                blMotor.setPower(0);
+
+                // Turn off RUN_TO_POSITION
+                flMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                frMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                blMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                brMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             }
+        } catch (Exception p_exception) {
 
         }
 
+    }
 
 
-    public void setupVuforia()
-    {
+    public void setupVuforia() {
         // Setup parameters to create localizer
         //parameters = new VuforiaLocalizer.Parameters(R.id.cameraMonitorViewId); // To remove the camera view from the screen, remove the R.id.cameraMonitorViewId
         parameters = new VuforiaLocalizer.Parameters(); // To remove the camera view from the screen, remove the R.id.cameraMonitorViewId
@@ -760,9 +744,9 @@ public abstract class Competition_Hardware extends LinearOpMode {
         vuforiaGears = visionTargets.get(3);
         vuforiaGears.setName("gears");  // Gears - red 1
 
-        if (teamColor == "blue"){
+        if (teamColor == "blue") {
             target = vuforiaWheels;
-        }else{
+        } else {
             target = vuforiaGears;
         }
 
@@ -778,16 +762,14 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
     // Creates a matrix for determining the locations and orientations of objects
     // Units are millimeters for x, y, and z, and degrees for u, v, and w
-    public OpenGLMatrix createMatrix(float x, float y, float z, float u, float v, float w)
-    {
+    public OpenGLMatrix createMatrix(float x, float y, float z, float u, float v, float w) {
         return OpenGLMatrix.translation(x, y, z).
                 multiplied(Orientation.getRotationMatrix(
                         AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES, u, v, w));
     }
 
     // Formats a matrix into a readable string
-    public String formatMatrix(OpenGLMatrix matrix)
-    {
+    public String formatMatrix(OpenGLMatrix matrix) {
         return matrix.formatAsTransform();
     }
 }

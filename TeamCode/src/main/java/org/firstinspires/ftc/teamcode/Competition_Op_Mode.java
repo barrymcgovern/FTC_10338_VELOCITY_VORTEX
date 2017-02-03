@@ -28,13 +28,7 @@ public class Competition_Op_Mode extends Competition_Hardware {
         init(hardwareMap);
 
         telemetry.update();
-        telemetry.addData("Motor 1", motor1.getCurrentPosition());
-        telemetry.addData("Motor 2", motor2.getCurrentPosition());
-        telemetry.addData("Motor 3", motor3.getCurrentPosition());
-        telemetry.addData("Motor 4", motor4.getCurrentPosition());
-        telemetry.update();
         waitForStart();
-
 
         while (opModeIsActive()) {
 
