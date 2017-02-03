@@ -26,6 +26,74 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
 
     }
 
+    public void squareUpToWall(){
+          /*
+            not working - ultrasonic is not sensitive enough to square up.
+
+
+             */
+
+        init(hardwareMap);
+
+        telemetry.addData("Status", "Starting");
+        telemetry.update();
+        initSystem();
+        runtime.reset();
+
+        waitForStart();
+
+
+        while (opModeIsActive()) {
+
+            resetEncoders("drive");
+            double startPos;
+            double lastPos;
+
+            startPos = (double) rangeSensor.cmOptical();
+            lastPos = (double) rangeSensor.cmOptical();
+
+            while (rangeSensor.cmOptical() <= lastPos) {
+                speed = .1;
+
+                telemetry.addData("lastPos", lastPos);
+                telemetry.addData("current", rangeSensor.cmOptical());
+                telemetry.update();
+                drive("circle right");
+                lastPos = (double) rangeSensor.cmOptical();
+                if (lastPos > startPos){ // we've gone to far
+                    break;
+                }
+            }
+            drive("stop");
+            telemetry.addData("stopped pos", rangeSensor.cmOptical());
+            telemetry.update();
+            sleep(1000);
+            drive("stop");
+            startPos = (double) rangeSensor.cmOptical();
+            lastPos = (double) rangeSensor.cmOptical();
+            while (rangeSensor.cmOptical() <= lastPos) {
+                speed = .1;
+                telemetry.addData( "lastPos", lastPos);
+                telemetry.addData( "current", rangeSensor.cmOptical());
+                telemetry.update();
+                drive("circle left");
+                lastPos = (double) rangeSensor.cmOptical();
+                if (lastPos > startPos){ // we either going wrong way or got back
+                    break;
+                }
+
+            }
+
+            drive("stop");
+            telemetry.addData("stopped pos", rangeSensor.cmOptical());
+            telemetry.update();
+            sleep(1000);
+            drive("stop");
+            break;
+        }
+
+    }
+
     public void runDriveShootBeacon() {
         try {
             /*
@@ -61,8 +129,6 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
 
             while (opModeIsActive()) {
 
-
-
                 encoderDrive(DRIVE_SPEED, "right", 8, 11);
 
                 runtime.reset();
@@ -81,41 +147,18 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
 
                 }
 
-                // goal is to drive pretty close to wall
+                // goal is to drive pretty close to wall, but not so close as to hit beacon if crooked
                 speed = .2;
-                while (rangeSensor.rawUltrasonic() > 17 ){
+                resetEncoders("drive");
+                while (rangeSensor.rawUltrasonic() > 22 ){
                     drive("down");
-                }
-
-                lowVal = rangeSensor.rawUltrasonic();
-                lastPos = rangeSensor.rawUltrasonic();
-
-                while ( rangeSensor.rawUltrasonic() <= lastPos){
-                    speed = .05;
-
-                    telemetry.addData("70", "lastPos", lastPos);
-                    telemetry.addData("90", "rangeSensor", rangeSensor.rawUltrasonic());
-                    telemetry.update();
-                    lastPos = rangeSensor.rawUltrasonic();
-                    drive("circle right");
-
-                }
-                drive("stop");
-                lastPos = rangeSensor.rawUltrasonic();
-                while (rangeSensor.rawUltrasonic() <= lastPos){
-                    speed = .05;
-
-                    telemetry.addData("70", "lastPos", lastPos);
-                    telemetry.addData("90", "rangeSensor", rangeSensor.rawUltrasonic());
-                    telemetry.update();
-                    drive("circle left");
-                    lastPos = rangeSensor.rawUltrasonic();
                 }
 
                 drive("stop");
                 // this needs to go to white line
                 encoderDrive(DRIVE_SPEED, "left", 7, 10);
 
+                resetEncoders("drive");
                 speed = .2;
                 while (rangeSensor.rawUltrasonic() > 5) {
                     // drive down till robot hits button
@@ -132,26 +175,38 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
                 if (colorSensor.red() > colorSensor.blue()) {
 
                     if (teamColor == "blue") {
-                        encoderDrive(DRIVE_SPEED, "down", 2, 10);
+                        while (rangeSensor.rawUltrasonic() > 5) {
+                            // drive down till robot hits button
+                            drive("down");
+                        }
+                        encoderDrive(DRIVE_SPEED, "up", 2, 10);
 
                     }
                  //if the color detected is blue...
                 } else if (colorSensor.blue() > colorSensor.red()) {
                     if (teamColor == "red") {
-                        encoderDrive(DRIVE_SPEED, "down", 2, 10);
+                        while (rangeSensor.rawUltrasonic() > 5) {
+                            // drive down till robot hits button
+                            drive("down");
+                        }
+                        encoderDrive(DRIVE_SPEED, "up", 2, 10);
 
                     }
                 }
-                //Move over to second beacon
-                encoderDrive(DRIVE_SPEED, "left", 12, 10);
 
+                encoderDrive(DRIVE_SPEED, "up", 2, 10);
+                sleep(10);
+                //Move over to second beacon
+                encoderDrive(DRIVE_SPEED, "left", 17, 10);
 
                 //repeat of deciding whether to hit beacon once or twice
-                speed = .2;
+                resetEncoders("drive");
+                speed = .1;
                 while (rangeSensor.rawUltrasonic() > 5) {
                     // drive down till robot hits button
                     drive("down");
                 }
+                speed = .2;
                 // back up just a bit
                 encoderDrive(DRIVE_SPEED, "up", 2, 10);
 
@@ -163,21 +218,28 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
                 if (colorSensor.red() > colorSensor.blue()) {
                     //And alliance color is blue, hit the beacon again
                     if (teamColor == "blue") {
-                        encoderDrive(DRIVE_SPEED, "down", 2, 10);
+                        while (rangeSensor.rawUltrasonic() > 5) {
+                            // drive down till robot hits button
+                            drive("down");
+                        }
+                        encoderDrive(DRIVE_SPEED, "up", 2, 10);
 
                     }
                     //if the color detected is blue...
                 } else if (colorSensor.blue() > colorSensor.red()) {
                     //And the alliance color is red, hit the beacon again
                     if (teamColor == "red") {
-                        encoderDrive(DRIVE_SPEED, "down", 2, 10);
+                        while (rangeSensor.rawUltrasonic() > 5) {
+                            // drive down till robot hits button
+                            drive("down");
+                        }
+                        encoderDrive(DRIVE_SPEED, "up", 2, 10);
 
                     }
                 }
-
                 //Turn to prepare for angled drive to center vortex
-                encoderDrive(DRIVE_SPEED, "circle right", 3, 10);
-
+                encoderDrive(DRIVE_SPEED, "circle right", 2, 10);
+                sleep(10);
                 //moves backwards and knocks cap ball off and parks on center vortex
                 encoderDrive(DRIVE_SPEED,"up", 17, 14);
                 speed = .2;

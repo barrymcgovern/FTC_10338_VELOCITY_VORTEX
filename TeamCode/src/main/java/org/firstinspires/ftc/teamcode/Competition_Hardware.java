@@ -103,8 +103,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
     double steer;
     double leftSpeed;
     double rightSpeed;
-    int lowVal;
-    int lastPos;
+
 
     //public Servo servo1 = null;
     //public Servo servo2 = null;
@@ -257,6 +256,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
         try {
             if (opModeIsActive()) {
 
+                resetEncoders("encoder");
 
                 int currentPosMotor1 = 0;
                 int currentPosMotor2 = 0;
@@ -303,18 +303,6 @@ public abstract class Competition_Hardware extends LinearOpMode {
                     motor4.setDirection(DcMotorSimple.Direction.REVERSE);
 
                 }
-                //Resets encoders
-
-                motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                motor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-                motor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                motor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
                 //Getting position of each driving motor
 
                 currentPosMotor1 = motor1.getCurrentPosition();
@@ -332,10 +320,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
                 motor3.setTargetPosition(targetPosMotor3);
                 motor4.setTargetPosition(targetPosMotor4);
 
-                motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motor3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motor4.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
                 //sets motors needed to make robot go different directions
 
                 motor1.setPower(eSpeed);
@@ -352,19 +337,13 @@ public abstract class Competition_Hardware extends LinearOpMode {
                         (motor1.isBusy() && motor2.isBusy())) {
 
                     // Display it for the driver.
-                    telemetry.addData("Status", "Running Encoder Drive");
-                    telemetry.addData("Direction", robotDirection);
-                    telemetry.addData("motor1", motor1.getPower());
-                    telemetry.addData("motor2", motor2.getPower());
-                    telemetry.addData("motor3", motor3.getPower());
-                    telemetry.addData("motor4", motor4.getPower());
+                    telemetry.addData("Encoder Direction", robotDirection);
+                    telemetry.addData("Mot 1234","%5.2f:%5.2f:%5.2f:%5.2f",motor1.getPower(),motor2.getPower(),motor3.getPower(),motor4.getPower());
                     telemetry.update();
 
                     // Allow time for other processes to run.
                     idle();
                 }
-                telemetry.addData("Status", "Done with Encoder Drive");
-                telemetry.update();
 
                 // Stop all motion;
                 motor1.setPower(0);
@@ -463,7 +442,48 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
     }
 
+    void resetEncoders(String resetType){
+        telemetry.addData("resetEncoders",resetType);
+        telemetry.update();
 
+        if (resetType == "drive"){
+            motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            motor1.setDirection(DcMotor.Direction.FORWARD);
+
+            sleep(10);
+            motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            motor2.setDirection(DcMotor.Direction.FORWARD);
+
+            sleep(10);
+            motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            motor3.setDirection(DcMotor.Direction.FORWARD);
+
+            sleep(10);
+            motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            motor4.setDirection(DcMotor.Direction.FORWARD);
+
+        }else { // if (resetType == "encoder"){
+
+            motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            sleep(10);
+            motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            sleep(10);
+            motor3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motor3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            sleep(10);
+            motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motor4.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+    }
 
     void drive(String robotDirection){
         try{
@@ -474,15 +494,10 @@ public abstract class Competition_Hardware extends LinearOpMode {
             //Negative speed moves motor backwards and positive speed moves motor forward
 
             // Turn off RUN_TO_POSITION
-            motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            motor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            motor3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            motor4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-            motor1.setDirection(DcMotor.Direction.FORWARD);
-            motor2.setDirection(DcMotor.Direction.FORWARD);
-            motor3.setDirection(DcMotor.Direction.FORWARD);
-            motor4.setDirection(DcMotor.Direction.FORWARD);
+            if (motor1.getMode() != DcMotor.RunMode.RUN_WITHOUT_ENCODER){
+                resetEncoders("drive");
+            }
 
             if (robotDirection == "up") {
                 motor1.setPower(-speed);
@@ -550,14 +565,20 @@ public abstract class Competition_Hardware extends LinearOpMode {
                 motor4.setPower(0);
             }
 
+            telemetry.addData("Mot 1234","%5.2f:%5.2f:%5.2f:%5.2f",motor1.getPower(),motor2.getPower(),motor3.getPower(),motor4.getPower());
+
+            /*
             telemetry.addData("motor1", motor1.getPower());
             telemetry.addData("motor2", motor2.getPower());
             telemetry.addData("motor3", motor3.getPower());
             telemetry.addData("motor4", motor4.getPower());
             telemetry.update();
+            */
+
 
         }  catch (Exception p_exception) {
-            //   telemetry.addData("98", "drive error" + p_exception.toString());
+            telemetry.addData("drive error" , p_exception.toString());
+            telemetry.update();
         }
 
     }
