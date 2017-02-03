@@ -66,7 +66,7 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
                 encoderDrive(DRIVE_SPEED, "right", 8, 11);
 
                 runtime.reset();
-                while (runtime.seconds() < 3) {
+                while (runtime.seconds() < 2) {
                     beMotor.setPower(-ELEVATOR_SPEED);
                     pMotor1.setPower(SPIN_SPEED);
                     pMotor2.setPower(-SPIN_SPEED);
@@ -100,6 +100,7 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
                     drive("circle right");
 
                 }
+                drive("stop");
                 lastPos = rangeSensor.rawUltrasonic();
                 while (rangeSensor.rawUltrasonic() <= lastPos){
                     speed = .05;
@@ -111,8 +112,7 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
                     lastPos = rangeSensor.rawUltrasonic();
                 }
 
-
-
+                drive("stop");
                 // this needs to go to white line
                 encoderDrive(DRIVE_SPEED, "left", 7, 10);
 
@@ -176,7 +176,7 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
                 }
 
                 //Turn to prepare for angled drive to center vortex
-                encoderDrive(DRIVE_SPEED, "circle right", 6.25, 10);
+                encoderDrive(DRIVE_SPEED, "circle right", 3, 10);
 
                 //moves backwards and knocks cap ball off and parks on center vortex
                 encoderDrive(DRIVE_SPEED,"up", 17, 14);
