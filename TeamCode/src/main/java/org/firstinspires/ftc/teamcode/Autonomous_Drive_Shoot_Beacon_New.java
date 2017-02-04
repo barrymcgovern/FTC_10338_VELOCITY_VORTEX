@@ -258,6 +258,38 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
     }
 
 
+    public void runDriveOnly(){
+        try {
+
+            /*
+            only driving
+
+             */
+
+            init(hardwareMap);
+
+            telemetry.addData("Status", "Starting");
+            telemetry.update();
+            initSystem();
+            runtime.reset();
+
+            waitForStart();
+
+
+            while (opModeIsActive()) {
+                encoderDrive(DRIVE_SPEED, "right", 16, 11);
+                break;
+
+            }
+
+
+
+
+        } catch (Exception e) {
+            telemetry.addData("runOpMode ERROR", e.toString());
+            telemetry.update();
+        }
+    }
 
     public void runDriveShoot(){
         try {
