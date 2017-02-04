@@ -26,74 +26,6 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
 
     }
 
-    public void squareUpToWall(){
-          /*
-            not working - ultrasonic is not sensitive enough to square up.
-
-
-             */
-
-        init(hardwareMap);
-
-        telemetry.addData("Status", "Starting");
-        telemetry.update();
-        initSystem();
-        runtime.reset();
-
-        waitForStart();
-
-
-        while (opModeIsActive()) {
-
-            resetEncoders("drive");
-            double startPos;
-            double lastPos;
-
-            startPos = (double) rangeSensor.cmOptical();
-            lastPos = (double) rangeSensor.cmOptical();
-
-            while (rangeSensor.cmOptical() <= lastPos) {
-                speed = .1;
-
-                telemetry.addData("lastPos", lastPos);
-                telemetry.addData("current", rangeSensor.cmOptical());
-                telemetry.update();
-                drive("circle right");
-                lastPos = (double) rangeSensor.cmOptical();
-                if (lastPos > startPos){ // we've gone to far
-                    break;
-                }
-            }
-            drive("stop");
-            telemetry.addData("stopped pos", rangeSensor.cmOptical());
-            telemetry.update();
-            sleep(1000);
-            drive("stop");
-            startPos = (double) rangeSensor.cmOptical();
-            lastPos = (double) rangeSensor.cmOptical();
-            while (rangeSensor.cmOptical() <= lastPos) {
-                speed = .1;
-                telemetry.addData( "lastPos", lastPos);
-                telemetry.addData( "current", rangeSensor.cmOptical());
-                telemetry.update();
-                drive("circle left");
-                lastPos = (double) rangeSensor.cmOptical();
-                if (lastPos > startPos){ // we either going wrong way or got back
-                    break;
-                }
-
-            }
-
-            drive("stop");
-            telemetry.addData("stopped pos", rangeSensor.cmOptical());
-            telemetry.update();
-            sleep(1000);
-            drive("stop");
-            break;
-        }
-
-    }
-
     public void runDriveShootBeacon() {
         try {
             /*
@@ -340,6 +272,74 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
         }
     }
 
+
+    public void squareUpToWall(){
+          /*
+            not working - ultrasonic is not sensitive enough to square up.
+
+
+             */
+
+        init(hardwareMap);
+
+        telemetry.addData("Status", "Starting");
+        telemetry.update();
+        initSystem();
+        runtime.reset();
+
+        waitForStart();
+
+
+        while (opModeIsActive()) {
+
+            resetEncoders("drive");
+            double startPos;
+            double lastPos;
+
+            startPos = (double) rangeSensor.cmOptical();
+            lastPos = (double) rangeSensor.cmOptical();
+
+            while (rangeSensor.cmOptical() <= lastPos) {
+                speed = .1;
+
+                telemetry.addData("lastPos", lastPos);
+                telemetry.addData("current", rangeSensor.cmOptical());
+                telemetry.update();
+                drive("circle right");
+                lastPos = (double) rangeSensor.cmOptical();
+                if (lastPos > startPos){ // we've gone to far
+                    break;
+                }
+            }
+            drive("stop");
+            telemetry.addData("stopped pos", rangeSensor.cmOptical());
+            telemetry.update();
+            sleep(1000);
+            drive("stop");
+            startPos = (double) rangeSensor.cmOptical();
+            lastPos = (double) rangeSensor.cmOptical();
+            while (rangeSensor.cmOptical() <= lastPos) {
+                speed = .1;
+                telemetry.addData( "lastPos", lastPos);
+                telemetry.addData( "current", rangeSensor.cmOptical());
+                telemetry.update();
+                drive("circle left");
+                lastPos = (double) rangeSensor.cmOptical();
+                if (lastPos > startPos){ // we either going wrong way or got back
+                    break;
+                }
+
+            }
+
+            drive("stop");
+            telemetry.addData("stopped pos", rangeSensor.cmOptical());
+            telemetry.update();
+            sleep(1000);
+            drive("stop");
+            break;
+        }
+
+    }
 
 
 
