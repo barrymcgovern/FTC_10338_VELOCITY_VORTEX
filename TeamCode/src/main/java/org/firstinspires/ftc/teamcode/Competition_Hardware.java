@@ -393,6 +393,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
         // speed is greater value of x or y
         //Uses the value of the joystick like the direction of motion does, only to set speed and divides it in half
         speed = (Math.abs(x) > Math.abs(y) ? Math.abs(x) : Math.abs(y)) / 1.5;
+
         telemetry.addData("y", y);
         telemetry.addData("x", x);
 
