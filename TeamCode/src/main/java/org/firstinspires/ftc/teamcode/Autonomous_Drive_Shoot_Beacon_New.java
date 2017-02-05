@@ -106,7 +106,7 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
                 while (rangeSensor.rawUltrasonic() > 5) {
                     // drive down till robot hits button
                     drive("down");
-                    if (runtime.seconds() < 3){
+                    if (runtime.seconds() > 3){
                         break;
                     }
                 }
@@ -123,7 +123,7 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
                     if (teamColor == "blue") {
                         runtime.reset();
                         while (runtime.seconds() < 2){
-
+                            // delay to wai titll we can touch button again
                         }
                         while (rangeSensor.rawUltrasonic() > 5) {
                             // drive down till robot hits button
