@@ -84,13 +84,13 @@ public abstract class Competition_Hardware extends LinearOpMode {
     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double DRIVE_SPEED = 0.3;
+    static final double DRIVE_SPEED = 0.4;
     static final double TURN_SPEED = 0.5;
     static final double HEADING_THRESHOLD = 1;      // As tight as we can make it with an integer gyro
     static final double P_TURN_COEFF = 0.1;     // Larger is more responsive, but also less stable
     static final double P_DRIVE_COEFF = 0.01;     // Larger is more responsive, but also less stable
 
-    final double SPIN_SPEED = 1;
+    final double SPIN_SPEED = .75;
     final double ELEVATOR_SPEED = .75;
     final double FORKLIFT_SPEED = .3;
 
@@ -298,6 +298,12 @@ public abstract class Competition_Hardware extends LinearOpMode {
                     motor3.setDirection(DcMotorSimple.Direction.REVERSE);
                     motor4.setDirection(DcMotorSimple.Direction.REVERSE);
 
+                } else if (robotDirection == "circle left"){
+                    motor1.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor2.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor3.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor4.setDirection(DcMotorSimple.Direction.FORWARD);
+
                 }
                 //Getting position of each driving motor
 
@@ -386,7 +392,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
         // speed is greater value of x or y
         //Uses the value of the joystick like the direction of motion does, only to set speed and divides it in half
-        speed = (Math.abs(x) > Math.abs(y) ? Math.abs(x) : Math.abs(y)) / 2;
+        speed = (Math.abs(x) > Math.abs(y) ? Math.abs(x) : Math.abs(y)) / 1.5;
         telemetry.addData("y", y);
         telemetry.addData("x", x);
 
