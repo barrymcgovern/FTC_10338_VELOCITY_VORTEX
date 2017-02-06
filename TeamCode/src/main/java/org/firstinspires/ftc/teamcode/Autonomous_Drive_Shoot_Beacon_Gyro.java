@@ -71,7 +71,6 @@ public class Autonomous_Drive_Shoot_Beacon_Gyro extends Competition_Hardware {
                 if (teamColor == "blue") {
                     // need to do 180 for blue
                     encoderDrive(DRIVE_SPEED, "circle right", 12.5, 10);
-
                 }
 
                 // goal is to drive pretty close to wall, but not so close as to hit beacon if crooked
@@ -198,7 +197,7 @@ public class Autonomous_Drive_Shoot_Beacon_Gyro extends Competition_Hardware {
             telemetry.update();
             initSystem();
             runtime.reset();
-            telemetry.addData("ods",ods.getLightDetected(););
+            telemetry.addData("ods",ods.getLightDetected());
             telemetry.update();
             waitForStart();
 
