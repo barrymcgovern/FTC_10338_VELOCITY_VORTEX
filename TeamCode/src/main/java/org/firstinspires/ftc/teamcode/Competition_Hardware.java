@@ -22,6 +22,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -111,6 +112,9 @@ public abstract class Competition_Hardware extends LinearOpMode {
     // Not used anymore
     ModernRoboticsI2cGyro gyro = null;
 
+    OpticalDistanceSensor ods = null;
+    double odsReading;
+
     public String teamColor;
 
     ColorSensor colorSensor;
@@ -174,9 +178,10 @@ public abstract class Competition_Hardware extends LinearOpMode {
             beMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             fkMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-            //gyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyro");
+            gyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyro");
             colorSensor = hardwareMap.colorSensor.get("color");
             rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
+            ods = hardwareMap.opticalDistanceSensor.get("ods");
 
             // Define and initialize ALL installed servos.
             //servo1 = hwMap.servo.get("servo1");
@@ -581,7 +586,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
     }
 
-    void gyroDrive(String gyroDirection, double speed, double distance) {
+    void gyroDrive(String gyroDirection, double gSpeed, double distance) {
         try {
             telemetry.addData("direction", gyroDirection);
 
@@ -623,16 +628,20 @@ public abstract class Competition_Hardware extends LinearOpMode {
             if (opModeIsActive()) {
 
                 flMotor.setDirection(DcMotor.Direction.FORWARD);
-                blMotor.setDirection(DcMotor.Direction.FORWARD);
-                frMotor.setDirection(DcMotor.Direction.REVERSE);
-                brMotor.setDirection(DcMotor.Direction.REVERSE);
-
                 flMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                frMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                sleep(10);
 
+                blMotor.setDirection(DcMotor.Direction.FORWARD);
                 blMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                brMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                sleep(10);
 
+                frMotor.setDirection(DcMotor.Direction.REVERSE);
+                frMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                sleep(10);
+
+                brMotor.setDirection(DcMotor.Direction.REVERSE);
+                brMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                sleep(10);
 
                 // Determine new target position, and pass to motor controller
                 moveCounts = (int) (distance * COUNTS_PER_INCH);
@@ -645,12 +654,12 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
 
                 // start motion.
-                speed = Range.clip(Math.abs(speed), 0.0, 1.0);
+                gSpeed = Range.clip(Math.abs(gSpeed), 0.0, 1.0);
 
-                flMotor.setPower(speed);
-                frMotor.setPower(speed);
-                brMotor.setPower(speed);
-                blMotor.setPower(speed);
+                flMotor.setPower(gSpeed);
+                frMotor.setPower(gSpeed);
+                brMotor.setPower(gSpeed);
+                blMotor.setPower(gSpeed);
 
 
                 // keep looping while we are still active, and BOTH motors are running.
@@ -665,8 +674,8 @@ public abstract class Competition_Hardware extends LinearOpMode {
                     if (distance < 0)
                         steer *= -1.0;
 
-                    leftSpeed = speed - steer;
-                    rightSpeed = speed + steer;
+                    leftSpeed = gSpeed - steer;
+                    rightSpeed = gSpeed + steer;
 
                     // Normalize speeds if any one exceeds +/- 1.0;
 
@@ -676,34 +685,22 @@ public abstract class Competition_Hardware extends LinearOpMode {
                         rightSpeed /= max;
                     }
 
-                    flMotor.setPower(leftSpeed / 2);
-                    blMotor.setPower(leftSpeed / 2);
+                    flMotor.setPower(leftSpeed );
+                    blMotor.setPower(leftSpeed );
 
-                    frMotor.setPower(rightSpeed / 2);
-                    brMotor.setPower(rightSpeed / 2);
+                    frMotor.setPower(rightSpeed);
+                    brMotor.setPower(rightSpeed );
 
                     // Display drive status for the driver.
-                    telemetry.addData("direction", gyroDirection);
-                    telemetry.addData("Err/St", "%5.1f/%5.1f", error, steer);
-                    telemetry.addData("Target", "%7d:%7d", newLeftTarget, newRightTarget);
-                    telemetry.addData("Actual", "%7d:%7d", flMotor.getCurrentPosition(),
-                            frMotor.getCurrentPosition());
-                    telemetry.addData("Speed", "%5.2f:%5.2f", leftSpeed, rightSpeed);
-                    telemetry.addData("motor1", motor1.getPower());
-                    telemetry.addData("motor2", motor2.getPower());
-                    telemetry.addData("motor3", motor3.getPower());
-                    telemetry.addData("motor4", motor4.getPower());
+                    telemetry.addData("gyro direction", gyroDirection);
+                    telemetry.addData("Mot 1234", "%5.2f:%5.2f:%5.2f:%5.2f", motor1.getPower(), motor2.getPower(), motor3.getPower(), motor4.getPower());
 
-                    telemetry.addData("motor1 D", motor1.getDirection());
-                    telemetry.addData("motor2 D", motor2.getDirection());
-                    telemetry.addData("motor3 D", motor3.getDirection());
-                    telemetry.addData("motor4 D", motor4.getDirection());
                     telemetry.update();
 
-                    // Allow time for other processes to run.
+
                     idle();
                 }
-                // Stop all motion;
+
                 flMotor.setPower(0);
                 frMotor.setPower(0);
 
@@ -712,9 +709,13 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
                 // Turn off RUN_TO_POSITION
                 flMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                sleep(10);
                 frMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                sleep(10);
                 blMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                sleep(10);
                 brMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                sleep(10);
             }
         } catch (Exception p_exception) {
 
