@@ -198,8 +198,7 @@ public class Autonomous_Drive_Shoot_Beacon_Gyro extends Competition_Hardware {
             telemetry.update();
             initSystem();
             runtime.reset();
-            odsReading = ods.getLightDetected();
-            telemetry.addData("ods",odsReading);
+            telemetry.addData("ods",ods.getLightDetected(););
             telemetry.update();
             waitForStart();
 
@@ -207,9 +206,9 @@ public class Autonomous_Drive_Shoot_Beacon_Gyro extends Competition_Hardware {
             while (opModeIsActive()) {
 
                 speed = .2;
-                odsReading = ods.getLightDetected();
-                if (odsReading < 100){
-                    telemetry.addData("ods",odsReading);
+
+                if ( ods.getLightDetected() < .2){
+                    telemetry.addData("ods", ods.getLightDetected());
                     drive("left")  ;
                     telemetry.update();
                 }
