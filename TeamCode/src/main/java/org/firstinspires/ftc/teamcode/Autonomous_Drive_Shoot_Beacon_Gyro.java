@@ -55,14 +55,15 @@ public class Autonomous_Drive_Shoot_Beacon_Gyro extends Competition_Hardware {
 
 
             while (opModeIsActive()) {
+                pMotor1.setPower(SPIN_SPEED);
+                pMotor2.setPower(-SPIN_SPEED);
 
-                encoderDrive(DRIVE_SPEED, "right", 8, 11);
+                gyroDrive("right", DRIVE_SPEED, 8);
 
                 runtime.reset();
                 while (runtime.seconds() < 2) {
                     beMotor.setPower(-ELEVATOR_SPEED);
-                    pMotor1.setPower(SPIN_SPEED);
-                    pMotor2.setPower(-SPIN_SPEED);
+
                 }
                 beMotor.setPower(0);
                 pMotor1.setPower(0);
@@ -72,17 +73,30 @@ public class Autonomous_Drive_Shoot_Beacon_Gyro extends Competition_Hardware {
                     // need to do 180 for blue
                     encoderDrive(DRIVE_SPEED, "circle right", 12.5, 10);
                 }
-
-                // goal is to drive pretty close to wall, but not so close as to hit beacon if crooked
-                speed = .2;
-                resetEncoders("drive");
-                while (rangeSensor.rawUltrasonic() > 22 ){
-                    drive("down");
+                gyro.calibrate();
+                while (gyro.isCalibrating())  {
+                    telemetry.addData("Status","calibrating");
+                    telemetry.update();
+                    Thread.sleep(50);
+                    idle();
                 }
 
+                // goal is to drive pretty close to wall, but not so close as to hit beacon if crooked
+
+                resetEncoders("encoder");
+
+                gyroDrive("down", DRIVE_SPEED, 10);
+                speed = .4;
+
+                resetEncoders("drive");
                 drive("stop");
                 // this needs to go to white line
-                encoderDrive(DRIVE_SPEED, "left", 7, 10);
+                while ( ods.getRawLightDetected() < .1){
+                    telemetry.addData("ods", ods.getLightDetected());
+                    drive("right")  ;
+                    telemetry.update();
+                }
+                drive("stop");
 
                 resetEncoders("drive");
                 speed = .2;
@@ -91,7 +105,8 @@ public class Autonomous_Drive_Shoot_Beacon_Gyro extends Competition_Hardware {
                     drive("down");
                 }
                 // back up just a bit
-                encoderDrive(DRIVE_SPEED, "up", 2, 10);
+                resetEncoders("encoder");
+                gyroDrive("up",DRIVE_SPEED, 2);
 
                 telemetry.addData("Red", colorSensor.red());
                 telemetry.addData("Blue", colorSensor.blue());
@@ -103,9 +118,11 @@ public class Autonomous_Drive_Shoot_Beacon_Gyro extends Competition_Hardware {
                     if (teamColor == "blue") {
                         while (rangeSensor.rawUltrasonic() > 5) {
                             // drive down till robot hits button
+                            resetEncoders("drive");
                             drive("down");
                         }
-                        encoderDrive(DRIVE_SPEED, "up", 2, 10);
+                        resetEncoders("encoder");
+                        gyroDrive("up", DRIVE_SPEED, 2);
 
                     }
                  //if the color detected is blue...
@@ -113,17 +130,27 @@ public class Autonomous_Drive_Shoot_Beacon_Gyro extends Competition_Hardware {
                     if (teamColor == "red") {
                         while (rangeSensor.rawUltrasonic() > 5) {
                             // drive down till robot hits button
+                            resetEncoders("drive");
                             drive("down");
                         }
-                        encoderDrive(DRIVE_SPEED, "up", 2, 10);
+                        resetEncoders("encoder");
+                        gyroDrive("up", DRIVE_SPEED, 2);
 
                     }
                 }
 
-                encoderDrive(DRIVE_SPEED, "up", 2, 10);
+                resetEncoders("encoder");
+                gyroDrive("up", DRIVE_SPEED, 2);
+                resetEncoders("drive");
                 sleep(10);
+                speed = .4;
                 //Move over to second beacon
-                encoderDrive(DRIVE_SPEED, "left", 17, 10);
+                while ( ods.getRawLightDetected() < .1){
+                    telemetry.addData("ods", ods.getLightDetected());
+                    drive("right")  ;
+                    telemetry.update();
+                }
+                drive("stop");
 
                 //repeat of deciding whether to hit beacon once or twice
                 resetEncoders("drive");
@@ -134,21 +161,25 @@ public class Autonomous_Drive_Shoot_Beacon_Gyro extends Competition_Hardware {
                 }
                 speed = .2;
                 // back up just a bit
-                encoderDrive(DRIVE_SPEED, "up", 2, 10);
+                resetEncoders("encoder");
+                gyroDrive("up", DRIVE_SPEED, 2);
 
                 telemetry.addData("Red", colorSensor.red());
                 telemetry.addData("Blue", colorSensor.blue());
                 telemetry.update();
 
                 //if the color is red
+                speed = .2;
                 if (colorSensor.red() > colorSensor.blue()) {
                     //And alliance color is blue, hit the beacon again
                     if (teamColor == "blue") {
                         while (rangeSensor.rawUltrasonic() > 5) {
                             // drive down till robot hits button
+                            resetEncoders("drive");
                             drive("down");
                         }
-                        encoderDrive(DRIVE_SPEED, "up", 2, 10);
+                        resetEncoders("encoder");
+                        gyroDrive("up", DRIVE_SPEED, 2);
 
                     }
                     //if the color detected is blue...
@@ -157,9 +188,11 @@ public class Autonomous_Drive_Shoot_Beacon_Gyro extends Competition_Hardware {
                     if (teamColor == "red") {
                         while (rangeSensor.rawUltrasonic() > 5) {
                             // drive down till robot hits button
+                            resetEncoders("drive");
                             drive("down");
                         }
-                        encoderDrive(DRIVE_SPEED, "up", 2, 10);
+                        resetEncoders("encoder");
+                        gyroDrive("up", DRIVE_SPEED, 2);
 
                     }
                 }
@@ -167,8 +200,9 @@ public class Autonomous_Drive_Shoot_Beacon_Gyro extends Competition_Hardware {
                 encoderDrive(DRIVE_SPEED, "circle right", 2, 10);
                 sleep(10);
                 //moves backwards and knocks cap ball off and parks on center vortex
-                encoderDrive(DRIVE_SPEED,"up", 17, 14);
-                speed = .2;
+
+                encoderDrive(DRIVE_SPEED, "up", 17, 10);
+
                 break;
 
 
@@ -197,7 +231,7 @@ public class Autonomous_Drive_Shoot_Beacon_Gyro extends Competition_Hardware {
             telemetry.update();
             initSystem();
             runtime.reset();
-            telemetry.addData("ods",ods.getLightDetected());
+            telemetry.addData("ods",ods.getRawLightDetected());
             telemetry.update();
             waitForStart();
 
@@ -206,7 +240,7 @@ public class Autonomous_Drive_Shoot_Beacon_Gyro extends Competition_Hardware {
 
                 speed = .2;
 
-                if ( ods.getLightDetected() < .2){
+                while ( ods.getRawLightDetected() < .1){
                     telemetry.addData("ods", ods.getLightDetected());
                     drive("left")  ;
                     telemetry.update();
@@ -249,7 +283,10 @@ public class Autonomous_Drive_Shoot_Beacon_Gyro extends Competition_Hardware {
 
 
                 gyroDrive("right",DRIVE_SPEED,8);
+                gyroDrive("left",DRIVE_SPEED,8);
+                gyroDrive("up",DRIVE_SPEED,8);
                 gyroDrive("down",DRIVE_SPEED,8);
+
 
 /*
                 runtime.reset();

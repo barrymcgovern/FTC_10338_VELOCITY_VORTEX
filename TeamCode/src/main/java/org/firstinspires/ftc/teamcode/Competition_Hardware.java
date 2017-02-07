@@ -85,7 +85,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double DRIVE_SPEED = 0.4;
+    static final double DRIVE_SPEED = 0.3;
     static final double TURN_SPEED = 0.5;
     static final double HEADING_THRESHOLD = 1;      // As tight as we can make it with an integer gyro
     static final double P_TURN_COEFF = 0.1;     // Larger is more responsive, but also less stable
@@ -595,7 +595,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
             DcMotor blMotor = null;
             DcMotor brMotor = null;
 
-            if (gyroDirection == "up") {
+            if (gyroDirection == "down") {
                 flMotor = motor1;
                 frMotor = motor2;
                 brMotor = motor3;
@@ -609,7 +609,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
                 blMotor = motor1;
 
 
-            } else if (gyroDirection == "down") {
+            } else if (gyroDirection == "up") {
                 flMotor = motor3;
                 frMotor = motor4;
                 brMotor = motor1;
