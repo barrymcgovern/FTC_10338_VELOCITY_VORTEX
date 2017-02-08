@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
  */
 @Autonomous(name="Comp: Drive Shoot Only", group="Pushbot")
 
-public class Autonomous_Drive_Shoot extends Autonomous_Drive_Shoot_Beacon_New {
+public class Autonomous_Drive_Shoot extends Autonomous_Drive_Shoot_Beacon {
     @Override
     public void runOpMode() throws InterruptedException {
         runDriveShoot();

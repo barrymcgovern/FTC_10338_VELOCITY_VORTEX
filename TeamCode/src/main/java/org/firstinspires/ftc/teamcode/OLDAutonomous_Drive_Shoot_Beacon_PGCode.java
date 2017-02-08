@@ -2,12 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-
 /**
  * Team: Dark Matters #10338
  * Velocity Vortex
@@ -20,11 +14,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
 
-public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
+public class OLDAutonomous_Drive_Shoot_Beacon_PGCode extends Competition_Hardware {
     @Override
     public void runOpMode() throws InterruptedException {
 
     }
+
     public void runDriveShootBeaconDifferent(){
         try {
             /*
@@ -240,236 +235,6 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
         }
     }
 
-
-    public void runDriveShootBeacon() {
-        try {
-            /*
-            drive towards hoop a foot or so
-            shoot balls
-            if blue, need to spin 180
-            drive towards wall till 10 or so inches away
-
-            drive towards white line and stop at white line
-            follow white line and hit beacon
-                - stop around 7 or so on ultrasonic sensor
-            back up an inch
-            read color
-            if color does not equal team color,
-                then hit button again and back up
-
-            Go to next white line and repeat above
-
-
-            try and knock cap ball off
-
-             */
-
-            init(hardwareMap);
-
-            telemetry.addData("Status", "Starting");
-            telemetry.update();
-            initSystem();
-            runtime.reset();
-
-            waitForStart();
-
-
-            while (opModeIsActive()) {
-
-                pMotor2.setPower(-SPIN_SPEED);
-                pMotor1.setPower(SPIN_SPEED);
-
-                encoderDrive(DRIVE_SPEED, "right", 8, 11);
-
-                runtime.reset();
-                while (runtime.seconds() < 2) {
-                    beMotor.setPower(-ELEVATOR_SPEED);
-                    pMotor1.setPower(SPIN_SPEED);
-                    pMotor2.setPower(-SPIN_SPEED);
-                }
-                beMotor.setPower(0);
-                pMotor1.setPower(0);
-                pMotor2.setPower(0);
-
-                encoderDrive(DRIVE_SPEED, "right", 3, 10);
-
-                if (teamColor == "blue") {
-                    // need to do 180 for blue
-                    encoderDrive(DRIVE_SPEED, "circle right", 12.5, 10);
-
-                }
-
-                // goal is to drive pretty close to wall, but not so close as to hit beacon if crooked
-                speed = .2;
-                resetEncoders("drive");
-                while (rangeSensor.rawUltrasonic() > 22 ){
-                    drive("down");
-                }
-
-                drive("stop");
-
-                // this needs to go to white line
-                lineWhite();
-                runtime.reset();
-                if (teamColor == "blue"){
-                    while (runtime.seconds() < .5){
-                        drive("left");
-                    }
-                } else{
-                    while (runtime.seconds() < .5){
-                        drive("right");
-                    }
-                }
-
-
-                resetEncoders("drive");
-                speed = .2;
-                runtime.reset();
-                while (rangeSensor.rawUltrasonic() > 5) {
-                    // drive down till robot hits button
-                    drive("down");
-                    if (runtime.seconds() > 3){ // range is probably not working
-                        break;
-                    }
-                }
-                // back up just a bit
-                while (rangeSensor.rawUltrasonic() < 5){
-                    drive("up");
-                }
-
-
-                telemetry.addData("Red", colorSensor.red());
-                telemetry.addData("Blue", colorSensor.blue());
-                telemetry.update();
-
-                //if the color is red
-               colorBeacon();
-
-                runtime.reset();
-                while (runtime.seconds() < .25){
-                    drive("up");
-                }
-
-                //Move over to second beacon
-                lineWhite();
-                //repeat of deciding whether to hit beacon once or twice
-
-                speed = .2;
-                while (rangeSensor.rawUltrasonic() > 5) {
-                    // drive down till robot hits button
-                    drive("down");
-                }
-                speed = .2;
-                // back up just a bit
-                runtime.reset();
-                while (runtime.seconds() < .5){
-                    drive("up");
-                }
-
-                telemetry.addData("Red", colorSensor.red());
-                telemetry.addData("Blue", colorSensor.blue());
-                telemetry.update();
-
-                //if the color is red
-               colorBeacon();
-
-                //Turn to prepare for angled drive to center vortex
-                //moves backwards and knocks cap ball off and parks on center vortex
-                runtime.reset();
-               if (teamColor == "blue"){
-                   while(runtime.seconds() < .25){
-                       drive("circle right");
-                   }
-                   runtime.reset();
-                   while (runtime.seconds() < 4){
-                       drive("up");
-                   }
-
-                } else {
-                   while (runtime.seconds() < .25){
-                       drive("circle left");
-                   }
-                   runtime.reset();
-                   while (runtime.seconds() < 4){
-                       drive("up");
-                   }
-
-
-                    speed = .2;
-                }
-                break;
-
-            }
-
-
-
-
-        } catch (Exception e) {
-            telemetry.addData("runOpMode ERROR", e.toString());
-            telemetry.update();
-        }
-    }
-    public void colorBeacon(){
-
-        if (colorSensor.red() > colorSensor.blue()) {
-            if (teamColor == "blue") {
-                runtime.reset();
-                while (runtime.seconds() < 2){
-                    // delay to wai till we can touch button again
-                }
-                while (rangeSensor.rawUltrasonic() > 5) {
-                    // drive down till robot hits button
-                    drive("down");
-                }
-                while (rangeSensor.rawUltrasonic() < 10){
-                    drive("up");
-                }
-            }
-            //if the color detected is blue...
-        } else if (colorSensor.blue() > colorSensor.red()) {
-            if (teamColor == "red") {
-                runtime.reset();
-                while (runtime.seconds() < 2){
-
-                }
-                while (rangeSensor.rawUltrasonic() > 5) {
-                    // drive down till robot hits button
-                    drive("down");
-                }
-                while (rangeSensor.rawUltrasonic() < 10){
-                    drive("up");
-                }
-            }
-        }
-    }
-
-    public void lineWhite() {
-
-        while (ods.getRawLightDetected() < .1 && ods2.getRawLightDetected() < .1) {
-            drive("right");
-        }
-        drive("stop");
-
-
-        while (ods2.getRawLightDetected() < .1) {
-            drive("circle left");
-        }
-        while (ods.getRawLightDetected() < .1) {
-            drive("circle right");
-        }
-        drive("stop");
-        speed = .2;
-        while (rangeSensor.rawUltrasonic() > 5) {
-            // drive down till robot hits button
-            drive("down");
-        }
-        // back up just a bit
-        runtime.reset();
-        while (rangeSensor.rawUltrasonic() < 10) {
-            drive("up");
-        }
-        drive("stop");
-    }
 
 
 

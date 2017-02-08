@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  */
 @Autonomous(name="Comp: Drive Only", group="Pushbot")
 
-public class Autonomous_Drive_Only extends Autonomous_Drive_Shoot_Beacon_New {
+public class Autonomous_Drive_Only extends Autonomous_Drive_Shoot_Beacon {
     @Override
     public void runOpMode() throws InterruptedException {
         runDriveOnly();

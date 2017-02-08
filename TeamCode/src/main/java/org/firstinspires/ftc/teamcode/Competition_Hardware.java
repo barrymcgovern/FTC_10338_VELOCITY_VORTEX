@@ -397,6 +397,84 @@ public abstract class Competition_Hardware extends LinearOpMode {
     }
 
 
+    public void detectAndActiveBeaconColor(){
+
+        telemetry.addData("Red", colorSensor.red());
+        telemetry.addData("Blue", colorSensor.blue());
+        telemetry.update();
+
+        speed = .2;
+        if (colorSensor.red() > colorSensor.blue()) {
+            if (teamColor == "blue") {
+                runtime.reset();
+                while (runtime.seconds() < 2){
+                    // delay to wai till we can touch button again
+                }
+                while (rangeSensor.rawUltrasonic() > 5) {
+                    // drive down till robot hits button
+                    drive("down");
+                }
+                while (rangeSensor.rawUltrasonic() < 10){
+                    drive("up");
+                }
+            }
+            //if the color detected is blue...
+        } else if (colorSensor.blue() > colorSensor.red()) {
+            if (teamColor == "red") {
+                runtime.reset();
+                while (runtime.seconds() < 2){
+
+                }
+                while (rangeSensor.rawUltrasonic() > 5) {
+                    // drive down till robot hits button
+                    drive("down");
+                }
+                while (rangeSensor.rawUltrasonic() < 10){
+                    drive("up");
+                }
+            }
+        }
+
+    }
+
+    public void gotoWhiteLineAndHitBeacon() {
+        speed = .1; // go slow for line detection
+
+        // drive till either of the ODS sensors detect the white line
+        while (ods.getRawLightDetected() < .1 && ods2.getRawLightDetected() < .1) {
+            drive("right");
+        }
+        drive("stop");
+
+        // then figure out which one is one the white line
+        // and turn robot till other sensor is on line
+        if (ods2.getRawLightDetected() < .1){
+            while (ods2.getRawLightDetected() < .1) {
+                drive("circle left");
+            }
+        }else if (ods.getRawLightDetected() < .1){
+            while (ods.getRawLightDetected() < .1) {
+                drive("circle right");
+            }
+        }
+
+        drive("stop");
+        speed = .2;
+        while (rangeSensor.rawUltrasonic() > 5) {
+            // drive down till robot hits button
+            drive("down");
+        }
+        drive("stop");
+
+        // back up just a bit
+        while (rangeSensor.rawUltrasonic() < 10) {
+            drive("up");
+        }
+        drive("stop");
+    }
+
+
+
     void driveStick(float x, float y) {
 
         // speed is greater value of x or y
@@ -454,6 +532,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
         telemetry.update();
 
         if (resetType == "drive") {
+            sleep(10);
             motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             motor1.setDirection(DcMotor.Direction.FORWARD);
 
@@ -470,7 +549,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
             motor4.setDirection(DcMotor.Direction.FORWARD);
 
         } else { // if (resetType == "encoder"){
-
+            sleep(10);
             motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             motor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -489,6 +568,13 @@ public abstract class Competition_Hardware extends LinearOpMode {
             motor4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor4.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+    }
+
+    void drive(String robotDirection, double seconds ){
+        runtime.reset();
+        while (runtime.seconds() < seconds){
+            drive(robotDirection);
         }
     }
 
