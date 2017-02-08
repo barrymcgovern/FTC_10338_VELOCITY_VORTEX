@@ -25,6 +25,221 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
     public void runOpMode() throws InterruptedException {
 
     }
+    public void runDriveShootBeaconDifferent(){
+        try {
+            /*
+            drive towards hoop a foot or so
+            shoot balls
+            if blue, need to spin 180
+            drive towards wall till 10 or so inches away
+
+            drive towards white line and stop at white line
+            follow white line and hit beacon
+                - stop around 7 or so on ultrasonic sensor
+            back up an inch
+            read color
+            if color does not equal team color,
+                then hit button again and back up
+
+            Go to next white line and repeat above
+
+
+            try and knock cap ball off
+
+             */
+
+            init(hardwareMap);
+
+            telemetry.addData("Status", "Starting");
+            telemetry.update();
+            initSystem();
+            runtime.reset();
+
+            waitForStart();
+
+
+            while (opModeIsActive()) {
+
+                pMotor2.setPower(-SPIN_SPEED);
+                pMotor1.setPower(SPIN_SPEED);
+
+                runtime.reset();
+
+                while (runtime.seconds() < 1) {
+                    drive("right");
+                }
+
+                runtime.reset();
+                while (runtime.seconds() < 2) {
+                    beMotor.setPower(-ELEVATOR_SPEED);
+                    pMotor1.setPower(SPIN_SPEED);
+                    pMotor2.setPower(-SPIN_SPEED);
+                }
+                beMotor.setPower(0);
+                pMotor1.setPower(0);
+                pMotor2.setPower(0);
+
+                runtime.reset();
+                while (runtime.seconds() < 1){
+                    drive("right");
+            }
+                runtime.reset();
+                if (teamColor == "blue") {
+                    // need to do 180 for blue
+                    while (runtime.seconds() < 1){
+                        drive("circle right");
+                    }
+
+                }
+
+
+                // goal is to drive pretty close to wall, but not so close as to hit beacon if crooked
+                speed = .2;
+                resetEncoders("drive");
+                while (rangeSensor.rawUltrasonic() > 22 ){
+                    drive("down");
+                }
+
+                drive("stop");
+
+                // this needs to go to white line
+
+
+
+                resetEncoders("drive");
+                speed = .2;
+                runtime.reset();
+                while (rangeSensor.rawUltrasonic() > 5) {
+                    // drive down till robot hits button
+                    drive("down");
+                    if (runtime.seconds() > 3){ // range is probably not working
+                        break;
+                }
+                }
+                // back up just a bit
+                runtime.reset();
+                while (runtime.seconds() < .25){
+                    drive("down");
+                }
+
+                telemetry.addData("Red", colorSensor.red());
+                telemetry.addData("Blue", colorSensor.blue());
+                telemetry.update();
+
+                //if the color is red
+                if (colorSensor.red() > colorSensor.blue()) {
+                    if (teamColor == "blue") {
+                        runtime.reset();
+                        while (runtime.seconds() < 2){
+                            // delay to wai till we can touch button again
+                        }
+                        while (rangeSensor.rawUltrasonic() > 5) {
+                            // drive down till robot hits button
+                            drive("down");
+                        }
+
+
+                    }
+                    //if the color detected is blue...
+                } else if (colorSensor.blue() > colorSensor.red()) {
+                    if (teamColor == "red") {
+                        runtime.reset();
+                        //waits for so that button will change when hit
+                        while (runtime.seconds() < 2){
+
+                        }
+                        while (rangeSensor.rawUltrasonic() > 5) {
+                            // drive down till robot hits button
+                            drive("down");
+                        }
+
+
+                    }
+                }
+
+                runtime.reset();
+                while (runtime.seconds() < .35)
+                encoderDrive(DRIVE_SPEED, "up", 2, 10);
+                sleep(10);
+                //Move over to second beacon
+                if (teamColor == "blue"){
+                    encoderDrive(DRIVE_SPEED, "left", 16, 10);
+                } else {
+                    encoderDrive(DRIVE_SPEED, "right", 16, 10);
+                }
+                //repeat of deciding whether to hit beacon once or twice
+                resetEncoders("drive");
+                speed = .2;
+                while (rangeSensor.rawUltrasonic() > 5) {
+                    // drive down till robot hits button
+                    drive("down");
+                }
+                speed = .2;
+                // back up just a bit
+                encoderDrive(DRIVE_SPEED, "up", 2, 10);
+
+                telemetry.addData("Red", colorSensor.red());
+                telemetry.addData("Blue", colorSensor.blue());
+                telemetry.update();
+
+                //if the color is red
+                if (colorSensor.red() > colorSensor.blue()) {
+                    //And alliance color is blue, hit the beacon again
+                    if (teamColor == "blue") {
+                        runtime.reset();
+                        while (runtime.seconds() < 3){
+
+                        }
+                        while (rangeSensor.rawUltrasonic() > 5) {
+                            // drive down till robot hits button
+                            drive("down");
+                        }
+                        encoderDrive(DRIVE_SPEED, "up", 2, 10);
+
+                    }
+                    //if the color detected is blue...
+                } else if (colorSensor.blue() > colorSensor.red()) {
+                    //And the alliance color is red, hit the beacon again
+                    if (teamColor == "red") {
+                        runtime.reset();
+                        while (runtime.seconds() < 3){
+
+                        }
+                        while (rangeSensor.rawUltrasonic() > 5) {
+                            // drive down till robot hits button
+                            drive("down");
+                        }
+                        encoderDrive(DRIVE_SPEED, "up", 2, 10);
+
+                    }
+                }
+
+                //Turn to prepare for angled drive to center vortex
+                //moves backwards and knocks cap ball off and parks on center vortex
+                if (teamColor == "blue"){
+                    encoderDrive(DRIVE_SPEED, "circle right", 2, 10);
+                    sleep(10);
+                    encoderDrive(DRIVE_SPEED,"up", 17, 14);
+                    speed = .2;
+                } else {
+                    encoderDrive(DRIVE_SPEED, "circle left", 2, 10);
+                    sleep(10);
+                    encoderDrive(DRIVE_SPEED,"up", 17, 14);
+                    speed = .2;
+                }
+                break;
+
+            }
+
+
+
+
+        } catch (Exception e) {
+            telemetry.addData("runOpMode ERROR", e.toString());
+            telemetry.update();
+        }
+    }
+
 
     public void runDriveShootBeacon() {
         try {
@@ -94,10 +309,16 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
                 drive("stop");
 
                 // this needs to go to white line
+                lineWhite();
+                runtime.reset();
                 if (teamColor == "blue"){
-                    encoderDrive(DRIVE_SPEED, "left", 4, 10);
+                    while (runtime.seconds() < .5){
+                        drive("left");
+                    }
                 } else{
-                    encoderDrive(DRIVE_SPEED, "right", 4, 10);
+                    while (runtime.seconds() < .5){
+                        drive("right");
+                    }
                 }
 
 
@@ -112,50 +333,27 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
                     }
                 }
                 // back up just a bit
-                encoderDrive(DRIVE_SPEED, "up", 2, 10);
+                while (rangeSensor.rawUltrasonic() < 5){
+                    drive("up");
+                }
+
 
                 telemetry.addData("Red", colorSensor.red());
                 telemetry.addData("Blue", colorSensor.blue());
                 telemetry.update();
 
                 //if the color is red
-                if (colorSensor.red() > colorSensor.blue()) {
-                    if (teamColor == "blue") {
-                        runtime.reset();
-                        while (runtime.seconds() < 2){
-                            // delay to wai titll we can touch button again
-                        }
-                        while (rangeSensor.rawUltrasonic() > 5) {
-                            // drive down till robot hits button
-                            drive("down");
-                        }
-                        encoderDrive(DRIVE_SPEED, "up", 2, 10);
-                    }
-                 //if the color detected is blue...
-                } else if (colorSensor.blue() > colorSensor.red()) {
-                    if (teamColor == "red") {
-                        runtime.reset();
-                        while (runtime.seconds() < 2){
+               colorBeacon();
 
-                        }
-                        while (rangeSensor.rawUltrasonic() > 5) {
-                            // drive down till robot hits button
-                            drive("down");
-                        }
-                        encoderDrive(DRIVE_SPEED, "up", 2, 10);
-                    }
+                runtime.reset();
+                while (runtime.seconds() < .25){
+                    drive("up");
                 }
 
-                encoderDrive(DRIVE_SPEED, "up", 2, 10);
-                sleep(10);
                 //Move over to second beacon
-                if (teamColor == "blue"){
-                    encoderDrive(DRIVE_SPEED, "left", 16, 10);
-                } else {
-                    encoderDrive(DRIVE_SPEED, "right", 16, 10);
-                }
+                lineWhite();
                 //repeat of deciding whether to hit beacon once or twice
-                resetEncoders("drive");
+
                 speed = .2;
                 while (rangeSensor.rawUltrasonic() > 5) {
                     // drive down till robot hits button
@@ -163,55 +361,40 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
                 }
                 speed = .2;
                 // back up just a bit
-                encoderDrive(DRIVE_SPEED, "up", 2, 10);
+                runtime.reset();
+                while (runtime.seconds() < .5){
+                    drive("up");
+                }
 
                 telemetry.addData("Red", colorSensor.red());
                 telemetry.addData("Blue", colorSensor.blue());
                 telemetry.update();
 
                 //if the color is red
-                if (colorSensor.red() > colorSensor.blue()) {
-                    //And alliance color is blue, hit the beacon again
-                    if (teamColor == "blue") {
-                        runtime.reset();
-                        while (runtime.seconds() < 3){
-
-                        }
-                        while (rangeSensor.rawUltrasonic() > 5) {
-                            // drive down till robot hits button
-                            drive("down");
-                        }
-                        encoderDrive(DRIVE_SPEED, "up", 2, 10);
-
-                    }
-                    //if the color detected is blue...
-                } else if (colorSensor.blue() > colorSensor.red()) {
-                    //And the alliance color is red, hit the beacon again
-                    if (teamColor == "red") {
-                        runtime.reset();
-                        while (runtime.seconds() < 3){
-
-                        }
-                        while (rangeSensor.rawUltrasonic() > 5) {
-                            // drive down till robot hits button
-                            drive("down");
-                        }
-                        encoderDrive(DRIVE_SPEED, "up", 2, 10);
-
-                    }
-                }
+               colorBeacon();
 
                 //Turn to prepare for angled drive to center vortex
                 //moves backwards and knocks cap ball off and parks on center vortex
+                runtime.reset();
                if (teamColor == "blue"){
-                    encoderDrive(DRIVE_SPEED, "circle right", 2, 10);
-                    sleep(10);
-                    encoderDrive(DRIVE_SPEED,"up", 17, 14);
-                    speed = .2;
+                   while(runtime.seconds() < .25){
+                       drive("circle right");
+                   }
+                   runtime.reset();
+                   while (runtime.seconds() < 4){
+                       drive("up");
+                   }
+
                 } else {
-                    encoderDrive(DRIVE_SPEED, "circle left", 2, 10);
-                    sleep(10);
-                    encoderDrive(DRIVE_SPEED,"up", 17, 14);
+                   while (runtime.seconds() < .25){
+                       drive("circle left");
+                   }
+                   runtime.reset();
+                   while (runtime.seconds() < 4){
+                       drive("up");
+                   }
+
+
                     speed = .2;
                 }
                 break;
@@ -226,6 +409,69 @@ public class Autonomous_Drive_Shoot_Beacon_New extends Competition_Hardware {
             telemetry.update();
         }
     }
+    public void colorBeacon(){
+
+        if (colorSensor.red() > colorSensor.blue()) {
+            if (teamColor == "blue") {
+                runtime.reset();
+                while (runtime.seconds() < 2){
+                    // delay to wai till we can touch button again
+                }
+                while (rangeSensor.rawUltrasonic() > 5) {
+                    // drive down till robot hits button
+                    drive("down");
+                }
+                while (rangeSensor.rawUltrasonic() < 10){
+                    drive("up");
+                }
+            }
+            //if the color detected is blue...
+        } else if (colorSensor.blue() > colorSensor.red()) {
+            if (teamColor == "red") {
+                runtime.reset();
+                while (runtime.seconds() < 2){
+
+                }
+                while (rangeSensor.rawUltrasonic() > 5) {
+                    // drive down till robot hits button
+                    drive("down");
+                }
+                while (rangeSensor.rawUltrasonic() < 10){
+                    drive("up");
+                }
+            }
+        }
+    }
+
+    public void lineWhite() {
+
+        while (ods.getRawLightDetected() < .1 && ods2.getRawLightDetected() < .1) {
+            drive("right");
+        }
+        drive("stop");
+
+
+        while (ods2.getRawLightDetected() < .1) {
+            drive("circle left");
+        }
+        while (ods.getRawLightDetected() < .1) {
+            drive("circle right");
+        }
+        drive("stop");
+        speed = .2;
+        while (rangeSensor.rawUltrasonic() > 5) {
+            // drive down till robot hits button
+            drive("down");
+        }
+        // back up just a bit
+        runtime.reset();
+        while (rangeSensor.rawUltrasonic() < 10) {
+            drive("up");
+        }
+        drive("stop");
+    }
+
+
 
 
     public void runDriveOnly(){

@@ -91,7 +91,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
     static final double P_TURN_COEFF = 0.1;     // Larger is more responsive, but also less stable
     static final double P_DRIVE_COEFF = 0.01;     // Larger is more responsive, but also less stable
 
-    final double SPIN_SPEED = .75;
+    final double SPIN_SPEED = .65;
     final double ELEVATOR_SPEED = .75;
     final double FORKLIFT_SPEED = .3;
 
@@ -114,6 +114,9 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
     OpticalDistanceSensor ods = null;
     double odsReading;
+
+    OpticalDistanceSensor ods2 = null;
+    double ods2Reading;
 
     public String teamColor;
 
@@ -182,6 +185,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
             colorSensor = hardwareMap.colorSensor.get("color");
             rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
             ods = hardwareMap.opticalDistanceSensor.get("ods");
+            ods2 = hardwareMap.opticalDistanceSensor.get("ods2");
 
             // Define and initialize ALL installed servos.
             //servo1 = hwMap.servo.get("servo1");
