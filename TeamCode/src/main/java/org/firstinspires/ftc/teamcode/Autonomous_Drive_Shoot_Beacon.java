@@ -215,6 +215,7 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 speed = .2;
                 // 1 second, then shoot
                 drive("right",1);
+
                 drive("stop");
                 runtime.reset();
                 while (runtime.seconds() < 2) {
@@ -240,7 +241,7 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 // need both sensors to hit white line
                 // but not so close as to hit beacon or ramp
                 speed = .2;
-                while (rangeSensor.rawUltrasonic() > 22 ){
+                while (rangeSensor.rawUltrasonic() > 22){
                     drive("down");
                 }
 
@@ -326,6 +327,55 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
             telemetry.addData("runOpMode ERROR", e.toString());
             telemetry.update();
         }
+
+    }
+    public void runDriveBeaconOnly() {
+        try {
+            while (opModeIsActive()){
+
+                speed = .2;
+                // 1 second, then shoot
+                drive("right", 2);
+                speed = .2;
+                while (rangeSensor.rawUltrasonic() > 22) {
+                    drive("down");
+                }
+
+                drive("stop");
+
+                // then go to white line
+
+                gotoWhiteLineAndHitBeacon();
+
+                detectAndActiveBeaconColor();
+
+                // go to 2nd beacon
+                drive("right", .25); // first get off 1st beacon white line
+
+                gotoWhiteLineAndHitBeacon();
+
+                detectAndActiveBeaconColor();
+
+                //Turn to prepare for angled drive to center vortex
+                //moves backwards and knocks cap ball off and parks on center vortex
+                speed = .3;
+                if (teamColor == "blue") {
+                    drive("circle right", .25);
+                    drive("up", 4);
+
+                } else {
+                    drive("circle left", .25);
+                    drive("up", 4);
+                }
+
+                break;
+
+            }
+        } catch (Exception e) {
+            telemetry.addData("runOpMode ERROR", e.toString());
+            telemetry.update();
+        }
+
 
     }
 
@@ -435,15 +485,9 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
             motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             sleep(10);
-            gyro.calibrate();
+            //gyro.calibrate();
 
-            // make sure the gyro is calibrated before continuing
-            while (gyro.isCalibrating())  {
-                telemetry.addData("Status","calibrating");
-                telemetry.update();
-                Thread.sleep(50);
-                idle();
-            }
+
             telemetry.addData("Status","end of init");
             telemetry.update();
 

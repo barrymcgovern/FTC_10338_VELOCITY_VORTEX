@@ -10,6 +10,6 @@ public class Autonomous_Drive_Shoot_Beacon_Red extends Autonomous_Drive_Shoot_Be
     public void runOpMode() throws InterruptedException {
         teamColor = "red";
 
-        runDriveShootBeacon();}
+        runDriveShootBeaconNoEncoder();}
 
 }
