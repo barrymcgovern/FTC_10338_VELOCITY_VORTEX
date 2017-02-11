@@ -56,18 +56,22 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
 
 
             while (opModeIsActive()) {
+                pMotor1.setPower(SPIN_SPEED);
+                pMotor2.setPower(-SPIN_SPEED);
 
                 encoderDrive(DRIVE_SPEED, "right", 8, 11);
 
                 runtime.reset();
                 while (runtime.seconds() < 2) {
                     beMotor.setPower(-ELEVATOR_SPEED);
-                    pMotor1.setPower(SPIN_SPEED);
-                    pMotor2.setPower(-SPIN_SPEED);
+
                 }
                 beMotor.setPower(0);
                 pMotor1.setPower(0);
                 pMotor2.setPower(0);
+                sleep(100);
+
+                encoderDrive(DRIVE_SPEED, "right", 7, 11);
 
                 if (teamColor == "blue") {
                     // need to do 180 for blue
@@ -75,22 +79,18 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 }
 
                 // goal is to drive pretty close to wall, but not so close as to hit beacon if crooked
-                speed = .2;
-                resetEncoders("drive");
-                while (rangeSensor.rawUltrasonic() > 22 ){
-                    drive("down");
+
+
+                encoderDriveRange(DRIVE_SPEED,"down",22);
+
+                if (teamColor == "blue"){
+                    encoderDriveWhiteLine(.2,"left");
+                } else {
+                    encoderDriveWhiteLine(.2, "right");
                 }
 
-                drive("stop");
-                // this needs to go to white line
-                encoderDrive(DRIVE_SPEED, "left", 7, 10);
-
-                resetEncoders("drive");
-                speed = .2;
-                while (rangeSensor.rawUltrasonic() > 5) {
-                    // drive down till robot hits button
-                    drive("down");
-                }
+                encoderDriveLineUp(.2);
+                encoderDriveRange(DRIVE_SPEED, "down", 5);
                 // back up just a bit
                 encoderDrive(DRIVE_SPEED, "up", 2, 10);
 
@@ -99,77 +99,43 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 telemetry.update();
 
                 //if the color is red
-                if (colorSensor.red() > colorSensor.blue()) {
+                detectAndActiveBeaconColor();
 
-                    if (teamColor == "blue") {
-                        while (rangeSensor.rawUltrasonic() > 5) {
-                            // drive down till robot hits button
-                            drive("down");
-                        }
-                        encoderDrive(DRIVE_SPEED, "up", 2, 10);
 
-                    }
-                    //if the color detected is blue...
-                } else if (colorSensor.blue() > colorSensor.red()) {
-                    if (teamColor == "red") {
-                        while (rangeSensor.rawUltrasonic() > 5) {
-                            // drive down till robot hits button
-                            drive("down");
-                        }
-                        encoderDrive(DRIVE_SPEED, "up", 2, 10);
-
-                    }
-                }
-
-                encoderDrive(DRIVE_SPEED, "up", 2, 10);
                 sleep(10);
                 //Move over to second beacon
-                encoderDrive(DRIVE_SPEED, "left", 17, 10);
 
-                //repeat of deciding whether to hit beacon once or twice
-                resetEncoders("drive");
-                speed = .1;
-                while (rangeSensor.rawUltrasonic() > 5) {
-                    // drive down till robot hits button
-                    drive("down");
+                if (teamColor == "blue"){
+                    encoderDrive(DRIVE_SPEED, "left", 2, 10);
+                    encoderDriveWhiteLine(.2,"left");
+
+                } else {
+                    encoderDrive(DRIVE_SPEED, "right", 2, 10);
+                    encoderDriveWhiteLine(.2, "right");
                 }
-                speed = .2;
+                encoderDriveLineUp(.2);
+                encoderDriveRange(DRIVE_SPEED, "down", 5);
                 // back up just a bit
                 encoderDrive(DRIVE_SPEED, "up", 2, 10);
+
+
 
                 telemetry.addData("Red", colorSensor.red());
                 telemetry.addData("Blue", colorSensor.blue());
                 telemetry.update();
 
                 //if the color is red
-                if (colorSensor.red() > colorSensor.blue()) {
-                    //And alliance color is blue, hit the beacon again
-                    if (teamColor == "blue") {
-                        while (rangeSensor.rawUltrasonic() > 5) {
-                            // drive down till robot hits button
-                            drive("down");
-                        }
-                        encoderDrive(DRIVE_SPEED, "up", 2, 10);
-
-                    }
-                    //if the color detected is blue...
-                } else if (colorSensor.blue() > colorSensor.red()) {
-                    //And the alliance color is red, hit the beacon again
-                    if (teamColor == "red") {
-                        while (rangeSensor.rawUltrasonic() > 5) {
-                            // drive down till robot hits button
-                            drive("down");
-                        }
-                        encoderDrive(DRIVE_SPEED, "up", 2, 10);
-
-                    }
-                }
+               detectAndActiveBeaconColor();
                 //Turn to prepare for angled drive to center vortex
-                encoderDrive(DRIVE_SPEED, "circle right", 2, 10);
-                sleep(10);
-                //moves backwards and knocks cap ball off and parks on center vortex
+                if (teamColor == "blue"){
+                    encoderDrive(DRIVE_SPEED, "circle right", 2, 10);
+                    //moves backwards and knocks cap ball off and parks on center vortex
+
+                } else {
+                    encoderDrive(DRIVE_SPEED, "circle left", 2, 10);
+                }
                 encoderDrive(DRIVE_SPEED,"up", 17, 14);
-                speed = .2;
+
                 break;
 
 
@@ -214,7 +180,7 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
 
                 speed = .2;
                 // 1 second, then shoot
-                drive("right",1);
+                drive("left", 2);
 
                 drive("stop");
                 runtime.reset();
@@ -227,13 +193,13 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 pMotor2.setPower(0);
 
                 // move a little forward so we miss ramp coming down
-                drive("right",1);
+                drive("left", 2);
 
 
                 // 1 second turn
                 if (teamColor == "blue") {
                     // need to do 180 for blue
-                    drive("circle right",1);
+                    drive("circle left", 3);
                 }
 
                 drive("stop");
@@ -254,7 +220,7 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 detectAndActiveBeaconColor();
 
                 // go to 2nd beacon
-                drive("right",.25); // first get off 1st beacon white line
+                drive("right", 1); // first get off 1st beacon white line
 
                 gotoWhiteLineAndHitBeacon();
 
@@ -264,11 +230,11 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 //moves backwards and knocks cap ball off and parks on center vortex
                 speed = .3;
                 if (teamColor == "blue"){
-                    drive("circle right",.25);
+                    drive("circle left", .5);
                     drive("up",4);
 
                 } else {
-                    drive("circle left",.25);
+                    drive("circle right", .5);
                     drive("up",4);
                 }
 
@@ -411,7 +377,7 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 pMotor1.setPower(0);
                 pMotor2.setPower(0);
 
-                encoderDrive(DRIVE_SPEED, "right", 8, 11);
+                encoderDrive(DRIVE_SPEED, "right", 12, 11);
 
                 break;
 

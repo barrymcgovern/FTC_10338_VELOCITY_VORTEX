@@ -85,7 +85,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double DRIVE_SPEED = 0.3;
+    static final double DRIVE_SPEED = 0.4;
     static final double TURN_SPEED = 0.5;
     static final double HEADING_THRESHOLD = 1;      // As tight as we can make it with an integer gyro
     static final double P_TURN_COEFF = 0.1;     // Larger is more responsive, but also less stable
@@ -256,6 +256,376 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
 
     }
+    public void encoderDriveLineUp(double eSpeed) throws InterruptedException {
+        try {
+            if (opModeIsActive()) {
+
+                resetEncoders("encoder");
+                double inches = 25;
+                int currentPosMotor1 = 0;
+                int currentPosMotor2 = 0;
+                int currentPosMotor3 = 0;
+                int currentPosMotor4 = 0;
+
+                int targetPosMotor1 = 0;
+                int targetPosMotor2 = 0;
+                int targetPosMotor3 = 0;
+                int targetPosMotor4 = 0;
+
+                // Stop all motion;
+                motor1.setPower(0);
+                motor2.setPower(0);
+                motor3.setPower(0);
+                motor4.setPower(0);
+
+                // change directions so encoders are all positive
+                //Shows all possible directions and controls.
+                if (ods.getRawLightDetected() < .1 && ods2.getRawLightDetected() < .1){
+                    return;
+                }
+
+                if (ods2.getRawLightDetected() < .1 ){
+                  // circle right
+                        motor1.setDirection(DcMotorSimple.Direction.REVERSE);
+                        motor2.setDirection(DcMotorSimple.Direction.REVERSE);
+                        motor3.setDirection(DcMotorSimple.Direction.REVERSE);
+                        motor4.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
+                } else if (ods.getRawLightDetected() < .1){
+                   //circel left
+                        motor1.setDirection(DcMotorSimple.Direction.FORWARD);
+                        motor2.setDirection(DcMotorSimple.Direction.FORWARD);
+                        motor3.setDirection(DcMotorSimple.Direction.FORWARD);
+                        motor4.setDirection(DcMotorSimple.Direction.FORWARD);
+
+                }else{
+                    return;
+                }
+                //Getting position of each driving motor
+
+                currentPosMotor1 = motor1.getCurrentPosition();
+                currentPosMotor2 = motor2.getCurrentPosition();
+                currentPosMotor3 = motor3.getCurrentPosition();
+                currentPosMotor4 = motor4.getCurrentPosition();
+
+                targetPosMotor1 = currentPosMotor1 + (int) (inches * COUNTS_PER_INCH);
+                targetPosMotor2 = currentPosMotor2 + (int) (inches * COUNTS_PER_INCH);
+                targetPosMotor3 = currentPosMotor3 + (int) (inches * COUNTS_PER_INCH);
+                targetPosMotor4 = currentPosMotor4 + (int) (inches * COUNTS_PER_INCH);
+
+                motor1.setTargetPosition(targetPosMotor1);
+                motor2.setTargetPosition(targetPosMotor2);
+                motor3.setTargetPosition(targetPosMotor3);
+                motor4.setTargetPosition(targetPosMotor4);
+
+
+                //sets motors needed to make robot go different directions
+
+                motor1.setPower(eSpeed);
+                motor2.setPower(eSpeed);
+                motor3.setPower(eSpeed);
+                motor4.setPower(eSpeed);
+
+                // keep looping while we are still active, and there is time left, and both motors are running.
+
+                runtime.reset();
+
+                while (opModeIsActive()  && (motor1.isBusy() && motor2.isBusy())) {
+                    if (ods.getRawLightDetected() > .1 && ods2.getRawLightDetected() > .1){
+                        break;
+                    }
+                    if (ods.getRawLightDetected() < .1 && ods2.getRawLightDetected() < .1){
+                        break;
+                    }
+                    // Display it for the driver.
+                    telemetry.addData("Mot 1234", "%5.2f:%5.2f:%5.2f:%5.2f", motor1.getPower(), motor2.getPower(), motor3.getPower(), motor4.getPower());
+                    telemetry.update();
+
+                    // Allow time for other processes to run.
+                    idle();
+                }
+
+                // Stop all motion;
+                motor1.setPower(0);
+                motor2.setPower(0);
+                motor3.setPower(0);
+                motor4.setPower(0);
+
+                // reset directions
+                motor1.setDirection(DcMotorSimple.Direction.FORWARD);
+                motor2.setDirection(DcMotorSimple.Direction.FORWARD);
+                motor3.setDirection(DcMotorSimple.Direction.FORWARD);
+                motor4.setDirection(DcMotorSimple.Direction.FORWARD);
+
+                // Turn off RUN_TO_POSITION
+                motor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            }
+        } catch (Exception e) {
+            telemetry.addData("ERROR", e.toString());
+        }
+    }
+
+    public void encoderDriveWhiteLine(double eSpeed, String robotDirection) throws InterruptedException {
+        try {
+            if (opModeIsActive()) {
+
+                resetEncoders("encoder");
+                double inches = 25;
+                int currentPosMotor1 = 0;
+                int currentPosMotor2 = 0;
+                int currentPosMotor3 = 0;
+                int currentPosMotor4 = 0;
+
+                int targetPosMotor1 = 0;
+                int targetPosMotor2 = 0;
+                int targetPosMotor3 = 0;
+                int targetPosMotor4 = 0;
+
+                // Stop all motion;
+                motor1.setPower(0);
+                motor2.setPower(0);
+                motor3.setPower(0);
+                motor4.setPower(0);
+
+                // change directions so encoders are all positive
+                //Shows all possible directions and controls.
+                if (robotDirection == "up") {
+                    motor1.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor2.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor3.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor4.setDirection(DcMotorSimple.Direction.REVERSE);
+                } else if (robotDirection == "down") {
+                    motor1.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor2.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor3.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor4.setDirection(DcMotorSimple.Direction.FORWARD);
+                } else if (robotDirection == "right") {
+                    motor1.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor2.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor3.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor4.setDirection(DcMotorSimple.Direction.REVERSE);
+                } else if (robotDirection == "left") {
+                    motor1.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor2.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor3.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor4.setDirection(DcMotorSimple.Direction.FORWARD);
+                } else if (robotDirection == "circle right") {
+                    motor1.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor2.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor3.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor4.setDirection(DcMotorSimple.Direction.REVERSE);
+
+                } else if (robotDirection == "circle left"){
+                    motor1.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor2.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor3.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor4.setDirection(DcMotorSimple.Direction.FORWARD);
+
+                }
+                //Getting position of each driving motor
+
+                currentPosMotor1 = motor1.getCurrentPosition();
+                currentPosMotor2 = motor2.getCurrentPosition();
+                currentPosMotor3 = motor3.getCurrentPosition();
+                currentPosMotor4 = motor4.getCurrentPosition();
+
+                targetPosMotor1 = currentPosMotor1 + (int) (inches * COUNTS_PER_INCH);
+                targetPosMotor2 = currentPosMotor2 + (int) (inches * COUNTS_PER_INCH);
+                targetPosMotor3 = currentPosMotor3 + (int) (inches * COUNTS_PER_INCH);
+                targetPosMotor4 = currentPosMotor4 + (int) (inches * COUNTS_PER_INCH);
+
+                motor1.setTargetPosition(targetPosMotor1);
+                motor2.setTargetPosition(targetPosMotor2);
+                motor3.setTargetPosition(targetPosMotor3);
+                motor4.setTargetPosition(targetPosMotor4);
+
+
+                //sets motors needed to make robot go different directions
+
+                motor1.setPower(eSpeed);
+                motor2.setPower(eSpeed);
+                motor3.setPower(eSpeed);
+                motor4.setPower(eSpeed);
+
+                // keep looping while we are still active, and there is time left, and both motors are running.
+
+                runtime.reset();
+
+                while (opModeIsActive()  &&
+                        (motor1.isBusy() && motor2.isBusy())) {
+                    if (ods.getRawLightDetected() > .1 && ods2.getRawLightDetected() > .1){
+                        break;
+                    }
+
+
+
+                    // Display it for the driver.
+                    telemetry.addData("Encoder Direction", robotDirection);
+                    telemetry.addData("Mot 1234", "%5.2f:%5.2f:%5.2f:%5.2f", motor1.getPower(), motor2.getPower(), motor3.getPower(), motor4.getPower());
+                    telemetry.update();
+
+                    // Allow time for other processes to run.
+                    idle();
+                }
+
+                // Stop all motion;
+                motor1.setPower(0);
+                motor2.setPower(0);
+                motor3.setPower(0);
+                motor4.setPower(0);
+
+                // reset directions
+                motor1.setDirection(DcMotorSimple.Direction.FORWARD);
+                motor2.setDirection(DcMotorSimple.Direction.FORWARD);
+                motor3.setDirection(DcMotorSimple.Direction.FORWARD);
+                motor4.setDirection(DcMotorSimple.Direction.FORWARD);
+
+                // Turn off RUN_TO_POSITION
+                motor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            }
+        } catch (Exception e) {
+            telemetry.addData("ERROR", e.toString());
+        }
+    }
+
+    public void encoderDriveRange(double eSpeed, String robotDirection,  double rangeDistance) throws InterruptedException {
+        try {
+            if (opModeIsActive()) {
+
+                resetEncoders("encoder");
+                double inches = 25;
+                int currentPosMotor1 = 0;
+                int currentPosMotor2 = 0;
+                int currentPosMotor3 = 0;
+                int currentPosMotor4 = 0;
+
+                int targetPosMotor1 = 0;
+                int targetPosMotor2 = 0;
+                int targetPosMotor3 = 0;
+                int targetPosMotor4 = 0;
+
+                // Stop all motion;
+                motor1.setPower(0);
+                motor2.setPower(0);
+                motor3.setPower(0);
+                motor4.setPower(0);
+
+                // change directions so encoders are all positive
+                //Shows all possible directions and controls.
+                if (robotDirection == "up") {
+                    motor1.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor2.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor3.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor4.setDirection(DcMotorSimple.Direction.REVERSE);
+                } else if (robotDirection == "down") {
+                    motor1.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor2.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor3.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor4.setDirection(DcMotorSimple.Direction.FORWARD);
+                } else if (robotDirection == "right") {
+                    motor1.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor2.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor3.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor4.setDirection(DcMotorSimple.Direction.REVERSE);
+                } else if (robotDirection == "left") {
+                    motor1.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor2.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor3.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor4.setDirection(DcMotorSimple.Direction.FORWARD);
+                } else if (robotDirection == "circle right") {
+                    motor1.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor2.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor3.setDirection(DcMotorSimple.Direction.REVERSE);
+                    motor4.setDirection(DcMotorSimple.Direction.REVERSE);
+
+                } else if (robotDirection == "circle left"){
+                    motor1.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor2.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor3.setDirection(DcMotorSimple.Direction.FORWARD);
+                    motor4.setDirection(DcMotorSimple.Direction.FORWARD);
+
+                }
+                //Getting position of each driving motor
+
+                currentPosMotor1 = motor1.getCurrentPosition();
+                currentPosMotor2 = motor2.getCurrentPosition();
+                currentPosMotor3 = motor3.getCurrentPosition();
+                currentPosMotor4 = motor4.getCurrentPosition();
+
+                targetPosMotor1 = currentPosMotor1 + (int) (inches * COUNTS_PER_INCH);
+                targetPosMotor2 = currentPosMotor2 + (int) (inches * COUNTS_PER_INCH);
+                targetPosMotor3 = currentPosMotor3 + (int) (inches * COUNTS_PER_INCH);
+                targetPosMotor4 = currentPosMotor4 + (int) (inches * COUNTS_PER_INCH);
+
+                motor1.setTargetPosition(targetPosMotor1);
+                motor2.setTargetPosition(targetPosMotor2);
+                motor3.setTargetPosition(targetPosMotor3);
+                motor4.setTargetPosition(targetPosMotor4);
+
+
+                //sets motors needed to make robot go different directions
+
+                motor1.setPower(eSpeed);
+                motor2.setPower(eSpeed);
+                motor3.setPower(eSpeed);
+                motor4.setPower(eSpeed);
+
+                // keep looping while we are still active, and there is time left, and both motors are running.
+
+                runtime.reset();
+
+                while (opModeIsActive()  &&
+                        (motor1.isBusy() && motor2.isBusy())) {
+                    if (rangeDistance> 0){
+                        if (rangeSensor.rawUltrasonic()  < rangeDistance){
+                            break;
+                        }
+                    }
+
+
+
+                    // Display it for the driver.
+                    telemetry.addData("Encoder Direction", robotDirection);
+                    telemetry.addData("Mot 1234", "%5.2f:%5.2f:%5.2f:%5.2f", motor1.getPower(), motor2.getPower(), motor3.getPower(), motor4.getPower());
+                    telemetry.update();
+
+                    // Allow time for other processes to run.
+                    idle();
+                }
+
+                // Stop all motion;
+                motor1.setPower(0);
+                motor2.setPower(0);
+                motor3.setPower(0);
+                motor4.setPower(0);
+
+                // reset directions
+                motor1.setDirection(DcMotorSimple.Direction.FORWARD);
+                motor2.setDirection(DcMotorSimple.Direction.FORWARD);
+                motor3.setDirection(DcMotorSimple.Direction.FORWARD);
+                motor4.setDirection(DcMotorSimple.Direction.FORWARD);
+
+                // Turn off RUN_TO_POSITION
+                motor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motor3.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                motor4.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            }
+        } catch (Exception e) {
+            telemetry.addData("ERROR", e.toString());
+        }
+    }
+
 
     public void encoderDrive(double eSpeed, String robotDirection, double inches, double timeoutS) throws InterruptedException {
         try {
@@ -397,26 +767,24 @@ public abstract class Competition_Hardware extends LinearOpMode {
     }
 
 
-    public void detectAndActiveBeaconColor(){
+    public void detectAndActiveBeaconColor() throws InterruptedException {
 
         telemetry.addData("Red", colorSensor.red());
         telemetry.addData("Blue", colorSensor.blue());
         telemetry.update();
 
         speed = .2;
+        //if color detected is red...
         if (colorSensor.red() > colorSensor.blue()) {
             if (teamColor == "blue") {
                 runtime.reset();
                 while (runtime.seconds() < 2){
-                    // delay to wai till we can touch button again
+                    // delay to wait till we can touch button again
                 }
-                while (rangeSensor.rawUltrasonic() > 5) {
-                    // drive down till robot hits button
-                    drive("down");
-                }
-                while (rangeSensor.rawUltrasonic() < 10){
-                    drive("up");
-                }
+
+                encoderDriveRange(DRIVE_SPEED, "down",5);
+
+                encoderDrive(DRIVE_SPEED, "up", 1, 9);
             }
             //if the color detected is blue...
         } else if (colorSensor.blue() > colorSensor.red()) {
@@ -425,13 +793,9 @@ public abstract class Competition_Hardware extends LinearOpMode {
                 while (runtime.seconds() < 2){
 
                 }
-                while (rangeSensor.rawUltrasonic() > 5) {
-                    // drive down till robot hits button
-                    drive("down");
-                }
-                while (rangeSensor.rawUltrasonic() < 10){
-                    drive("up");
-                }
+                encoderDriveRange(DRIVE_SPEED, "down", 5);
+
+               encoderDrive(DRIVE_SPEED, "up", 1, 9);
             }
         }
 
@@ -442,7 +806,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
         // drive till either of the ODS sensors detect the white line
         while (ods.getRawLightDetected() < .1 && ods2.getRawLightDetected() < .1) {
-            drive("right");
+            drive("left");
         }
         drive("stop");
 
@@ -450,18 +814,18 @@ public abstract class Competition_Hardware extends LinearOpMode {
         // and turn robot till other sensor is on line
         if (ods2.getRawLightDetected() < .1){
             while (ods2.getRawLightDetected() < .1) {
-                drive("circle left");
+                drive("circle right");
             }
         }else if (ods.getRawLightDetected() < .1){
             while (ods.getRawLightDetected() < .1) {
-                drive("circle right");
+                drive("circle left");
             }
         }
 
         drive("stop");
         speed = .2;
         while (rangeSensor.rawUltrasonic() > 5) {
-            // drive down till robot hits button
+            // drive down till robot hits button for the first time
             drive("down");
         }
         drive("stop");

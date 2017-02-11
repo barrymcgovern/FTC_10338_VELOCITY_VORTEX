@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * that the other autonomous programs cannot be used.
  * 5 points for each particle shot-we can store and shoot two at a time
  */
-@Autonomous(name="Comp: Autonomous_Master_Shoot", group="Pushbot")
+//@Autonomous(name="Comp: Autonomous_Master_Shoot", group="Pushbot")
 
 public class OLDAutonomous_Master_Shoot extends Competition_Hardware {
 
