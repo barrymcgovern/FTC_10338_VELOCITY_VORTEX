@@ -458,7 +458,7 @@ public abstract class Competition_Hardware extends LinearOpMode {
 
                 while (opModeIsActive()  &&
                         (motor1.isBusy() && motor2.isBusy())) {
-                    if (ods.getRawLightDetected() > .1 && ods2.getRawLightDetected() > .1){
+                    if (ods.getRawLightDetected() > .1 || ods2.getRawLightDetected() > .1){
                         break;
                     }
 
@@ -778,24 +778,24 @@ public abstract class Competition_Hardware extends LinearOpMode {
         if (colorSensor.red() > colorSensor.blue()) {
             if (teamColor == "blue") {
                 runtime.reset();
-                while (runtime.seconds() < 2){
+                while (runtime.seconds() < 4){
                     // delay to wait till we can touch button again
                 }
 
                 encoderDriveRange(DRIVE_SPEED, "down",5);
 
-                encoderDrive(DRIVE_SPEED, "up", 1, 9);
+                encoderDrive(DRIVE_SPEED, "up", 2, 9);
             }
             //if the color detected is blue...
         } else if (colorSensor.blue() > colorSensor.red()) {
             if (teamColor == "red") {
                 runtime.reset();
-                while (runtime.seconds() < 2){
+                while (runtime.seconds() < 4){
 
                 }
                 encoderDriveRange(DRIVE_SPEED, "down", 5);
 
-               encoderDrive(DRIVE_SPEED, "up", 1, 9);
+               encoderDrive(DRIVE_SPEED, "up", 2, 9);
             }
         }
 

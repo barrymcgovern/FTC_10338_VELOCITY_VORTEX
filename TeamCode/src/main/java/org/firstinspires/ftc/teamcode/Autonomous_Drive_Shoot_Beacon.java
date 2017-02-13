@@ -71,7 +71,6 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 pMotor2.setPower(0);
                 sleep(100);
 
-                encoderDrive(DRIVE_SPEED, "right", 7, 11);
 
                 if (teamColor == "blue") {
                     // need to do 180 for blue
@@ -79,6 +78,15 @@ public class Autonomous_Drive_Shoot_Beacon extends Competition_Hardware {
                 }
 
                 // goal is to drive pretty close to wall, but not so close as to hit beacon if crooked
+
+                encoderDrive(DRIVE_SPEED, "down", 2, 10);
+
+                if (teamColor == "blue"){
+                    encoderDrive(DRIVE_SPEED, "left", 5, 10);
+                } else{
+                    encoderDrive(DRIVE_SPEED, "right", 5, 10);
+                }
+
 
 
                 encoderDriveRange(DRIVE_SPEED,"down",22);

@@ -45,6 +45,11 @@ public class Demo_Range extends LinearOpMode {
         // get a reference to our compass
         rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "range");
 
+        telemetry.addData("raw ultrasonic", rangeSensor.rawUltrasonic());
+        telemetry.addData("raw optical", rangeSensor.rawOptical());
+        telemetry.addData("cm optical", "%.2f cm", rangeSensor.cmOptical());
+        telemetry.addData("cm", "%.2f cm", rangeSensor.getDistance(DistanceUnit.CM));
+        telemetry.update();
         // wait for the start button to be pressed
         waitForStart();
 
